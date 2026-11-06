@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html data-page-node-id="O6fGHFqqTDTQ9JNV4s37ih" lang="zh-CN">
+<head data-page-node-id="2O3jzOGLgdjIN0LBAfsHX7">
+<script data-page-node-id="TsjBaKko1tL18IH5hsXyHB" src="/page/page_comm/inject.js"></script>
+<meta data-page-node-id="YolV4Nf8BxoYtxpzoVRxJn" charset="UTF-8">
+<meta data-page-node-id="C48FcvydbwFf0Yn1iYoTil" content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title data-page-node-id="XjBVgHeFqzIXU8J9k38nXT" data-pnid-children="8VbQBVTBvDN7fPDn3aFBi6">学管助手 · 排课与学情管理</title>
+<!--pnid:vAFlwEogEjOQIPRu0s1j6o--><!-- ===== PWA：可安装到手机/电脑桌面 ===== -->
+<meta data-page-node-id="sNzFQgyAAjl9qdhU7uam7G" content="#4f6ef7" name="theme-color">
+<meta data-page-node-id="heffzV25AuBkXB8uy0erW4" content="yes" name="apple-mobile-web-app-capable">
+<meta data-page-node-id="j6QJXcUYnDXIjrBOMLgf02" content="yes" name="mobile-web-app-capable">
+<meta data-page-node-id="J8s3ZsYUBqTDABEAWuAn3V" content="default" name="apple-mobile-web-app-status-bar-style">
+<meta data-page-node-id="kCYrnYsWN8dYQLEyjNjnKa" content="学管助手" name="apple-mobile-web-app-title">
+<meta data-page-node-id="5hLHAsmkvtqcLxWnJKVhKw" content="学管助手" name="application-name">
+<link data-page-node-id="XLnM5mLyqhJqrcCqpqirtu" href="manifest.json" rel="manifest">
+<link data-page-node-id="1rndubxktqrfsZqeHCskrs" href="pwa/apple-touch-icon.png" rel="apple-touch-icon">
+<link data-page-node-id="TUv6BnvssHzHeoDm7N65at" href="pwa/icon-192.png" rel="icon" type="image/png">
+<script data-page-node-id="mUPIad4xzpMcVUFuCNtUUD" src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style data-page-node-id="CH3wXsZ892oY7lLyOoiPGQ" data-pnid-children="HG871SIJJe7dq5GSUYxDlW">
+:root{
+  --primary:#4f6ef7; --primary-light:#eef1fe; --danger:#e5484d;
+  --bg:#f5f6fa; --card:#fff; --text:#2b2f36; --muted:#8a919c;
+  --border:#e6e8ef; --success:#2f9e6e; --warn:#e8a33d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+.app{display:flex;min-height:100vh}
+/* 侧边栏 */
+.sidebar{width:210px;background:linear-gradient(180deg,#f7f9ff 0%,#eef1fb 100%);border-right:1px solid var(--border);padding:18px 12px;flex-shrink:0;display:flex;flex-direction:column}
+.logo{font-size:18px;font-weight:800;padding:6px 12px 22px;background:linear-gradient(90deg,#4f6ef7,#9b59f6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
+.nav-item{position:relative;display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;cursor:pointer;color:#5b6270;margin-bottom:5px;font-weight:600;transition:all .18s}
+.nav-item .icon{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#fff;box-shadow:0 1px 3px rgba(79,110,247,.12);font-size:16px;transition:all .18s}
+.nav-item:hover{background:#fff;color:var(--primary);transform:translateX(3px);box-shadow:0 2px 8px rgba(79,110,247,.10)}
+.nav-item.active{background:linear-gradient(90deg,var(--primary),#7b8ffb);color:#fff;box-shadow:0 4px 12px rgba(79,110,247,.35)}
+.nav-item.active .icon{background:rgba(255,255,255,.22);box-shadow:none}
+.nav-item.active::before{content:"";position:absolute;left:-12px;top:20%;height:60%;width:4px;border-radius:0 4px 4px 0;background:var(--primary)}
+.side-foot{margin-top:auto;text-align:center;color:#b9bfcb;font-size:11px;padding-top:20px}
+.main{flex:1;padding:24px;max-width:1200px}
+.page{display:none}
+.page.active{display:block}
+h2.page-title{font-size:20px;margin-bottom:18px}
+/* 卡片与表单 */
+.card{background:var(--card);border-radius:14px;padding:20px;border:1px solid var(--border);margin-bottom:18px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.stat .num{font-size:26px;font-weight:700;color:var(--primary)}
+.stat .label{color:var(--muted);font-size:12px;margin-top:4px}
+label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:#fff;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)}
+.btn{display:inline-block;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:9px 18px;cursor:pointer;font-size:14px;margin-top:12px}
+.btn:hover{opacity:.9}
+.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--border)}
+.btn.danger{background:var(--danger)}
+.btn.sm{padding:4px 10px;font-size:12px;margin:0}
+/* 表格 */
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+th{color:var(--muted);font-weight:500;font-size:12px}
+/* 课程表 */
+.tt-grid{display:grid;grid-template-columns:60px repeat(7,1fr);gap:6px}
+.tt-cell{background:#fff;border:1px solid var(--border);border-radius:8px;min-height:56px;padding:6px;font-size:11px}
+.tt-break{background:repeating-linear-gradient(45deg,#fafbfd,#fafbfd 8px,#f1f3f8 8px,#f1f3f8 16px)!important;color:#b9bfcb;display:flex;align-items:center;justify-content:center;font-size:12px}
+.tt-cell.period-name{display:flex;flex-direction:column;justify-content:center}
+.tt-cell.period-name b{font-size:12px;color:var(--text)}
+.tt-cell.period-name span{color:var(--muted);font-size:10px}
+.tt-head{background:transparent;border:none;text-align:center;font-weight:600;color:var(--muted);min-height:28px;padding:4px}
+.tt-time{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px}
+.course-chip{background:var(--primary-light);border-left:3px solid var(--primary);border-radius:6px;padding:4px 6px;line-height:1.5;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.course-chip:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(79,110,247,.25)}
+.course-chip b{display:block;font-size:12px;color:var(--primary)}
+.stu-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:14px;font-size:12px;color:var(--muted)}
+.days-picker{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.days-picker label{display:flex;align-items:center;gap:4px;margin:0;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:13px;color:var(--text);cursor:pointer;user-select:none}
+.days-picker input{width:auto;margin:0}
+.days-picker label:has(input:checked){background:var(--primary-light);border-color:var(--primary);color:var(--primary);font-weight:600}
+.pend-chip{border:1px dashed var(--border)!important;background:#fafbfd!important}
+.week-nav{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.wk-btn{border:1px solid #eef0f6;background:#f7f8fc;border-radius:20px;padding:6px 15px;font-size:13px;cursor:pointer;color:#5b6270;font-family:inherit}
+.wk-btn:hover{background:#eef1fe;color:var(--primary);border-color:#dfe4fb}
+.wk-badge{background:#e6f6ef;color:var(--success);border-radius:10px;padding:3px 10px;font-size:12px;font-weight:600}
+.float-add{position:fixed;right:34px;bottom:34px;width:56px;height:56px;border-radius:50%;border:none;background:linear-gradient(135deg,#7b8ffb,#4f6ef7);color:#fff;font-size:26px;box-shadow:0 8px 20px rgba(79,110,247,.4);cursor:pointer;z-index:40}
+.float-add:hover{transform:scale(1.06)}
+.period-list{display:flex;flex-wrap:wrap;gap:8px}
+.period-pill{display:flex;align-items:center;gap:7px;border:1px solid var(--border);background:#fafbfe;border-radius:10px;padding:7px 12px;font-size:12px}
+.period-pill b{font-size:12.5px}
+.period-pill .t{color:var(--muted);font-size:11px}
+.period-pill.break{background:repeating-linear-gradient(45deg,#fafbfd,#fafbfd 8px,#f1f3f8 8px,#f1f3f8 16px);color:#b0b7c3}
+.period-pill.used{border-color:#bfe3d0;background:#eefaf3}
+.tt-free{background:#fcfdff;cursor:pointer;position:relative;padding:2px}
+.tt-free:hover{background:#eef3ff}
+/* 自习标签 */
+.ss-chip{display:block;width:100%;box-sizing:border-box;text-align:center;font-size:11px;color:#a3aab8;letter-spacing:1px;padding:4px 0;border-radius:6px;background:repeating-linear-gradient(135deg,#f7f8fb,#f7f8fb 6px,#f0f2f7 6px,#f0f2f7 12px);cursor:pointer;user-select:none;transition:background .12s,color .12s}
+.ss-chip:hover{background:#dde6ff!important;color:#4f6ef7!important}
+.tt-free:hover .ss-chip{background:#e8eeff;color:#7b8ffb}
+/* 周视图卡片：仿手机课表（浅底、圆角、细边框） */
+.wk-chip{border:1px solid;border-radius:9px;padding:6px 8px;margin-bottom:5px;font-size:11px;line-height:1.55;cursor:pointer;position:relative;background:#fff;transition:transform .12s,box-shadow .12s}
+.wk-chip:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(79,110,247,.14)}
+.wk-chip b{display:block;font-size:12px;font-weight:600;letter-spacing:.2px}
+.wk-chip.done{opacity:.58}
+.wk-chip.done b{text-decoration:line-through}
+.wk-tick{position:absolute;right:5px;top:5px;width:15px;height:15px;accent-color:#2f9e6e;cursor:pointer}
+.tt-tag{display:inline-block;border-radius:5px;padding:1px 7px;font-size:10px;margin-top:3px}
+.quick-slots{display:flex;gap:6px;flex-wrap:wrap}
+.quick-slots button{border:1px solid var(--border);background:#fff;border-radius:14px;padding:3px 10px;font-size:12px;cursor:pointer;color:var(--muted)}
+.quick-slots button:hover,.quick-slots button.on{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+/* 时间点查课「已上课」勾选 */
+.ws-done{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;background:#f1f3f9;border:1px solid #dde2ee;border-radius:20px;padding:6px 12px;font-size:12px;color:#7a8291;cursor:pointer;user-select:none;transition:all .15s}
+.ws-done input{width:auto;margin:0;accent-color:#2f9e6e;cursor:pointer}
+.ws-done.on{background:#e6f6ef;border-color:#b9e3cc;color:#2f9e6e;font-weight:600}
+/* 备忘：之前未完成清单 */
+.memo-pending{margin:0 0 12px}
+.mp-head{display:flex;align-items:center;gap:8px;background:#fff8ec;border:1px solid #f5dfb8;border-radius:10px;padding:9px 12px;cursor:pointer;font-size:13px;color:#b2761c}
+.mp-head:hover{background:#fdf2e2}
+.mp-num{background:#e8a33d;color:#fff;border-radius:20px;padding:0 7px;font-size:11px;margin-left:2px}
+.mp-arrow{margin-left:auto;color:#c9a264;font-size:12px}
+.mp-body{background:#fffdf8;border:1px solid #f5e6cd;border-top:none;border-radius:0 0 10px 10px;padding:6px 12px 10px;max-height:230px;overflow:auto}
+.mp-day{margin-top:8px}
+.mp-date{font-size:11px;color:var(--muted);margin-bottom:4px;cursor:pointer}
+.mp-date:hover{color:var(--primary);text-decoration:underline}
+.mp-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed #f2ece0}
+.mp-item:last-child{border-bottom:none}
+.mp-txt{flex:1;font-size:13px;color:var(--text);cursor:pointer;line-height:1.5}
+.mp-txt:hover{color:var(--primary)}
+.mp-go{color:#cdd3de;font-size:12px;cursor:pointer;flex-shrink:0}
+.mp-go:hover{color:var(--primary)}
+/* 报名档案照片 */
+.arch-thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.arch-thumb{position:relative;width:74px;height:74px;border-radius:10px;overflow:hidden;border:1px solid var(--border);cursor:pointer}
+.arch-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.arch-thumb .arch-del{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.arch-thumb .arch-del:hover{background:var(--danger)}
+.arch-empty{font-size:11px;color:var(--muted)}
+#archViewer{position:fixed;inset:0;z-index:2000;background:rgba(15,20,35,.82);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+#archViewer img{max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.who-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;background:#fafbfe;border:1px solid var(--border);margin-bottom:8px}
+.who-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0}
+.seg{display:flex;background:#f2f4f9;border-radius:10px;padding:3px}
+.seg button{border:none;background:transparent;padding:6px 14px;border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit}
+.seg button.on{background:#fff;color:var(--primary);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.mini-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.mini-col-head{text-align:center;font-weight:600;color:var(--muted);font-size:12px;padding:6px 0}
+.mini-col{background:#fafbfe;border:1px solid var(--border);border-radius:10px;padding:6px;min-height:120px}
+.mini-col.today{background:var(--primary-light);border-color:#c9d3f9}
+.mini-course{border-radius:7px;padding:5px 6px;margin-bottom:6px;font-size:11px;line-height:1.5;cursor:pointer;border-left:3px solid}
+.mini-course b{display:block;font-size:12px}
+.mini-course:hover{filter:brightness(.97);transform:translateY(-1px)}
+.mg-item{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;font-size:13px;cursor:pointer}
+.mg-item:hover{background:#f0f3fe}
+.counter-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.counter-card{display:flex;align-items:center;gap:8px;border:1px solid var(--border);background:#fafbfe;border-radius:10px;padding:7px 12px;font-size:13px}
+.counter-card .subj{font-weight:700}
+.counter-card .cnt{color:var(--muted);font-size:11px}
+.done-tick{position:absolute;right:5px;top:5px;width:16px;height:16px;cursor:pointer;accent-color:#2f9e6e}
+.course-chip{position:relative}
+.course-chip.done{opacity:.72}
+.course-chip.done .subj-name{text-decoration:line-through}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px}
+.tag.ok{background:#e6f6ef;color:var(--success)}
+.tag.warn{background:#fdf3e3;color:var(--warn)}
+.tag.risk{background:#fdeaea;color:var(--danger)}
+.empty{text-align:center;color:var(--muted);padding:30px 0}
+.chat-item{border-left:3px solid var(--primary);background:var(--primary-light);border-radius:0 8px 8px 0;padding:8px 12px;margin:6px 0;font-size:13px}
+.chat-item .meta{color:var(--muted);font-size:11px;margin-bottom:2px}
+.chat-item.contacted{border-left-color:#2f9e6e}
+.contact-label{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#7a8291;cursor:pointer;user-select:none;background:#fff;border:1px solid #dde2ee;border-radius:20px;padding:3px 10px;flex-shrink:0}
+.contact-label input{width:auto;margin:0;accent-color:#2f9e6e;cursor:pointer}
+.chat-item.contacted .contact-label{background:#e6f6ef;border-color:#b9e3cc;color:#2f9e6e;font-weight:600}
+/* 点格排课条 */
+.quickbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;border:1px solid #dde4f6;border-left:4px solid var(--primary);border-radius:12px;padding:11px 14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(79,110,247,.07)}
+.qb-left{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.qb-label{font-size:12px;font-weight:700;color:var(--primary)}
+.qb-stu{font-size:12px;color:var(--muted);background:#f2f4fa;border-radius:20px;padding:3px 11px}
+.qb-stu.on{color:var(--primary);background:var(--primary-light);font-weight:600}
+.qb-subj{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:200px}
+.qb-chip{border:1px solid var(--border);background:#fff;border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;color:#5b6270;font-family:inherit;transition:all .13s;font-weight:600}
+.qb-chip:hover{border-color:#b9c6f2;transform:translateY(-1px)}
+.qb-chip.on{font-weight:700;box-shadow:0 3px 9px rgba(79,110,247,.25)}
+.qb-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.qb-hint{font-size:12px;color:var(--muted)}
+/* 选中科目后空格可点提示 */
+body.qb-active .tt-free{background:#f4f8ff;border-style:dashed;border-color:#b9ccff}
+body.qb-active .tt-free:hover{background:#e3ecff;border-color:var(--primary);box-shadow:0 0 0 2px rgba(79,110,247,.18)}
+body.qb-active .tt-free .ss-chip{color:#8fa4e8}
+/* 点格子弹出的科目菜单 */
+.tt-free,.tt-has{cursor:pointer;position:relative;transition:background .12s,border-color .12s}
+.cell-add{position:absolute;bottom:1px;right:4px;font-size:12px;font-weight:700;color:#b9c6ea;opacity:0;transition:opacity .12s;pointer-events:none;line-height:1}
+.tt-free:hover .cell-add,.tt-has:hover .cell-add{opacity:1}
+body.qb-active .tt-free .cell-add,body.qb-active .tt-has .cell-add{opacity:.7;color:#93a8e8}
+body.qb-active .tt-has:hover{background:#f3f7ff;box-shadow:inset 0 0 0 1px #c9d6fa}
+.tt-free:hover{background:#f7f9ff;border-color:#c3d0fb}
+.tt-free.adding{background:#eaf0ff !important;border-color:var(--primary) !important;box-shadow:inset 0 0 0 2px rgba(79,110,247,.35)}
+#subjPop{position:absolute;z-index:900;background:#fff;border:1px solid #e2e8f8;border-radius:14px;box-shadow:0 14px 40px rgba(35,48,90,.18);padding:10px;display:none;width:322px;box-sizing:border-box}
+#subjPop.show{display:block;animation:popIn .13s ease-out}
+@keyframes popIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.sp-head{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;color:var(--text);padding:2px 4px 8px;border-bottom:1px solid #f0f3fa;margin-bottom:8px;gap:8px}
+.sp-head .sp-x{cursor:pointer;color:#b9c0cc;font-size:15px;line-height:1;padding:0 3px;flex-shrink:0}
+.sp-head .sp-x:hover{color:var(--danger)}
+.sp-head .sp-sub{font-weight:500;color:var(--muted);font-size:11px;margin-left:auto;white-space:nowrap}
+.sp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.sp-item{border:1px solid var(--border);background:#fff;border-radius:9px;padding:8px 2px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:#5b6270;transition:all .12s;white-space:nowrap}
+.sp-item:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(35,48,90,.12)}
+.sp-foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid #f0f3fa;font-size:11px;color:var(--muted)}
+.sp-foot a{color:var(--primary);cursor:pointer;font-weight:600}
+.sp-foot a:hover{text-decoration:underline}
+@media(max-width:820px){
+  #subjPop{width:auto;min-width:280px;padding:9px;border-radius:12px}
+  .sp-item{padding:9px 2px;font-size:12px}
+  .quickbar{gap:8px;padding:10px}
+  .quickbar .qb-left{width:100%}
+  .qb-subj{overflow-x:auto;flex-wrap:nowrap;padding-bottom:3px;-webkit-overflow-scrolling:touch;width:100%}
+  .qb-chip{flex-shrink:0}
+  .qb-right{width:100%}
+  .qb-hint{flex:1}
+}
+/* 批量排课 */
+.cmode-switch{display:flex;background:#f1f3f9;border-radius:9px;padding:3px;gap:2px;margin-left:auto}
+.cmode-btn{border:none;background:transparent;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;color:#7a8291;cursor:pointer;font-family:inherit;transition:all .15s}
+.cmode-btn.active{background:#fff;color:var(--primary);box-shadow:0 1px 4px rgba(79,110,247,.18)}
+.subj-multi{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;max-height:132px;overflow-y:auto;padding:2px}
+.subj-chip{border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;cursor:pointer;color:#5b6270;background:#fff;transition:all .13s;user-select:none;margin:0}
+.subj-chip:hover{border-color:#c3cdf3}
+.subj-chip.on{font-weight:700}
+.slot-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.slot-row input{flex:1}
+.slot-del{color:#c9cfda;cursor:pointer;font-size:13px;padding:0 4px;flex-shrink:0}
+.slot-del:hover{color:var(--danger)}
+.c-preview{background:#f7f9fd;border:1px dashed #cdd8f6;border-radius:10px;padding:11px 13px;margin-top:12px}
+@media(max-width:820px){
+  .cmode-switch{margin-left:0;width:100%}
+  .cmode-btn{flex:1}
+  .subj-multi{max-height:150px}
+}
+/* 图片识别 */
+@media(max-width:820px){
+}
+/* 备忘录 */
+.memo-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:9px;margin-bottom:7px;background:#fff;transition:background .12s,border-color .12s}
+.memo-item:hover{background:#fafbff;border-color:#d9e2fb}
+.memo-item.done{background:#fafbfc;border-color:#eceff4}
+.memo-item.done .memo-txt{text-decoration:line-through;color:#a8aeba}
+.memo-check{width:18px;height:18px;flex-shrink:0;margin-top:2px;cursor:pointer;accent-color:#4f6ef7}
+.memo-txt{flex:1;font-size:13px;line-height:1.6;color:var(--text);word-break:break-word;cursor:pointer}
+.memo-tag{font-size:10px;padding:1px 8px;border-radius:20px;font-weight:600;flex-shrink:0;margin-top:3px}
+.memo-del{color:#c9cfda;cursor:pointer;font-size:14px;padding:0 2px;flex-shrink:0;transition:color .12s}
+.memo-del:hover{color:var(--danger)}
+.memo-group{margin-bottom:14px}
+.memo-group h4{font-size:12px;color:var(--muted);margin:0 0 7px;font-weight:600;display:flex;align-items:center;gap:6px}
+.memo-group h4 .ln{flex:1;height:1px;background:#eef0f5}
+.memo-history{background:#fafbfe;border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:12px;max-height:230px;overflow-y:auto}
+.memo-day{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:12px}
+.memo-day:hover{background:#eef3ff}
+.memo-day.on{background:var(--primary-light);color:var(--primary);font-weight:600}
+.memo-day .n{color:var(--muted);font-size:11px}
+.memo-past-tip{font-size:11px;color:var(--warn);background:#fff8ec;border-radius:7px;padding:6px 10px;margin-bottom:10px}
+.chart{width:100%;height:300px}
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:50}
+.modal-mask.show{display:flex}
+.modal{background:#fff;border-radius:14px;padding:24px;width:420px;max-width:92vw;max-height:88vh;overflow:auto}
+.modal h3{margin-bottom:6px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.toolbar select,.toolbar input{width:auto}
+.memo-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.memo-head-l{display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1;min-width:0}
+.memo-nav{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.memo-nav .btn{margin:0}
+.memo-input-row{display:flex;gap:8px;margin-bottom:12px}
+.memo-input-row input{flex:1;min-width:0}
+.memo-input-row select{width:110px;flex-shrink:0}
+.memo-input-row .btn{margin:0;flex-shrink:0;white-space:nowrap}
+.nav-badge{display:none;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--warn);color:#fff;font-size:10px;font-weight:700;line-height:18px;text-align:center;margin-left:auto}
+.nav-badge.on{display:inline-block}
+.nav-item.active .nav-badge{background:rgba(255,255,255,.3)}
+/* 移动端底部导航（宽屏隐藏） */
+.mobile-nav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:800;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -2px 16px rgba(60,80,160,.07)}
+.mobile-nav .mn-item{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 2px;border-radius:10px;cursor:pointer;color:#8a919c;font-size:10px;font-weight:600}
+.mobile-nav .mn-item .ic{font-size:19px;line-height:1.15}
+.mobile-nav .mn-item.active{color:var(--primary);background:var(--primary-light)}
+.mobile-nav .mn-item .nav-badge{position:absolute;top:2px;right:calc(50% - 18px);display:none;margin:0}
+.mobile-nav .mn-item .nav-badge.on{display:inline-block}
+.mobile-fab{display:none}
+@media(max-width:820px){
+  .app{display:block}
+  .sidebar{display:none}
+  .main{padding:14px 12px calc(76px + env(safe-area-inset-bottom));max-width:100%}
+  .mobile-nav{display:flex}
+  h2.page-title{font-size:18px;margin-bottom:12px}
+  .card{padding:14px;border-radius:12px;margin-bottom:12px}
+  .grid4{grid-template-columns:repeat(2,1fr);gap:10px}
+  .stat{padding:12px 14px}
+  .stat .num{font-size:22px}
+  .row{gap:12px}
+  .toolbar{gap:8px}
+  .toolbar input,.toolbar select{width:100%!important}
+  .toolbar .btn{width:100%;text-align:center}
+  /* 表格横向滚动 */
+  table{display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+  th,td{padding:9px 8px}
+  /* 弹窗全屏化 */
+  .modal{width:100%!important;max-width:100vw;max-height:100vh;height:100%;border-radius:0;padding:18px 16px calc(20px + env(safe-area-inset-bottom))}
+  .modal-mask{align-items:flex-start}
+  /* 课表：横向滚动，保留可读列宽 */
+  .tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px 6px}
+  .tt-grid{min-width:720px}
+  .tt-cell{min-width:88px}
+  /* 手机端课表紧凑化 */
+  .tt-grid{gap:4px!important;min-width:0;grid-template-columns:44px repeat(7,minmax(82px,1fr))!important}
+  .tt-cell{min-width:82px!important;padding:3px 4px!important;border-radius:7px!important}
+  .tt-cell.tt-head{min-width:64px!important;font-size:10px!important;min-height:26px!important}
+  .tt-cell.period-name{min-width:44px!important}
+  .tt-cell.period-name b{font-size:10px!important}
+  .tt-cell.period-name span{font-size:9px!important}
+  .tt-cell.tt-time{min-width:34px!important;font-size:10px!important;padding:2px!important}
+  .wk-chip{font-size:10px!important;line-height:1.45!important;padding:4px 5px!important;margin-bottom:3px!important;border-radius:7px!important}
+  .wk-chip b{font-size:10px!important}
+  .wk-chip .tt-tag{font-size:9px!important;padding:0 5px!important}
+  .wk-chip .wk-tick{width:14px!important;height:14px!important}
+  .ss-chip{font-size:9px!important;padding:2px 0!important;letter-spacing:.5px!important}
+  .tt-free{min-height:30px!important}
+  .tt-break{min-height:18px!important;font-size:10px!important}
+  /* 周导航两键同行 */
+  .wk-nav{display:flex!important;gap:8px;justify-content:space-between;align-items:center;flex-wrap:nowrap!important}
+  .wk-nav .btn{margin:0;flex-shrink:0}
+  .wk-nav b{flex:1;text-align:center;font-size:13px!important}
+  /* 概览与图例横向滚动 */
+  #ovStats{display:flex!important;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  #ovStats .stat{min-width:96px;flex-shrink:0;padding:10px 12px!important}
+  #ovStats .num{font-size:20px!important}
+  .legend{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap!important;padding-bottom:4px}
+  .legend span{flex-shrink:0;white-space:nowrap}
+  #ttCounterBar{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap!important;padding-bottom:4px}
+  #ttCounterBar .counter-card{flex-shrink:0}
+  .chart{height:250px}
+  /* 备忘录 */
+  .memo-head{flex-direction:column;align-items:stretch;gap:8px}
+  .memo-head-l{gap:8px}
+  .memo-nav{justify-content:space-between}
+  .memo-nav .btn{flex:1;text-align:center}
+  .memo-input-row{flex-wrap:wrap}
+  .memo-input-row input{flex:1 1 100%;width:100%}
+  .memo-input-row select{flex:0 0 auto;width:110px}
+  .memo-input-row .btn{flex:1}
+  .memo-txt{font-size:14px}
+  .memo-check{width:22px;height:22px}
+  .memo-item{padding:11px 12px}
+  /* 查课 / 弹窗内容 */
+  .who-row{padding:9px 10px}
+  .ws-controls{flex-direction:column;align-items:stretch}
+  .quick-slots{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  .quick-slots button{flex-shrink:0}
+  /* 输入框防止 iOS 缩放 */
+  input,select,textarea{font-size:16px}
+  .btn{padding:10px 16px}
+}
+@media(max-width:420px){
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  .stat .num{font-size:20px}
+  .stat .label{font-size:11px}
+  .mobile-nav .mn-item{font-size:9px}
+  .mobile-nav .mn-item .ic{font-size:17px}
+}
+@media(max-width:820px){
+  .float-add{display:none}   /* 工具栏已有全宽新增按钮，避免遮挡底部导航 */
+  #cloudStatus{left:10px!important;bottom:calc(74px + env(safe-area-inset-bottom))!important;padding:4px 10px!important;font-size:10px!important}
+}
+</style>
+</head>
+<body data-page-node-id="OeDBrwOlNpemUJynn0TrHc">
+<div data-page-node-id="4oQtw2OqvbKRPkiey81mOl" class="app">
+  <div data-page-node-id="ttJCd8pCRm40ozww4dwDVT" class="sidebar">
+    <div data-page-node-id="aiuaOeShoVndiXOo9HKoxD" class="logo"><!--pnid:elrkeENm8FPmp1o0fIVs9u-->📚 <span data-page-node-id="Cn7rYUjmjX351WbogQLRXw"><!--pnid:99bULuN1dxrKBX1HT9mO9l-->学管助手</span></div>
+    <div data-page-node-id="k9GV4gG7Aqw6KUNMGhcGRR" class="nav-item active" data-page="dashboard"><span data-page-node-id="LqzUe16IKwfJ9XNLfZZ1KN" class="icon"><!--pnid:aHVQsX2QN5BNy6RZQUwedQ-->🏠</span><span data-page-node-id="JU6bsuCtIibL6qvq9caCs4" class="txt"><!--pnid:D9bmkoichhc4PsSXHsTOKI-->工作台</span></div>
+    <div data-page-node-id="mHUHSFLp2mNMS34zncTzCc" class="nav-item" data-page="students"><span data-page-node-id="589urLzwF6MBGl7WZmEc3g" class="icon"><!--pnid:Jef47La0tWcvT8bClaghtk-->👤</span><span data-page-node-id="FhjxCq49JIUY5R2iln91T1" class="txt"><!--pnid:D0TpVeBRuM1nOrXGRUtmiq-->学生管理</span></div>
+    <div data-page-node-id="nB2m6S2k196RoAJEbO4JDN" class="nav-item" data-page="schedule"><span data-page-node-id="7O3unaAuuvADxbE8iCcsxi" class="icon"><!--pnid:Bnwi2PIOmggsCG2Eo1oUDW-->📅</span><span data-page-node-id="BkOX4Qb2FuVNWKcAcS8v30" class="txt"><!--pnid:WPzK7fRlaYNpKr9yWDGo3C-->排课表</span></div>
+    <div data-page-node-id="A9Opii0U3iVQg0ntpKS1kj" class="nav-item" data-page="grades"><span data-page-node-id="Ap4IDphvQG6aPj1Pz2mcyh" class="icon"><!--pnid:8jdPWlX1cyg6QH8IrXZQpM-->📝</span><span data-page-node-id="wCb4CFUQ0HyUvzlvInEQ2E" class="txt"><!--pnid:vdwrhBbhwYgL8b4bcDaOn3-->成绩录入</span></div>
+    <div data-page-node-id="BrNuDDgQW2zOP6qDCGd0hm" class="nav-item" data-page="analysis"><span data-page-node-id="asTILWulKvD9IvuJQZkTDO" class="icon"><!--pnid:CHVnHlgRzq7ms4T3Na6V5e-->📊</span><span data-page-node-id="RSNZbVNaBjtBOsHOdQezh6" class="txt"><!--pnid:abBXP9wfX4tlTx5l09yoZX-->学情分析</span></div>
+    <div data-page-node-id="spYksRfitrIV7Cj2yrIRJ3" class="nav-item" data-page="monthly"><span data-page-node-id="M03urxn95vKpF52n5VdjaR" class="icon"><!--pnid:MPputCOhEWGjUDvcCCFvl4-->📈</span><span data-page-node-id="OeHEEr9tUzQkMVXjk62GkW" class="txt"><!--pnid:QnI0jwEg9qiScuwTJlfmEE-->月度数据</span></div>
+    <div data-page-node-id="BvkrcBH2jGqJ8NsNgHlldt" class="nav-item" data-page="parents"><span data-page-node-id="XX80hSIbPU74Z19op1J2K3" class="icon"><!--pnid:dpI9k1tz0LqZb66A6juBjx-->💬</span><span data-page-node-id="3W8sr5hbbJ1pUP2z0rW39L" class="txt"><!--pnid:SjbkcV6eTg2FhbWZmMHOz2-->家长沟通</span></div>
+    <div data-page-node-id="uVbPfK0lWOfDGBSQKm4VpD" class="side-foot"><!--pnid:XuUEGtHtoTTDZpMSGKx3gh-->学管助手 v1.8</div>
+  </div>
+  <!--pnid:8TYw5ICLl00Nd3NkmqTWyb--><!-- 点格排课的科目菜单（跟随格子定位） -->
+  <div data-page-node-id="V4oD42rGnxMw8G91trvX7f" id="subjPop"></div>
+  <!--pnid:yvRLLlKFEjDGTIGOxIb1HR--><!-- 手机端底部导航 -->
+  <div data-page-node-id="3hvlPbvbwgS8id2IBkQkNT" class="mobile-nav" id="mobileNav">
+    <div data-page-node-id="A4E0FJYrY7G2PDKhGh6p2n" class="mn-item active" data-page="dashboard"><span data-page-node-id="uX11dOHTYz7FSiKjLTRuGa" class="ic"><!--pnid:VVyrlZs95QtvwioZiJ97C9-->🏠</span><span data-page-node-id="73CLz2WOadtepY8oK6kXr2"><!--pnid:mZVdOAe1a9EMJCV6cfypUr-->工作台</span></div>
+    <div data-page-node-id="Uyo75IoXxCrYoEQaDhRYcB" class="mn-item" data-page="students"><span data-page-node-id="mH1FQQr1tMckG3qDa8bYFP" class="ic"><!--pnid:Tj6YsjGusFhQyCII0IcL0l-->👤</span><span data-page-node-id="4FWyLhFBQZvMp2HAX88S2L"><!--pnid:dG3aRBne9mxeW9i3xp0QuW-->学生</span></div>
+    <div data-page-node-id="uwghrhNCuVVs1KPV5DdhQE" class="mn-item" data-page="schedule"><span data-page-node-id="F4fF99myunkdDFrYN6bVAO" class="ic"><!--pnid:1iv8vgKsRWkPEVRJWax5sp-->📅</span><span data-page-node-id="BW5S65jt1n0dcyELs9g27p"><!--pnid:F1zjDV7lrZvFxNDKJUsmzH-->排课</span></div>
+    <div data-page-node-id="Jd1pu7TZTJDSsYOuL7Ky6d" class="mn-item" data-page="grades"><span data-page-node-id="FTpmBe9tcvzpclfs9EtZbb" class="ic"><!--pnid:qGfbikZZopgrsPDM8vdjP5-->📝</span><span data-page-node-id="spzH0UImatGaHjOsSc5Nme"><!--pnid:EI1TYJxjxRSevMjjKUnZaH-->成绩</span></div>
+    <div data-page-node-id="Ne7GPZhjttjxxM6AMDdoSf" class="mn-item" data-page="analysis"><span data-page-node-id="nRqHjQl8yqOCRlqB1M2wnC" class="ic"><!--pnid:X0szooGSoRv8fxI5SUN1Nx-->📊</span><span data-page-node-id="wB84aMeKwaJcVal2oQmFcu"><!--pnid:hXiRng73g9OCwO8ip4Dfei-->学情</span></div>
+    <div data-page-node-id="mokSiEXCA2ku7MwbAKY8go" class="mn-item" data-page="monthly"><span data-page-node-id="zlSdlLwtuFCjnR5BRXN0bc" class="ic"><!--pnid:p9xJM86nehoWa1AfgJFjpT-->📈</span><span data-page-node-id="qgLj253oQwVh0CiAd9m9TR"><!--pnid:RJvMKo6v3G1M3UD3NO5rcG-->月度</span></div>
+  </div>
+  <div data-page-node-id="iAr86dvruQzhnZ4GnyCTYW" class="main">
+
+  <!--pnid:eA4sibQi8KPUl2scnEFYyL--><!-- 工作台 -->
+  <div data-page-node-id="gIHctKh6mWB8U8GGVythw8" class="page active" id="page-dashboard">
+    <h2 data-page-node-id="4XU1rV1wUEkJvB9ETLq9rC" class="page-title"><!--pnid:7PDlcstqFbCagx2y1ehDQ7-->工作台</h2>
+    <div data-page-node-id="6FRAiiVxoZOLF7W47fx6fn" class="grid4" id="stats"></div>
+    <div data-page-node-id="YvTvlpFbX21MckodWQIEWo" class="card" style="margin-top:18px">
+      <div data-page-node-id="Du0cYIB1QviLPwB0kH96G0" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px">
+        <h3 data-page-node-id="5oLrjHvFwxzdl1hC8eFOlI"><!--pnid:Ins410j2jeOAY5P3jaANhN-->🔍 时间点查课 · 谁在上课</h3>
+        <input data-page-node-id="OfFKygjyvXOfWAW0mtF8XT" id="wsDate" onchange="renderWhoWhen()" type="date" style="width:150px">
+        <input data-page-node-id="7s3EmeBtLQaTy6SqZrhYg4" id="wsTime" onchange="renderWhoWhen()" type="time" value="10:30" style="width:118px">
+        <div data-page-node-id="KLYghcxdEXlcqbJYS8Mb6J" class="quick-slots" id="wsQuick"></div>
+      </div>
+      <div data-page-node-id="111n8xqXTZOd5Io137tY83" id="wsResult"></div>
+    </div>
+    <div data-page-node-id="n8jRvIytlOMHf40oAmZxX4" class="card">
+      <div data-page-node-id="Y3hexI1rdn1LbjvQCwpUzp" class="memo-head">
+        <div data-page-node-id="IybFrqRBJzUxYCl0jBs1Be" class="memo-head-l">
+          <h3 data-page-node-id="K1nw02V2TGODVtpCzvrWxg" style="margin:0"><!--pnid:roBkyj0ze06UQfU5K9Xrtg-->🗒️ 备忘</h3>
+          <span data-page-node-id="tNkfm4EwExn1wnhoAz09qH" id="memoDateLabel" style="color:var(--muted); font-size:12px"></span>
+          <span data-page-node-id="XvQLHQqKOpv1EiwwrFezmj" id="memoSummary" style="font-size:12px; color:var(--muted)"></span>
+        </div>
+        <div data-page-node-id="9qXT4Q5Sa21TDi4cgwE39t" class="memo-nav">
+          <button data-page-node-id="2iviAtHQ4wcAtNNLsY6wVF" class="btn ghost sm" onclick="memoGoDay(-1)" title="前一天"><!--pnid:cHRytilmbUI3EnIZPRHGCf-->‹</button>
+          <button data-page-node-id="KAU3sj64dQmPYNMxP20seq" class="btn ghost sm" onclick="memoToday()" title="回到今天"><!--pnid:N4JtIdHx5ioVNlaLNBaHlC-->今天</button>
+          <button data-page-node-id="XZgJfKke2UXJnbic1ttWnn" class="btn ghost sm" id="memoNextBtn" onclick="memoGoDay(1)" title="后一天"><!--pnid:venu290EjhleYSSUdBiBkP-->›</button>
+          <button data-page-node-id="IaT4CAVHJgDisVPBQXZfNX" class="btn ghost sm" id="memoHistBtn" onclick="toggleMemoHistory()"><!--pnid:6z60h1xILR9kgsy76n3C5h-->📅 历史</button>
+        </div>
+      </div>
+      <div data-page-node-id="vB8SgGBitXLLzDrBAjWOH3" class="memo-history" id="memoHistory" style="display:none"></div>
+      <div data-page-node-id="unZ3xARpZzbiJdZJYzoOqj" class="memo-pending" id="memoPending"></div>
+      <div data-page-node-id="7Iggt0KDCrKuElUwdKE5Dj" class="memo-input-row" id="memoInputRow">
+        <input data-page-node-id="52dt5L2xLbOiMBHIcQg4kz" id="memoInput" onkeydown="if(event.key==='Enter')addMemo()" placeholder="记一条备忘，回车即可添加…（如：提醒李小红家长周五家长会）">
+        <select data-page-node-id="aW4MlZtOOycskfDZCR10BL" id="memoTag">
+          <option data-page-node-id="IqYBOHXrfEp3AbYAnZ4rHf" value><!--pnid:qffqsAYVORpH07stqZGH2r-->无标签</option><option data-page-node-id="Ry9ckuyGhFLBuh23C3Oi36" value="家长"><!--pnid:pNmtiU4uVWdt74GlsKywIO-->家长</option><option data-page-node-id="Gj3v2nKWhz3mxXffRbYik1" value="学生"><!--pnid:KKDfaxjH23Ef5YlZfoBaWW-->学生</option>
+          <option data-page-node-id="Rvx6AIrH8CSXJeJibav8UI" value="教务"><!--pnid:rdoCTNFsxP7eCTAWuRmIRY-->教务</option><option data-page-node-id="aWQ6sQE9xhHwIjKVOzloCo" value="成绩"><!--pnid:9M6JilW0fZ3D4XRT7Jv8Ss-->成绩</option><option data-page-node-id="tRwgN87EJEMQqCSlFm3HP6" value="其他"><!--pnid:ZZpG19GqFqSqZDyWIw22W2-->其他</option>
+        </select>
+        <button data-page-node-id="RgSmoQaNOCZSZYxf67iXp0" class="btn" onclick="addMemo()"><!--pnid:lPyltonRl0ULtjroirWnqF-->＋ 添加</button>
+      </div>
+      <div data-page-node-id="4uKJmD00oYgRsxghzfX9N4" id="memoList"></div>
+    </div>
+    <div data-page-node-id="EJrgAPLw1LhyEgTINbgY6B" class="card"><h3 data-page-node-id="vnFIzKoEwrYWTOl9bzLayL" id="riskTitle" style="margin-bottom:10px"><!--pnid:mACyhAzfGE7HyDGHDZEvTp-->⚠️ 需要关注的学生</h3><div data-page-node-id="MS7uvPvuNwcsCxgRqNzEYX" id="riskList"></div></div>
+  </div>
+
+  <!--pnid:HbJ4mivJTIxcmIpWYXuSIs--><!-- 学生管理 -->
+  <div data-page-node-id="HHC8r3rVOSrJN8CbwRucEz" class="page" id="page-students">
+    <h2 data-page-node-id="F2kW2Kwjk8s75Zsi4hSfps" class="page-title"><!--pnid:8ewjwBWH1mOOgdfDFHyVsh-->学生管理</h2>
+    <div data-page-node-id="21R9jCakJm3izKZ0cfXSje" class="toolbar">
+      <input data-page-node-id="uHdOem7lGbt9bJwaHmkXUH" id="stuSearch" placeholder="搜索姓名…" style="width:200px">
+      <select data-page-node-id="rql7fM1zBtWEad24tXDp41" id="stuGradeFilter"><option data-page-node-id="B0Hx9noQsI509lLAdd9cvy" value><!--pnid:9BbKIRMSj85Xu6EYGIk9aq-->全部年级</option></select>
+      <select data-page-node-id="ijWjfGeYRQVJF1AErZpIHY" id="stuCatFilter" onchange="renderStudentTable()"><option data-page-node-id="SHPcvecps49BCK7qD2cvg4" value><!--pnid:aVUsgTO0Id5qnbLW47ptE7-->全部分类</option><option data-page-node-id="ugy9av9qlhBCxj07cA0wSi" value="one"><!--pnid:vtl5kIeGo3OJcH3qwPkB0E-->1对1</option><option data-page-node-id="qeXrKG48DkDr0RSmUxrzK9" value="long"><!--pnid:InA6H9T8CxUVuph6hVxoUy-->长期班课</option><option data-page-node-id="WnjDy2Ya8Qxsf8V3fKoClA" value="short"><!--pnid:qgdrRBLE4PQwHRNPLZBQWT-->短期班课</option></select>
+      <button data-page-node-id="AWKO4tUkyUJ7cClBsnbYXd" class="btn" onclick="openStuModal()"><!--pnid:tbPTHEc5ox3dyW81YZPTGD-->＋ 新增学生</button>
+    </div>
+    <div data-page-node-id="x9CLDfNpTPsNYGjfKM7yxy" class="card"><table data-page-node-id="Hu7MLnbFmN1A4bzqubB1nI" id="stuTable"><thead data-page-node-id="fIbkA1QUDJzDczO0O2O1XO"><tr data-page-node-id="A7hXVsF0YlWitwZnU4wUHt">
+      <th data-page-node-id="E33Cqyf44Hxze6Mfai4FV5"><!--pnid:cl1o6JKOEcl9YXHhKhLH2o-->姓名</th><th data-page-node-id="HfL8yhLnu9JpcB8pSQRE6B"><!--pnid:tjgAEg6TkzVe9CXga3Tgg2-->分类</th><th data-page-node-id="R7cp9RRBa7jcGicTALnVE6"><!--pnid:2WxAjrZld3JqmEDZC9GW1R-->年级</th><th data-page-node-id="uIKErqOYH8WHXaOl1FfANL"><!--pnid:QUHvgGMSNe8LyAZRylW6h9-->科目</th><th data-page-node-id="GxtXDkwKIIIyh7GTSmhWsX"><!--pnid:fzXmLvYvP80ajoVCAizfaP-->教室</th><th data-page-node-id="UgPebO5A0tmQ7clgaamKEH"><!--pnid:qtaJu90HrRNsDjoMOJLqfp-->联系方式</th><th data-page-node-id="M4iccjruGXzWs5BKTpXO3Y"><!--pnid:FM7TNKP60CctBmhyy6aaKj-->最近成绩</th><th data-page-node-id="o9n87KOyblvIm9tqFkvtUM"><!--pnid:jg9Tc86qpOtOAbOfmdBs7n-->状态</th><th data-page-node-id="214DP8PzUV6kVbcsU6wx0Y"><!--pnid:Ofz6MbSBFPXb21WWrH9E67-->操作</th>
+    </tr></thead><tbody data-page-node-id="r5gMeNae24HpP27CJwGSoF"></tbody></table></div>
+  </div>
+
+  <!--pnid:Jos3mzaISFmw9hUOpyMhDN--><!-- 排课 -->
+  <div data-page-node-id="G140hAO2XjLma9VtaOd3Ly" class="page" id="page-schedule">
+    <h2 data-page-node-id="fxkgyPVIKOAzyr6rJ45GgE" class="page-title"><!--pnid:c7fEOgoQi4dpTLTqvOPH6b-->排课表</h2>
+    <div data-page-node-id="KXB0ePmqEupgsxRHqLWFIc" class="toolbar">
+      <button data-page-node-id="iLNkLYfXT6QH74MmVQd81O" class="btn" onclick="openCourseModal()"><!--pnid:jJruwmv3V02X6m1A3WotUh-->＋ 新增排课</button>
+      <select data-page-node-id="PxFzwy9E9SMPmek4aWQdPQ" id="ttStuFilter" onchange="ttFilterStu=this.value;renderTimetable()" style="width:150px"><option data-page-node-id="szUPH0LbeBKUi1iPjSrIrH" value><!--pnid:9vCRvLasv3xuLuIJbEar61-->全部学生</option></select>
+      <button data-page-node-id="UidZF2c4fRBRq47DUt8F9Q" class="btn ghost sm" onclick="ttFilterStu='';renderTimetable()" style="margin:0"><!--pnid:vURa5g56WzwSPUGnpuwLJT-->清除筛选</button>
+      <span data-page-node-id="yDTKU9f2XmCCqPeipXoKiP" style="color:var(--muted); font-size:12px"><!--pnid:VFRV7ye57bqVugUQxUrdLF-->点击课程查看/编辑；☑ 表示已上完</span>
+      <button data-page-node-id="BdkI8ZRdV98BHAKrnDH7z2" class="btn danger sm" onclick="clearAllCourses()" style="margin:0"><!--pnid:5wPzTElZnxLPO8NfGw0u8w-->🗑 清空课程</button>
+      <span data-page-node-id="oZa8OQjXJ0rlOkTXElU1aW" style="color:var(--warn); font-size:12px; background:#fff8ec; padding:3px 10px; border-radius:20px"><!--pnid:tbekZLtcVyHoIr6W2TAvBi-->📌 新增的课只排在这一周，不会延续到其他周</span>
+    </div>
+    <!--pnid:oE9eMgVBo5hrcMhHlY8guI--><!-- 点格排课条：选好学生后，点课表格子 → 弹科目菜单 → 点科目立即加课 -->
+    <div data-page-node-id="xUwb2pqooTT5DDprviFZv2" class="quickbar" id="quickBar">
+      <div data-page-node-id="ixIgN2svOqvYWwI8sYm9XX" class="qb-left">
+        <span data-page-node-id="4vnfpzG9PTxFRMQgoSQoV5" class="qb-label"><!--pnid:y628TIh3EosSIdzHAcD6AU-->👆 点格排课</span>
+        <span data-page-node-id="ahxnj9AeO84aOIv1jfxiGZ" class="qb-stu" id="qbStu"><!--pnid:CzvJC3Yo1W92X2ihfwXx7p-->未选择学生</span>
+      </div>
+      <div data-page-node-id="lqaw79tHfyi5ghSBsgwIBe" class="qb-right">
+        <span data-page-node-id="wYID33xprZ6ZzIvsS8ICoy" class="qb-hint" id="qbHint"><!--pnid:oDGUX5obSwRIHdUnV0VowK-->点击课表格子 → 在弹出菜单里点科目即可加课</span>
+      </div>
+    </div>
+    <!--pnid:pJMzlyE95Fxg0bflLenPVx--><!-- 按班型展示该学生的标准作息 -->
+    <div data-page-node-id="JDJTQoDMq0cv7ErXr5JZ7F" class="card" id="tplCard" style="display:none">
+      <div data-page-node-id="uBMiIPEgH0rx1xGEn8wbMJ" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px">
+        <b data-page-node-id="eIAL5WJo3bfMaqO2xJbQkp" id="tplTitle" style="font-size:15px"></b>
+        <span data-page-node-id="1xwl4tXA3Lqv8g9Fg56KcJ" class="wk-badge" id="tplBadge"></span>
+        <span data-page-node-id="bQ8U1ATgKOp5DrqhWsd5f1" style="color:var(--muted); font-size:12px"><!--pnid:uAKlYgOA5G9MoMqwK6eGta-->该生课表按此作息生成，点击下方格子即可排课</span>
+      </div>
+      <div data-page-node-id="8reuSMKVTlbkPgttoNNpKc" class="period-list" id="tplPeriods"></div>
+    </div>
+    <div data-page-node-id="mT3nzslRVIdmX6QAQO7MxT" class="card">
+      <div data-page-node-id="B9NspqmchrgsAVkoj9gr1o" class="week-nav wk-nav">
+        <button data-page-node-id="mPAW4i1P44CU6ldpcTdtR8" class="wk-btn" onclick="ttWeekOffset--;renderTimetable()"><!--pnid:h83glICVlr7ACX98lHMJlB-->← 上一周</button>
+        <b data-page-node-id="ub8G9ubX1YtMvq40YIs42v" id="wkLabel" style="font-size:16px"></b>
+        <span data-page-node-id="ElY7w6YliDr4xZ4iY0Th3b" class="wk-badge" id="wkBadge" style="display:none"><!--pnid:9QtgiGD1J6cZ8Htmg0ziw9-->本周</span>
+        <button data-page-node-id="6EKOu3ftGYeagn2IAktSdT" class="wk-btn" onclick="ttWeekOffset++;renderTimetable()"><!--pnid:9jGfF1bXnp27fRYaIe8pl5-->下一周 →</button>
+        <button data-page-node-id="GqhuGYNSifLvLK3jHVxpKc" class="wk-btn" id="wkTodayBtn" onclick="ttWeekOffset=0;renderTimetable()" style="display:none"><!--pnid:kI3h2qVw1dtpO8BKjD5N3O-->回到本周</button>
+      </div>
+      <div data-page-node-id="kJRkNsg9IowIrgBfrKPiuv" class="tt-wrap"><div data-page-node-id="gFjv75JL4zzrQyR5EFVKno" class="tt-grid" id="timetable" style="grid-template-columns:56px repeat(7,minmax(120px,1fr))"></div></div>
+      <div data-page-node-id="mJ0HFVB4nexlzCSQ7Udn0X" class="legend" id="ttLegend"></div>
+      <div data-page-node-id="lOZ34INioLXBflbFlulwb8" id="conflictTip" style="color:var(--danger); margin-top:12px"></div>
+    </div>
+    <div data-page-node-id="ZI1VRj9AxcCCvFOvDqEHQp" class="card">
+      <h3 data-page-node-id="20NH2aPA6PUKVWQOWTGNPO" style="margin-bottom:12px"><!--pnid:wpoQAgxMpmWXAlYCJgUigc-->📊 排课概览</h3>
+      <div data-page-node-id="TChzT7VZo4L08L4pgwQrzQ" class="grid4" id="ovStats"></div>
+      <div data-page-node-id="I8lnDgjBdRVfqSDyJV8Fx9" class="counter-bar" id="ttCounterBar" style="margin-top:14px"></div>
+    </div>
+    <button data-page-node-id="5Y2UJlJqC8k6syk8IVzfxW" class="float-add" onclick="openCourseModal()" title="新增排课"><!--pnid:qHPLHlrWMszjTpOTEB8285-->＋</button>
+  </div>
+
+  <!--pnid:vUlZdNOwdYckGJITqWzpMn--><!-- 成绩 -->
+  <div data-page-node-id="SzhL7XtQwZGvLALWcsM7vj" class="page" id="page-grades">
+    <h2 data-page-node-id="LVTenBRPR7TcVLpcmOBIj6" class="page-title"><!--pnid:oiOy7I6ajy4BZsk8xp5sPB-->成绩录入</h2>
+    <div data-page-node-id="MdpoJdWYHTQYxy2KmD30iN" class="card">
+      <div data-page-node-id="EwdE4a4uzxyGMXlfOWzz7c" class="row" style="align-items:flex-end">
+        <div data-page-node-id="0ELCafrOunBRuwev9YF6wR" style="flex:1; min-width:150px"><label data-page-node-id="4a9cWxchSu7YuLtl7y8Lmw"><!--pnid:WBGDJ1IOt0A09zrMweoLcU-->学生</label><select data-page-node-id="cq6l2kdAUo5duwQ85pwuy4" id="gStu"></select></div>
+        <div data-page-node-id="3k7y5TaUyosSzfdJZWLlgH" style="flex:1; min-width:120px"><label data-page-node-id="Y9WMDbMnTSHBVJfTqVyxdU"><!--pnid:RyLtDE6XQoyswSAxzrd7lv-->科目</label><select data-page-node-id="YMgqJy7GsgDBZ0UctvIFP1" id="gSubject"><option data-page-node-id="toWj51O3Mc0jfuvZkwJ836" value><!--pnid:HVS22xLLKqOYGYx2cLuXgx-->请选择科目</option></select></div>
+        <div data-page-node-id="nCXsr18mhY5wmD2Lzck0dZ" style="flex:1; min-width:120px"><label data-page-node-id="oBnAdiiG0I7U4OYHXFP3Jj"><!--pnid:Fski041J78lIZTvBXHSVYb-->考试形式</label><select data-page-node-id="6WmWtATEYyJM1zrp1G6cbY" id="gExam"><option data-page-node-id="PhuHKnCWBVAFSt1cqzXHKn"><!--pnid:wUDCQw8pyGblvOMEPt9zBw-->周测</option><option data-page-node-id="bBqmxwV6Z8NQtFDVxC9jCn"><!--pnid:OLqrFxQRuNAnC8qju3WuSy-->月考</option><option data-page-node-id="l3uuGE85awCBYj5wSqgoko"><!--pnid:TLPzQRUkS2mnp330OvgMOg-->期中考试</option><option data-page-node-id="ZieGHUsyz968CaOKXcNL0V"><!--pnid:1sHTiq4ESBGIU40twG5AdV-->期末考试</option><option data-page-node-id="YA0Ia39QclnLY7RbAMWUiM"><!--pnid:abA62LrkKXhpySnhYCY0K9-->模拟考试</option><option data-page-node-id="ziLU0oTpeCnGGp9RA5LJeD"><!--pnid:BlD3chStIliy1eODitd5nG-->作业测验</option><option data-page-node-id="01psXtji3NOXeXSBbDV1iH"><!--pnid:3xgDVvQa2ZUhO6v6K2gQd0-->其他</option></select></div>
+        <div data-page-node-id="xo7SOmi8jmV3ySvGaAaN8s" style="width:100px"><label data-page-node-id="OnywBEL2nc3ZleF3cg7iRI"><!--pnid:8yFlUnlXKYy8bJWB2pBdJc-->分数</label><input data-page-node-id="N75jbHfvhhDs0csKgtFgPX" id="gScore" step="0.5" type="number"></div>
+        <div data-page-node-id="T3zPMuQKECQ0Le1ekLPRjO" style="width:100px"><label data-page-node-id="P16nHmwPrpGxQ3xJ2b4zne"><!--pnid:VrI9roApN09yqvPXpLuIwd-->满分</label><input data-page-node-id="OgJRcdVTTDJySAJiRmliqa" id="gFull" type="number" value="100"></div>
+        <div data-page-node-id="j66Uo723rurYepQlPjAugI" style="flex:1; min-width:140px"><label data-page-node-id="aL8d0po4FlAtNZJRlGCHr7"><!--pnid:Ph3LzPHEDzSR6sOJ80FVXD-->日期</label><input data-page-node-id="bbw4guzBPXHcqY9eiyIAxM" id="gDate" type="date"></div>
+      </div>
+      <button data-page-node-id="QJGUW78c2kZ2h2HycX5w9T" class="btn" onclick="addGrade()"><!--pnid:fSIXGyX5bk5C8Rcc6n8NV0-->录入成绩</button>
+    </div>
+    <div data-page-node-id="HXqOMd6267bRSPi1xSq356" class="card"><h3 data-page-node-id="Cmc7RSkLv7ZDRVHgkf3eP7" style="margin-bottom:10px"><!--pnid:F36G1ABCjw4ZGfDLkPnMpf-->成绩记录</h3>
+      <div data-page-node-id="KidDnEi0aTdgOCM5THz2Ag" class="toolbar">
+        <select data-page-node-id="iz019wkf3hsLCnSw5hYdV2" id="gFilterStu" onchange="renderGrades()"><option data-page-node-id="lTWdo3AK2Dm3gYZosQnKH2" value><!--pnid:K215cgXAjARoTzk1hGSa3C-->全部学生</option></select>
+      </div>
+      <table data-page-node-id="4QufqWbQUETyUjV1oebzIC" id="gradeTable"><thead data-page-node-id="GeD9jr4JJlSToVx3XggbzG"><tr data-page-node-id="RKFtQ39PVvP4BK95m1BJPY"><th data-page-node-id="UB2yjPYxqrGEJRWY8aNoBe"><!--pnid:Mm9D9SjoFYwPfF8AJGvzzg-->学生</th><th data-page-node-id="7UrxJj1spbO77yMNi2ske0"><!--pnid:9szxInOI5Jcy8quPQV7AOO-->科目</th><th data-page-node-id="S8zt869LmhZgu7SqV0iIS6"><!--pnid:uCgHnRbvXdDWyMjtO2vp0g-->考试</th><th data-page-node-id="M6Ivizf27fZ8hAmOJ95l9D"><!--pnid:ZjwHTNZiVOeTCaa1yZj7CI-->得分</th><th data-page-node-id="EH8tHf9amtoLkgI0V77COG"><!--pnid:MmsPmhPxmm2nsqBerM1tz9-->得分率</th><th data-page-node-id="0HBcxV4KJzeZ68UwETDCkq"><!--pnid:rS5XdXnImKzYDvjFEzZ9Pr-->日期</th><th data-page-node-id="FQyu5s5AZBRnXNkeE8ck3s"><!--pnid:KF3V6XQHLbGuJ8pl4uMvS3-->操作</th></tr></thead><tbody data-page-node-id="iUHs52dC5jTX6QVQfBupfr"></tbody></table>
+    </div>
+  </div>
+
+  <!--pnid:TcgEYHF8ZD5YKPSr2cKaO4--><!-- 学情分析 -->
+  <div data-page-node-id="RmqOjnIHzNcldK5OgOZqrN" class="page" id="page-analysis">
+    <h2 data-page-node-id="ynQR8e5IjtWJSmEu5qIsYu" class="page-title"><!--pnid:ZYUytJ5QLEJhyGhd5Jz8rV-->学情分析</h2>
+    <div data-page-node-id="WVkQS3AiKcO1KuKOvpGMFo" class="toolbar"><select data-page-node-id="RManniFp4eJPAiMNmp7aS3" id="aStu" onchange="renderAnalysis()"></select></div>
+    <div data-page-node-id="dfIw3cwhVy7IjRthMjDift" class="card"><h3 data-page-node-id="IwR19uvi710Qkzup12QlcD"><!--pnid:klkKckaQo4bHpRf7lC2s7s-->成绩趋势</h3><div data-page-node-id="puZsRl1ivyIex0I1n30rYB" class="chart" id="chartTrend"></div></div>
+    <div data-page-node-id="PiuJyF6OrrBPjmS9WPOVTT" class="row">
+      <div data-page-node-id="VKTSF2kx8e2XvVvQc7ewpk" class="card" style="flex:1; min-width:300px"><h3 data-page-node-id="HqSSwF84buhYvWIoyNFqeX"><!--pnid:umQabvvwNv8Csf8CVbN0Dz-->各科平均得分率</h3><div data-page-node-id="9eCf8wBQVXasbdvfvaemts" class="chart" id="chartSubject"></div></div>
+      <div data-page-node-id="3PwewWDIYVZBox7FRQCDe3" class="card" style="flex:1; min-width:300px"><h3 data-page-node-id="nbWn9iqY9dmtllqvJZPaRc"><!--pnid:gktnTUTZECwPItlSeTZtvG-->AI 学情小结</h3><div data-page-node-id="eJUDqXoUMJnVgL5Mr0hzFQ" id="aiSummary" style="line-height:2; font-size:13px"></div></div>
+    </div>
+  </div>
+
+  <!--pnid:RBAjqdndTgk4hCH0apk1VT--><!-- 月度上课数据 -->
+  <div data-page-node-id="AqKZCAzcl63WbhpuayT6jF" class="page" id="page-monthly">
+    <h2 data-page-node-id="dfhG2mZOMzm7ShhOI8Fhe1" class="page-title"><!--pnid:4zvgSoamtDRJRj7PuL0lE7-->📈 月度上课数据</h2>
+    <div data-page-node-id="6Wt15iHN9rM4WwUTRa7Q7r" class="card">
+      <div data-page-node-id="cvrQkk7wWfcfBt80N2VgHg" class="toolbar" style="margin-bottom:0">
+        <b data-page-node-id="gn8mgatPKZYOurFiE3yL4p" style="font-size:14px"><!--pnid:0FMZdzzZFdwchJ6p3MQCpX-->统计月份</b>
+        <input data-page-node-id="ccsziTrmZyvLZsqH020IUo" id="mMonth" onchange="renderMonthly()" type="month" style="max-width:170px">
+        <button data-page-node-id="BSbm5BsQoXP30FRPLNCWWB" class="btn ghost sm" onclick="mShift(-1)" style="margin:0"><!--pnid:RAIB4WxrcVdBcZ3Vo9p98F-->‹ 上月</button>
+        <button data-page-node-id="s6EB1ELP60BNp4d9qYnt2O" class="btn ghost sm" onclick="mShift(1)" style="margin:0"><!--pnid:ihUk8tCyKxkxgJMxiWH50j-->下月 ›</button>
+        <button data-page-node-id="anEZkNqX6jFi4KV2RsMzdo" class="btn ghost sm" onclick="mThisMonth()" style="margin:0"><!--pnid:Xa407OfyLpfHbh80yafqE3-->本月</button>
+        <select data-page-node-id="V6uEkLBSqOZxRa8zUllI8o" id="mStuFilter" onchange="renderMonthly()" style="max-width:180px"></select>
+        <label data-page-node-id="lT5V9fsLelDs62ZSnrX2oZ" style="display:flex; align-items:center; gap:6px; margin:0; font-size:12px; color:var(--muted)">
+          <input data-page-node-id="mZEjLLsgOqOhuOwAiJQJYh" id="mOnlyDone" onchange="renderMonthly()" type="checkbox" style="width:auto; margin:0"><!--pnid:06C5eBLDueYW50XrpTXDOS--> 只统计已上完
+        </label>
+      </div>
+    </div>
+    <div data-page-node-id="MnXDCXSLTm8NFmt6S3vTbT" class="grid4" id="mStats" style="margin-bottom:18px"></div>
+    <div data-page-node-id="cCQQKPBb5pRs3DpqI1xFro" class="card"><h3 data-page-node-id="xizlCOWaODhMIEEJmsnv0G" id="mDetailTitle" style="margin-bottom:10px"><!--pnid:W3wjHA5g966GIhSeQhTAgx-->📚 科目分布</h3>
+      <div data-page-node-id="e38moBrcI1Os7yYUcHEPr0" id="mBySubj"></div>
+      <div data-page-node-id="RoTMngFSnyTUo9e1QMABUj" id="mDaily" style="margin-top:18px"></div>
+    </div>
+  </div>
+
+  <!--pnid:rFYMdW8NFlkS5OqqbWGjX2--><!-- 家长沟通 -->
+  <div data-page-node-id="K668F9UDC8RCfqMgFPTUNr" class="page" id="page-parents">
+    <h2 data-page-node-id="YCt30gzwffQOg8zt7ZJM5q" class="page-title"><!--pnid:VYrBG48rDqlnO4e8agckNC-->家长沟通</h2>
+    <div data-page-node-id="l6poFJYUcS6v3uBJfnPov7" class="card">
+      <div data-page-node-id="zcnjwr27ihjDIuALyh8Tvd" class="row" style="align-items:flex-end">
+        <div data-page-node-id="RFrguPiEd7LsnSGXo3QziJ" style="flex:1; min-width:150px"><label data-page-node-id="VuzkAkfigtXH9w9yUD3kUZ"><!--pnid:kv8hVeqNPJgMYuTLjqUDJZ-->学生</label><select data-page-node-id="PM6mUVpXxbffubAmGrMMv5" id="pStu"></select></div>
+        <div data-page-node-id="9NCfAwaKNg06omy0brszhW" style="flex:1; min-width:130px"><label data-page-node-id="UwCrdsSoXvzE09iWoqhRSF"><!--pnid:W32PfxW3AzghpLFc7bI7rA-->沟通方式</label><select data-page-node-id="1sTRtl3QtTyrgqmX0YBVRC" id="pType"><option data-page-node-id="jLeTWnUtmsegHIdMvdObJs"><!--pnid:ucWC9jYh4xnwuW7Jg1K6j3-->电话</option><option data-page-node-id="nMYHDGsktulaupHXXoRgUK"><!--pnid:GoeN8G3Xg5UJF0AGWgwkPk-->微信</option><option data-page-node-id="RKYn6nhNWPixSeAA3Igk0g"><!--pnid:R59tDVwQprQkaqg7rDFRrP-->面谈</option><option data-page-node-id="uVw3iZ7w3PJOz6Y3CTqq4Q"><!--pnid:HryQNSE61YfvJCdVjm8y0G-->家访</option></select></div>
+        <div data-page-node-id="C78v1lni9MXtlTbxfLbQyh" style="flex:1; min-width:140px"><label data-page-node-id="u3vDEH7Ni6DbtNrVyV7i8P"><!--pnid:CbKv3Dj8vipqMH1vj3tWpe-->日期</label><input data-page-node-id="Ow1yeadOUfJ8tXLjkz0uUe" id="pDate" type="date"></div>
+      </div>
+      <label data-page-node-id="hIZGlVwo862RVkTsxXNAy9"><!--pnid:3cOYnMC2bomMzbiZCJKvKS-->沟通内容 / 反馈</label>
+      <textarea data-page-node-id="FxZG29UMguy3Balwxbuqsc" id="pContent" placeholder="例如：孩子近期数学进步明显，作业完成度高，家长希望增加练习量…" rows="3"></textarea>
+      <div data-page-node-id="3wcdvpBseifojVv73gAKad" style="display:flex; gap:10px">
+        <button data-page-node-id="baa46eAkloUlsdtMR4qUgT" class="btn" onclick="addComm()"><!--pnid:OErC6HZdfm2gEoStvQFQ7n-->保存记录</button>
+        <button data-page-node-id="1yat9id8b8koNnTPsM1pbs" class="btn ghost" onclick="genCommDraft()"><!--pnid:IiFEnOEIGJJ9ZvLk4NaTkN-->✨ 生成沟通话术</button>
+      </div>
+      <div data-page-node-id="VizDlYAcCdtszlvhOr5CXL" id="commDraft" style="margin-top:12px; display:none; background:var(--primary-light); border-radius:10px; padding:14px; font-size:13px; line-height:1.9"></div>
+    </div>
+    <div data-page-node-id="deuGSPLQ8kax3KEYd2Xksx" class="card"><h3 data-page-node-id="WUefBrsCKdbqaFUp0oNAt1" style="margin-bottom:10px"><!--pnid:AyfVG8XnDVR4ajsb9dR8ab-->沟通记录</h3><div data-page-node-id="7yZQYsup5Yd1RajTqqMGkd" id="commList"></div></div>
+  </div>
+
+  </div>
+</div>
+
+<!--pnid:sCnGqKXPpHSXr2fNWxCgcD--><!-- 学生弹窗 -->
+<div data-page-node-id="GfWfP44K99GMvngk94L2My" class="modal-mask" id="stuMask"><div data-page-node-id="tuVXBk9WEXAXtr4Mqutay3" class="modal">
+  <h3 data-page-node-id="FnhQREkviG2qC4hsNpRM2R" id="stuModalTitle"><!--pnid:hj38nvAPdiGab9N1reW0Aw-->新增学生</h3>
+  <label data-page-node-id="d8LvpDhrZ0PWIgEuinzSXC"><!--pnid:ia1wgXZEmAJgOo5BjSGqmE-->姓名 *</label><input data-page-node-id="JanpFcBOm1amG8p70e3Q7f" id="sName">
+  <label data-page-node-id="isT26BYMuqUfgKwLdTS7v3"><!--pnid:780TmAtvDDfclEbZt3u3ZD-->年级 *</label>
+  <select data-page-node-id="SvqUnG5YQsoT7laC12NGXh" id="sGrade">
+    <option data-page-node-id="cMSHM9xAc7OGCl51bpjBei" value><!--pnid:epPJ4gUP3l21XVNGBaFh6n-->请选择年级</option>
+    <optgroup data-page-node-id="H8S8Q1tp5BjbXfHlwCK4BD" label="小学">
+      <option data-page-node-id="IWL2zZtLUsoga6Ap7ScLbG"><!--pnid:l4v7umK2sGuJa24Xnhfvmh-->一年级</option><option data-page-node-id="xDPVOR2xHzii8e88GQ88EQ"><!--pnid:N6QRZeiJrlzq49ybHMkbNf-->二年级</option><option data-page-node-id="RWhxKfUc5rQgY9Ac2J5fFv"><!--pnid:3mfYrILljDDC1f0Lv0KcIA-->三年级</option><option data-page-node-id="560CdvtYJgdvY9sim1ahqG"><!--pnid:FtIJ2grHg0n0pqZUNydae0-->四年级</option><option data-page-node-id="DzkGfBqrWyUpUT5n6nEwGV"><!--pnid:q8eNSms7eK7CFkvi0fiyW4-->五年级</option><option data-page-node-id="VAQyZC0arubpNJOUEJ5hT5"><!--pnid:IV98XbwRf0d7I3aBqIigTq-->六年级</option>
+    </optgroup>
+    <optgroup data-page-node-id="X3Q3mw0PHgDVM6l6PIYRgM" label="初中">
+      <option data-page-node-id="kIakTSnBJCSU5bI9fEn40Z"><!--pnid:ugqAQUu8MITz5WfpXtcNzc-->初一</option><option data-page-node-id="yMkX0OhxdUtpbMmkCmeMMG"><!--pnid:GF3IBTesTFLwB5cQK5jPl0-->初二</option><option data-page-node-id="Yhb3XZpSQahczIcHEIjGp5"><!--pnid:gdPjUyIA74W9KuWpHL2Zyb-->初三</option>
+    </optgroup>
+    <optgroup data-page-node-id="8EYGNzYtquY9ICdycVi4XF" label="高中">
+      <option data-page-node-id="ia6gxSB7EfcS2q7aXKTwOL"><!--pnid:XR0aImcTdT9IwNMOCtqFjD-->高一</option><option data-page-node-id="HSpQFhnYABLchh2mhprpl5"><!--pnid:nW5V6YSZxm3xUCEsg85UjM-->高二</option><option data-page-node-id="okd0IUBpCxAN06PG5UeWxa"><!--pnid:z8w9J3GGmNYZse6sjMHLNu-->高三</option>
+    </optgroup>
+  </select>
+  <label data-page-node-id="nI8GF3jyFg9prgT5UtjuaD"><!--pnid:N2xeSKBsxRAUD9UdzPlQFZ-->学生分类 *</label><select data-page-node-id="RI3q1oba7VVmM0lSdHceJo" id="sCategory"><option data-page-node-id="jJenJFOr3SF0mWkZSnpKmc" value="one"><!--pnid:zmDvCikv6UTKvUERl3ZYt0-->1对1</option><option data-page-node-id="ZukZH4fBmFY0CGM19qEoEJ" selected value="long"><!--pnid:9s4M8Ef3SM9ZcBzp0BTbWY-->长期班课</option><option data-page-node-id="pePVM7vDK8AIXOWCx4OE8U" value="short"><!--pnid:0AtpmaMhRopdGVakMkqZPP-->短期班课</option></select>
+  <label data-page-node-id="5GMv0FxEVq4OtG7KQuEbEp"><!--pnid:AzhqES1mOLpd8PaA6mxK29-->辅导科目（可多选）</label>
+  <div data-page-node-id="WrZy7NsN5EVDUAgdZnpBeW" class="days-picker" id="sSubjectsBox"></div>
+  <label data-page-node-id="Nv1nXqKvKbzSHznWLl0jXj"><!--pnid:H9QF5xwArHc14g0nQWIFXo-->家长称呼</label><input data-page-node-id="FWJAt04EMCrbRmJ6kgi0Is" id="sParent" placeholder="如 张妈妈">
+  <label data-page-node-id="J8FvrlbKZjb7XCHfISiOX5"><!--pnid:FyWU7PzoKEHsCsFmFE5BmS-->家长电话/微信</label><input data-page-node-id="VwcfIQHFFtvk4tsvL7bBeQ" id="sContact">
+  <label data-page-node-id="HO1Ho010cZ20rgsMgEsiel"><!--pnid:PMSRcLYrE9rwPhlip2DZ4w-->教室位置</label><input data-page-node-id="Ud6dhDO8B16xNpxW7gUAxv" id="sRoom" placeholder="如 3楼305 / 一对一教室B">
+  <label data-page-node-id="ogQlnoLHvjHuSAct8U7Qfh"><!--pnid:K1xsSnWDJYlkqlwHUVy0qc-->备注</label><textarea data-page-node-id="vcP99xNByO1CJdVtb1esZe" id="sNote" rows="2"></textarea>
+  <label data-page-node-id="JJCDnl9GuEjBgYHayufyzO"><!--pnid:qynaGNMSYaQysqO7rDrJnZ-->报名档案（报名来源、套餐课时、优惠、合同要点等）</label>
+  <textarea data-page-node-id="bdZsbsz7NJlhre5zW5LPQe" id="sArchive" placeholder="如：2026/9/1 报名一对一数学 60 课时，赠 4 次，9 折，班主任王老师" rows="3"></textarea>
+  <label data-page-node-id="z3R1a8ERXLFtT7P3XKSGE6"><!--pnid:mjNk249nwkyi40Ruwfqb5C-->档案照片（合同 / 收据 / 报名表，可多张，自动压缩保存）</label>
+  <div data-page-node-id="NtS3hLw2swnlWzeyGBp4h3" class="arch-thumbs" id="sArchThumbs"></div>
+  <div data-page-node-id="zwBeBXJ83bgMpcC0GvpPYv" style="display:flex; gap:10px; align-items:center; margin-top:6px">
+    <button data-page-node-id="ibEfI9M8i90lcCrSWkULLZ" class="btn ghost sm" onclick="document.getElementById('sArchFile').click()" type="button" style="margin:0"><!--pnid:cy63HY7v3JLUpo841ZVazL-->＋ 添加照片</button>
+    <span data-page-node-id="TkGLjFuwQ4pcxgoDRTS5QS" style="font-size:11px; color:var(--muted)"><!--pnid:dkQEFlqv93AI0v6eL8QVAM-->点缩略图可放大查看，✕ 删除</span>
+  </div>
+  <input data-page-node-id="R0Jijt1kip2YuOEFWHDc2D" accept="image/*" id="sArchFile" multiple onchange="archAddFiles(this)" type="file" style="display:none">
+  <div data-page-node-id="3v2QNfMb488YT2bAQYOgrC" style="display:flex; gap:10px; margin-top:16px"><button data-page-node-id="6ipee8yflBsGNSSStBPFxg" class="btn" onclick="saveStu()"><!--pnid:1O8MProUcJgQHtjHDQUqIF-->保存</button><button data-page-node-id="YqSDKxMVroEPzoAKGARYEg" class="btn ghost" onclick="closeModal('stuMask')"><!--pnid:HrF8KAUrnYmlXSTxvDNbva-->取消</button></div>
+</div></div>
+
+<!--pnid:3SDdE3h1IpbYfddxvjawcg--><!-- 报名档案查看弹窗 -->
+<div data-page-node-id="vd5C3eNWGtLXmeUTYjgYYC" class="modal-mask" id="archMask"><div data-page-node-id="zSY1H67k0lsiPSwVBbr02Z" class="modal" style="width:560px">
+  <h3 data-page-node-id="H6ogHH18NGHQV2jPWHfovc" id="archTitle"><!--pnid:hCTHFd8MHZqWCX1XgqzCVQ-->报名档案</h3>
+  <div data-page-node-id="Rhn1DV5KGW9b7fMOCw25o2" id="archText" style="white-space:pre-wrap; font-size:13px; line-height:1.9; background:#f7f9fd; border-radius:10px; padding:12px; margin-bottom:12px"></div>
+  <div data-page-node-id="Le2xhescg7kJuuwXzWzZS1" id="archPhotos" style="display:flex; gap:10px; flex-wrap:wrap"></div>
+  <div data-page-node-id="Exl9ZjU41CwIUGnTIsYwcA" style="display:flex; gap:10px; margin-top:16px">
+    <button data-page-node-id="3o7zf4ZCgjWEtTbDdMlKt6" class="btn ghost" onclick="closeModal('archMask')"><!--pnid:KXVKjneIlMzI3YcnoTRBnc-->关闭</button>
+    <button data-page-node-id="ikeIqtcamNRbSIkjPRz1mt" class="btn ghost" onclick="closeModal('archMask');openStuModal(stuById(curArchStu))"><!--pnid:GIxHoxlVDSwYiASQoZ7llc-->编辑档案</button>
+  </div>
+</div></div>
+
+<!--pnid:iqI6XedKygQYUoNrSZHB47--><!-- 快速成绩弹窗 -->
+<div data-page-node-id="IMw2rPU5Sb7logJOcyGSjo" class="modal-mask" id="gradeMask"><div data-page-node-id="e7p20y8I3duqPEisHxCs0J" class="modal">
+  <h3 data-page-node-id="7zzaafIaMfTyQTYxIIwM71" id="gradeModalTitle"><!--pnid:56eSmAMGEivADuSW08sDqA-->录入成绩</h3>
+  <label data-page-node-id="AmKLk0gmYYhngX97OGC3XB"><!--pnid:SEOf0z2VQrATBnhOgYG7tG-->科目 *</label><select data-page-node-id="mZsC04xEYAFcGSCNZQcQ3R" id="qSubject"><option data-page-node-id="yc1ldTwXRshClcmgK9T28E" value><!--pnid:JXbB323qxHQel6KVyAekiA-->请选择科目</option></select>
+  <label data-page-node-id="cL2BRTn74RikDlDtQFvVy1"><!--pnid:xqfpi0MOZBO5EiUzxtPsF7-->考试形式</label><select data-page-node-id="M6HQqPp6dDEC8bi4rbRsUH" id="qExam"><option data-page-node-id="nmcy0KHBibwwH8uj3vIuuj"><!--pnid:oIUCXdjeeTjb3XW0W0Xbb7-->周测</option><option data-page-node-id="k1ebMVCviijHTHvjZSZ07d"><!--pnid:6gwBnHeyr43Ly50OWCvCy7-->月考</option><option data-page-node-id="E47IkHmU3HadagB16DVLS5"><!--pnid:h0uy1zEN7RKzBdgmXyXwaA-->期中考试</option><option data-page-node-id="Byqgbv1tVJjyKHTL728QoV"><!--pnid:uG4umcrq9ezL3bgjcFbpMO-->期末考试</option><option data-page-node-id="CRAnT2Rr6J80fSFzftZngq"><!--pnid:OMZr9PfCV4XAoSRiTTfBW8-->模拟考试</option><option data-page-node-id="TBYmsLgyoU6PFZ9Y3RcjuX"><!--pnid:5w8JtpezP6VIY1a3PIclBo-->作业测验</option><option data-page-node-id="RYJn0eW1pD6xSSF5cQqbXb"><!--pnid:paBHb5dF6Hz9L19OWJgOEC-->其他</option></select>
+  <div data-page-node-id="SkMTcRDyhSzClY67ELH01i" class="row">
+    <div data-page-node-id="fU72t0bJzedITAu8WaYpD9" style="flex:1"><label data-page-node-id="4ZkRCDHVYmXqikLicuQcwc"><!--pnid:2Ds6ae7RrH8snC9pMel8kF-->分数 *</label><input data-page-node-id="ShgG9YYiXsYWasgfOFTgSb" id="qScore" step="0.5" type="number"></div>
+    <div data-page-node-id="AxRfvnybgTqVi5nwz72j5C" style="flex:1"><label data-page-node-id="YV6GSVjvhdMQvTCMIC1HsE"><!--pnid:bE88X32cZs4QKYS2DyFJeO-->满分</label><input data-page-node-id="NghinOISkCgQX1ZnGo2y5v" id="qFull" type="number" value="100"></div>
+    <div data-page-node-id="aFx5G3pWmAgHekxB0HH3ye" style="flex:1"><label data-page-node-id="2H2D4mPEd04CONbab0giGo"><!--pnid:3iuniQkzpGPwFetKFWsPzt-->日期</label><input data-page-node-id="rTXUOVMnZ7TNyYmQomUkea" id="qDate" type="date"></div>
+  </div>
+  <div data-page-node-id="0l4YfKs9aSpz6UkVIYhbRK" style="display:flex; gap:10px; margin-top:16px"><button data-page-node-id="UymweNn9DTuCrivGWqcAPT" class="btn" onclick="saveQuickGrade()"><!--pnid:TCX6nkvKqDo7HLgA7EW7i7-->保存</button><button data-page-node-id="FzVQdWRbRE4bPrmR6ZEby3" class="btn ghost" onclick="closeModal('gradeMask')"><!--pnid:oc6237a8awIufsW4Ojviiq-->取消</button></div>
+</div></div>
+
+<!--pnid:C98IGcoC4wJgHJ3u8gV8lL--><!-- 学生课表弹窗 -->
+<div data-page-node-id="e3ZtH9aWbLJ4Xv0hGvJoC0" class="modal-mask" id="stuTTMask"><div data-page-node-id="RQpJYE8sCldtoC02oYfhJX" class="modal" style="width:1000px; max-width:97vw">
+  <div data-page-node-id="3irF9eTggWxj2J6sdli2pv" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+    <h3 data-page-node-id="TC14npEb0nNOVTtea37buK" id="stuTTTitle" style="flex:1"><!--pnid:FvZPFQZsw3FzyIiPNAHgcE-->学生课表</h3>
+    <span data-page-node-id="2uEwt1lJbHQPGsvaBkQQUq" style="color:var(--muted); font-size:12px"><!--pnid:VRwPc9oGybZvMVbW5ceBQV-->☑ 已上完 · 点击课程可编辑/删除</span>
+  </div>
+  <div data-page-node-id="RKpD0Y7oVQB6d6PiZ5ZZZN" id="stuTTBody" style="margin-top:12px"></div>
+  <div data-page-node-id="Rl4BhlRdeTvQFGPK7mqJcD" style="margin-top:16px; display:flex; gap:10px">
+    <button data-page-node-id="UPPpGqzwZOsA64Pl8K1raZ" class="btn ghost" onclick="closeModal('stuTTMask')"><!--pnid:O5dYPHPIBXEa5cuCgsB9Ka-->关闭</button>
+    <button data-page-node-id="pSgmUWwN7DOaZqUIhd076W" class="btn" onclick="closeModal('stuTTMask');ttFilterStu=curStuTTId;renderAll();jumpPage('schedule')"><!--pnid:0yKUDLob4UZ8BYbGKNS8ZJ-->在排课表中查看</button>
+  </div>
+</div></div>
+
+<!--pnid:07iBGO7VJTQ36R1ub3vtWm--><!-- 排课弹窗 -->
+<div data-page-node-id="udWj3QtS4x0ZMu3AobztVm" class="modal-mask" id="courseMask"><div data-page-node-id="ewRH6tYuRNWHvqBnaOLo04" class="modal" style="width:520px">
+  <div data-page-node-id="bz5rI3e35UCBAEtX8CjyDC" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:4px">
+    <h3 data-page-node-id="f9qnpH5TLOn5XViEOwoJkM" id="courseModalTitle" style="margin:0"><!--pnid:dXtAYGecKQh1iKhs7tyhKr-->新增排课</h3>
+    <div data-page-node-id="SdGwozf1j3r6da5BRvdjqZ" class="cmode-switch" id="cmodeSwitch">
+      <button data-page-node-id="WKSkG25YbMnR7sfhgRwp9Y" class="cmode-btn active" data-mode="single" onclick="setCourseMode('single')" type="button"><!--pnid:6eFf3eMWjBlcskDVPpGMru-->单节排课</button>
+      <button data-page-node-id="GsyO2qgGa8NBF30RMFagl4" class="cmode-btn" data-mode="batch" onclick="setCourseMode('batch')" type="button"><!--pnid:24hPvkEt6nSealgZLu76pV-->批量排课</button>
+    </div>
+  </div>
+  <div data-page-node-id="TrfLeAHj5BvL04jJtbP2nv" id="cBatchTip" style="display:none; background:#f3f6ff; border-radius:9px; padding:9px 12px; font-size:12px; color:#5a6172; margin:8px 0 2px; line-height:1.7"><!--pnid:i9tMZGGkyZ2CCKP5IQKj3i-->
+    💡 批量模式：可选<b data-page-node-id="7n2CRRqc2O4SHcbKDSLcFc"><!--pnid:sk3kq77zraysEGcr2uoGYN-->多个科目</b><!--pnid:VxtAt5VXzTRuWuPTqT3TaD-->，每个科目会自动生成一条课程；下方可一次添加多行不同时间段，全部保存到当前这一周。
+  </div>
+
+  <label data-page-node-id="jJeXuHrNrGAoHsqiHwJkB6"><!--pnid:gWFyE6ViEUJ3YH8oeaG3Gn-->学生</label><select data-page-node-id="ZMFjMbrIqTqoWWKWOdIrWq" id="cStu"></select>
+
+  <div data-page-node-id="uKRiMLd9ltPuiGGFi7bWMG" id="cSingleSubject">
+    <label data-page-node-id="LAdBQfpfOwrQFOLWDyuH8Z"><!--pnid:UEAHsQG0j5IU6mXQ4nqgR3-->科目 *</label>
+    <select data-page-node-id="HFhnF2a4ErNkBoZzOTJ29b" id="cSubject"><option data-page-node-id="Fcij05Xv5nx4B94nKkrZrx" value><!--pnid:plkm2uquWFtCwInTQHMXv5-->请选择科目</option></select>
+  </div>
+  <div data-page-node-id="RXFcX2rYiniJLEz2tEbpsI" id="cMultiSubject" style="display:none">
+    <label data-page-node-id="mBjkIMN5y8mmnujpeySznx"><!--pnid:edI8QXKpp7PL9EGM5W4PMT-->科目 *（可多选）</label>
+    <div data-page-node-id="V5uwp44hRtKS2r9L85nCQi" class="subj-multi" id="cSubjectBox"></div>
+  </div>
+
+  <label data-page-node-id="WnqmGUnGADXoCbRpn06oNp"><!--pnid:H64wXZswOLwOXLzm7lAd9x-->星期（可多选）*</label>
+  <div data-page-node-id="B7ABroEm0UdyUZuPIMmCC0" class="days-picker" id="cDays">
+    <label data-page-node-id="8WgV2egfhvj6LJlKZiPoJY"><input data-page-node-id="kOqrInQUxrkJoLaPCOTvZF" type="checkbox" value="1"><!--pnid:inMTldvxxh8G6Yn5GIEZNN-->周一</label><label data-page-node-id="YoRzsMYHyqQqJdHz30ko8u"><input data-page-node-id="mx6wrjO73lG7tihsEHoACv" type="checkbox" value="2"><!--pnid:FUM0KH81mIs7KOe2lAevDD-->周二</label>
+    <label data-page-node-id="Vf7HTr3eScgklonsqQy1Ba"><input data-page-node-id="jd2AfJ7uQ1rU9jPRxiaT1a" type="checkbox" value="3"><!--pnid:pHU9j5cQI6Di0nFM0hwbrD-->周三</label><label data-page-node-id="Kx0cQVMdmqZM4Y5jyZa8Xl"><input data-page-node-id="jBt4mU38dxmYChJAYmBBWN" type="checkbox" value="4"><!--pnid:yuty3eHsZz4hD0Z7d6o09L-->周四</label>
+    <label data-page-node-id="dmJmsDagKkWbLz9LGD2o3A"><input data-page-node-id="LW5MrZ78Xa0rg7HrrK5OqY" type="checkbox" value="5"><!--pnid:dkpR8RYDq6HzxCHrJjmliM-->周五</label><label data-page-node-id="gjTKl3iFEopcwHXQ1TduCU"><input data-page-node-id="axpMvItIBjjCjE2C1jj5Mt" type="checkbox" value="6"><!--pnid:mep91yjMsfvJjqgvwf8Z83-->周六</label>
+    <label data-page-node-id="47ki2nPRwMHN7jdxnycGlc"><input data-page-node-id="k2cjC0MzqDj3FPQP2MxMMR" type="checkbox" value="0"><!--pnid:IBt2wNjcsdWFh7xnrzPR0h-->周日</label>
+  </div>
+
+  <label data-page-node-id="JMQ9uNFkFJLGrhu9V0hkUF"><!--pnid:g4YaPXa2pcshvaNttm65jO-->时间安排</label>
+  <select data-page-node-id="2gBxbHqavXTN3hhv0kjEYf" id="cTimeMode" onchange="toggleTimeMode()">
+    <option data-page-node-id="zdMPNv9UIrxDZrBDwKHRk8" value="fixed"><!--pnid:Tt0tfZ3bWWNxuiP4DVUCzI-->固定时间（按节次）</option>
+    <option data-page-node-id="uCymBXjQ4SdMfFOmvkyEJf" value="free"><!--pnid:U821mJT5zEdq646w9utFGK-->不固定时间（微信约课/待定）</option>
+  </select>
+  <div data-page-node-id="6ENjpccw2npdeWB6makpYY" id="cFixedBox">
+    <label data-page-node-id="YrHCvk0Bz5HuRswfziXquk"><!--pnid:bCNp2A2rbij6EVdWZeZIed-->节次（自动匹配作息）</label><select data-page-node-id="Pd6rbVmEsaaIQgco1poRaT" id="cPeriod" onchange="applyPeriod()"><option data-page-node-id="I7QhOgQcl8NTkZJmwl4z7p" value><!--pnid:uZso0KoZ8XpXRL2wFqydWD-->手动填时间</option></select>
+    <div data-page-node-id="18ueW2RHpfeJBEB03XFMPd" class="row">
+      <div data-page-node-id="A63UBKmq1Y58rZHmiGMlTn" style="flex:1"><label data-page-node-id="mShN1fzUIVcMSxphXUiWAG"><!--pnid:2YJ4R2hX4OmU2xl7oKmrpG-->开始时间</label><input data-page-node-id="hG0gWCRXR2YmxkylURYeuD" id="cStart" type="time"></div>
+      <div data-page-node-id="C51khT6Fxdsueo6sbvhaqe" style="flex:1"><label data-page-node-id="boC7QBBrSzNmxFZCrw2bUe"><!--pnid:pR0lEwgN2I4FryJbCpl96m-->结束时间</label><input data-page-node-id="9WCfwR1d9YREkaowbR5JlA" id="cEnd" type="time"></div>
+    </div>
+    <div data-page-node-id="z3KiJvsJd86riElTBmt750" id="cBatchRows" style="display:none">
+      <label data-page-node-id="71eL2ac5gYMuphzJm0l8Is" style="display:flex; align-items:center; justify-content:space-between">
+        <span data-page-node-id="F7j0FUBzL0nXCq1z569GNs"><!--pnid:WNbpMsszt9mxgMa9FDJBsv-->额外时段（每个时段都会生成课程）</span>
+        <button data-page-node-id="8LE5UQJ6ZR3q4CTpizOrWF" class="btn ghost sm" onclick="addBatchSlot()" type="button" style="margin:0"><!--pnid:Enczp1kPG4HMhn6qeBebvc-->＋ 加一个时段</button>
+      </label>
+      <div data-page-node-id="8CAGroaxc3fFEsuByAOt6S" id="cSlots"></div>
+    </div>
+  </div>
+  <div data-page-node-id="K1uIgcc9I6ZcqVhgtyvVPW" id="cFreeBox" style="display:none">
+    <div data-page-node-id="JssHupSt3XCHf1tuCch5Bv" class="row">
+      <div data-page-node-id="q2IcJQ4MEMQKVleI5viskm" style="flex:1"><label data-page-node-id="c0QGtZgwvnZwQtSx6x6K8y"><!--pnid:a9V7kjzcFGsX8oeUNzEVJw-->预计时段（可留空）</label>
+        <select data-page-node-id="roQZ3HmV38y3xH02pBhKoP" id="cFreeSlot"><option data-page-node-id="NsOyupLTAKwiTfqopsCNov" value><!--pnid:vTBTJjG9pwxoogZbDYwer1-->不指定时段</option><option data-page-node-id="zOYbrMRhqjsXNm4jpT8JaC" value="am"><!--pnid:h3NEZ4VnuEpfRatPGvz8mf-->上午</option><option data-page-node-id="iH4J18JxaK8FKUtOupIVYQ" value="pm"><!--pnid:XdDNN3XFkJtHCZEK5v9cEv-->下午</option><option data-page-node-id="kKQcMODqxpwo7ztGTl7SZo" value="eve"><!--pnid:PYNemaLgaBmfczwtQbBb5f-->晚上</option></select>
+      </div>
+      <div data-page-node-id="74vu4RKiOVkfG1CK9tXLoH" style="flex:1"><label data-page-node-id="GSE8XPGhUPsXD2CyPmnfSU"><!--pnid:ubZkaVPxs3m7xa4ZwFk8un-->具体时间说明</label><input data-page-node-id="YLZYtU896aIHmowuFEIz5k" id="cFreeNote" placeholder="如 待约、19:30 前后"></div>
+    </div>
+  </div>
+
+  <label data-page-node-id="kyCE0hyzlE3PpcpR9VjxdH"><!--pnid:rzAVYCmazgrNYMPKsjUc82-->老师（可选）</label><input data-page-node-id="IUvBUGd2NN5jK5eVMaYQ94" id="cTeacher" placeholder="如 王老师">
+  <label data-page-node-id="CuNeeASnou5aMB76yOFKpo"><!--pnid:ersl5AHV1nCMfMHFnSeETz-->备注</label><input data-page-node-id="5SYN8wXzgYInIUkLSLpcnu" id="cNote">
+
+  <div data-page-node-id="ii2EcWtrqDBRUJOlWMGbCS" class="c-preview" id="cPreview" style="display:none"></div>
+
+  <div data-page-node-id="yGbZPSPq0A3n58AvA4b6Hf" style="display:flex; gap:10px; margin-top:16px">
+    <button data-page-node-id="4Osc8uqKFAt5PUjHiLSp9n" class="btn" id="cSaveBtn" onclick="saveCourse()"><!--pnid:HXLo7JLTrMRMaIzWXKc669-->保存</button>
+    <button data-page-node-id="Q43clXrBCyC6TrnNXcwqUz" class="btn ghost" onclick="closeModal('courseMask')"><!--pnid:xlWb1Zyp8odPhBkQt5SSKF-->取消</button>
+  </div>
+</div></div>
+
+<script data-page-node-id="A2aCtvarUJH0EsBMrZJaUh" data-pnid-children="o4IGcLCRwEnfP3UxvGh6v8">
+const DAYNAMES=["周日","周一","周二","周三","周四","周五","周六"];
+const CATNAMES={one:"1对1",long:"长期班课",short:"短期班课"};
+const PERIODS={
+  one:[["早自习","07:30","08:10"],["第一节","08:20","10:20"],["第二节","10:30","12:30"],["午休","12:30","13:50"],["第三节","13:50","15:50"],["第四节","16:00","18:00"],["晚饭","18:00","18:40"],["晚自习","18:40","21:30"]],
+  long:[["早自习","07:30","08:10"],["第一节","08:20","10:20"],["第二节","10:30","12:30"],["午休","12:30","13:50"],["第三节","13:50","15:50"],["第四节","16:00","18:00"],["晚饭","18:00","18:40"],["晚自习","18:40","21:30"]],
+  short:[["早自习","07:30","08:10"],["第一节","08:20","10:00"],["第二节","10:20","12:00"],["午休","12:40","14:00"],["第三节","14:00","15:40"],["第四节","15:55","17:35"],["晚饭","17:35","18:40"],["晚自习","18:40","21:30"]]
+};
+/* 班型 → 作息模板（1对1 与 长期班课 共用同一套作息） */
+const CAT_TPL={one:"one",long:"long",short:"short"};
+const BREAKS=["午休","晚饭"];
+let db=JSON.parse(localStorage.getItem("xg_db")||'{"students":[],"courses":[],"grades":[],"comms":[]}');
+if(!Array.isArray(db.memos))db.memos=[];
+let editing={stu:null,course:null};
+function save(){
+  localStorage.setItem("xg_db",JSON.stringify(db));
+  localStorage.setItem("xg_db_ts",String(Date.now()));
+  // 云端同步钩子（由云端模块注册；未登录时为空操作）
+  if(typeof window.__onDataSave==="function")window.__onDataSave();
+}
+function $(id){return document.getElementById(id)}
+function esc(s){return (s||"").replace(/</g,"&lt;")}
+function today(){return new Date().toISOString().slice(0,10)}
+function closeModal(id){$(id).classList.remove("show")}
+function uid(){return Date.now()+Math.random().toString(16).slice(2)}
+
+// 导航（侧边栏 + 手机底部导航）
+function switchPage(page){
+  document.querySelectorAll(".nav-item,.mn-item").forEach(n=>n.classList.toggle("active",n.dataset.page===page));
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
+  window.scrollTo({top:0,behavior:"instant"});
+  renderAll();
+}
+document.querySelectorAll(".nav-item,.mn-item").forEach(el=>el.onclick=()=>switchPage(el.dataset.page));
+
+/* ---------- 学生 ---------- */
+/* ---------- 报名档案 ---------- */
+let archPhotos=[];let curArchStu=null;
+function compressImg(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const MAX=800;
+      let w=img.width,h=img.height;
+      if(Math.max(w,h)>MAX){const k=MAX/Math.max(w,h);w=Math.round(w*k);h=Math.round(h*k)}
+      const cv=document.createElement("canvas");cv.width=w;cv.height=h;
+      cv.getContext("2d").drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url);
+      resolve(cv.toDataURL("image/jpeg",0.62));
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("图片读取失败"))};
+    img.src=url;
+  });
+}
+function renderArchThumbs(){
+  const box=$("sArchThumbs");if(!box)return;
+  box.innerHTML=archPhotos.length?archPhotos.map((d,i)=>`
+    <div class="arch-thumb"><img src="${d}" onclick="viewArchPhoto('${i}')" title="点击放大">
+      <span class="arch-del" onclick="archDel(${i})" title="删除照片">✕</span></div>`).join("")
+    :`<span class="arch-empty">还没有照片</span>`;
+}
+async function archAddFiles(inp){
+  const files=[...inp.files];if(!files.length)return;
+  inp.value="";
+  for(const f of files){
+    if(!f.type.startsWith("image/"))continue;
+    if(f.size>15*1024*1024){alert("「"+f.name+"」超过 15MB，已跳过");continue}
+    try{archPhotos.push(await compressImg(f))}
+    catch(e){alert(e.message)}
+  }
+  renderArchThumbs();
+}
+function archDel(i){archPhotos.splice(i,1);renderArchThumbs()}
+function viewArchPhoto(i){
+  const d=archPhotos[Number(i)]||(curArchStu&&((stuById(curArchStu)||{}).photos||[])[Number(i)]);
+  if(!d)return;
+  const v=$("archViewer")||document.body;
+  if(!$("archViewer")){
+    const el=document.createElement("div");el.id="archViewer";
+    el.innerHTML='<img>';
+    el.onclick=()=>el.style.display="none";
+    document.body.appendChild(el);
+  }
+  $("archViewer").querySelector("img").src=d;
+  $("archViewer").style.display="flex";
+}
+function openArch(stuId){
+  const st=stuById(stuId);if(!st)return;
+  curArchStu=stuId;
+  $("archTitle").textContent=`📄 ${st.name} 的报名档案`;
+  $("archText").textContent=st.archive||"（未填写报名档案）";
+  const ph=st.photos||[];
+  $("archPhotos").innerHTML=ph.length?ph.map((d,i)=>`
+    <div class="arch-thumb" style="width:110px;height:110px"><img src="${d}" onclick="viewArchPhoto('${i}')" title="点击放大"></div>`).join("")
+    :`<span class="arch-empty">没有照片</span>`;
+  $("archMask").classList.add("show");
+}
+function openStuModal(stu){editing.stu=stu?stu.id:null;
+  $("stuModalTitle").textContent=stu?"编辑学生":"新增学生";
+  $("sName").value=stu?stu.name:"";
+  $("sGrade").value=stu?stu.grade:"";
+  if(stu&&stu.grade&&$("sGrade").value!==stu.grade){const o=document.createElement("option");o.textContent=stu.grade;o.selected=true;$("sGrade").appendChild(o)}
+  $("sCategory").value=stu?(stu.category||"long"):"long";
+  // 辅导科目多选
+  const cur=(stu&&stu.subjects)?stu.subjects.split(/[、,，\s]+/).filter(Boolean):[];
+  $("sSubjectsBox").innerHTML=SUBJECTS.map(sb=>`<label><input type="checkbox" value="${sb}" ${cur.includes(sb)?"checked":""}>${sb}</label>`).join("");
+  $("sParent").value=stu?stu.parent:"";
+  $("sContact").value=stu?stu.contact:"";$("sNote").value=stu?stu.note:"";
+  $("sRoom").value=stu?(stu.room||""):"";
+  $("sArchive").value=stu?(stu.archive||""):"";
+  archPhotos=(stu&&Array.isArray(stu.photos))?[...stu.photos]:[];
+  renderArchThumbs();
+  $("stuMask").classList.add("show")}
+function saveStu(){const name=$("sName").value.trim();if(!name)return alert("请填写姓名");
+  const subs=[...document.querySelectorAll("#sSubjectsBox input:checked")].map(cb=>cb.value).join("、");
+  const d={name,grade:$("sGrade").value,category:$("sCategory").value,subjects:subs,parent:$("sParent").value.trim(),contact:$("sContact").value.trim(),room:$("sRoom").value.trim(),note:$("sNote").value.trim(),archive:$("sArchive").value.trim(),photos:archPhotos};
+  if(editing.stu){Object.assign(db.students.find(s=>s.id===editing.stu),d)}
+  else db.students.push({id:uid(),...d});
+  save();closeModal("stuMask");renderAll()}
+function delStu(id){if(!confirm("删除该学生及其所有成绩、排课、沟通记录？"))return;
+  db.students=db.students.filter(s=>s.id!==id);db.grades=db.grades.filter(g=>g.stuId!==id);
+  db.courses=db.courses.filter(c=>c.stuId!==id);db.comms=db.comms.filter(c=>c.stuId!==id);
+  save();renderAll()}
+function stuById(id){return db.students.find(s=>s.id===id)}
+function lastScore(stuId,subject){const g=db.grades.filter(x=>x.stuId===stuId&&(!subject||x.subject===subject)).sort((a,b)=>a.date<b.date?1:-1)[0];return g}
+
+/* ---------- 排课 ---------- */
+let courseMode="single";       // single | batch
+let batchSlots=[];             // [{start,end}] 批量模式的额外时段
+function setCourseMode(m){
+  if(editing.course&&m==="batch"){alert("编辑已有课程时只能用单节模式");return}
+  courseMode=m;
+  document.querySelectorAll(".cmode-btn").forEach(b=>b.classList.toggle("active",b.dataset.mode===m));
+  $("cSingleSubject").style.display=m==="single"?"block":"none";
+  $("cMultiSubject").style.display=m==="batch"?"block":"none";
+  $("cBatchTip").style.display=m==="batch"?"block":"none";
+  $("cBatchRows").style.display=m==="batch"?"block":"none";
+  $("cmodeSwitch").style.display=editing.course?"none":"flex";
+  $("courseModalTitle").textContent=editing.course?"编辑排课":(m==="batch"?"批量排课":"新增排课");
+  $("cSaveBtn").textContent=m==="batch"?"批量保存":"保存";
+  if(m==="batch"){renderSubjMulti();renderBatchSlots();}
+  renderPreview();
+}
+function subjectOptions(){
+  const extra=[...new Set(db.courses.map(c=>c.subject))].filter(x=>x&&!SUBJECTS.includes(x));
+  return SUBJ_OPTIONS_CACHE&&SUBJ_OPTIONS_CACHE.length?SUBJ_OPTIONS_CACHE:[...SUBJECTS,...extra];
+}
+let SUBJ_OPTIONS_CACHE=null;
+function renderSubjMulti(){
+  const box=$("cSubjectBox");if(!box)return;
+  const list=subjectOptions();
+  const sel=box.dataset.sel?box.dataset.sel.split(",").filter(Boolean):[];
+  box.innerHTML=list.map(s=>{
+    const col=subjColor(s);
+    const on=sel.includes(s);
+    return `<label class="subj-chip ${on?"on":""}" data-subj="${esc(s)}" style="${on?`background:${col.bg};border-color:${col.fg};color:${col.fg}`:""}">
+      <input type="checkbox" value="${esc(s)}" ${on?"checked":""} onchange="toggleSubjChip(this)" style="display:none">${esc(s)}</label>`}).join("");
+}
+function toggleSubjChip(cb){
+  const lab=cb.closest(".subj-chip");const s=cb.value;const col=subjColor(s);
+  lab.classList.toggle("on",cb.checked);
+  lab.style.background=cb.checked?col.bg:"";
+  lab.style.borderColor=cb.checked?col.fg:"";
+  lab.style.color=cb.checked?col.fg:"";
+  // 直接读 DOM 实时状态，避免依赖 dataset（避免连续点击丢失）
+  const box=$("cSubjectBox");
+  box.dataset.sel=[...box.querySelectorAll("input[type=checkbox]")].filter(i=>i.checked).map(i=>i.value).join(",");
+  renderPreview();
+}
+function addBatchSlot(){
+  batchSlots.push({start:"",end:""});renderBatchSlots();
+}
+function renderBatchSlots(){
+  const box=$("cSlots");if(!box)return;
+  box.innerHTML=batchSlots.map((sl,i)=>`<div class="slot-row">
+    <input type="time" value="${sl.start}" onchange="batchSlots[${i}].start=this.value;renderPreview()">
+    <span style="color:var(--muted)">—</span>
+    <input type="time" value="${sl.end}" onchange="batchSlots[${i}].end=this.value;renderPreview()">
+    <span class="slot-del" onclick="batchSlots.splice(${i},1);renderBatchSlots();renderPreview()">✕</span>
+  </div>`).join("");
+}
+function allSlots(){
+  const out=[];
+  if($("cTimeMode").value==="free"){out.push({free:true});return out}
+  const s=$("cStart").value,e=$("cEnd").value;
+  if(s&&e)out.push({start:s,end:e});
+  if(courseMode==="batch")batchSlots.forEach(x=>{if(x.start&&x.end)out.push({start:x.start,end:x.end})});
+  return out;
+}
+function pickedSubjects(){
+  if(courseMode==="single"){const v=$("cSubject").value;return v?[v]:[]}
+  const box=$("cSubjectBox");if(!box)return [];
+  const live=[...box.querySelectorAll("input[type=checkbox]")].filter(i=>i.checked).map(i=>i.value);
+  if(live.length)return live;
+  return box.dataset.sel?box.dataset.sel.split(",").filter(Boolean):[];
+}
+function pickedDays(){return [...document.querySelectorAll("#cDays input:checked")].map(cb=>+cb.value)}
+function renderPreview(){
+  const box=$("cPreview");if(!box)return;
+  if(courseMode!=="batch"){box.style.display="none";return}
+  const subj=pickedSubjects(),slots=allSlots(),days=pickedDays();
+  if(!subj.length&&!slots.length){box.style.display="none";return}
+  const n=subj.length*slots.length*days.length;
+  const slotTxt=slots.map(s=>s.free?"时间待定":`${s.start}-${s.end}`).join("、")||"（未设置时间）";
+  box.style.display="block";
+  box.innerHTML=`<div style="font-weight:700;margin-bottom:4px">📋 将生成 <span style="color:var(--primary);font-size:15px">${n}</span> 节课程</div>
+    <div style="color:var(--muted);font-size:12px;line-height:1.8">
+      科目：${subj.length?subj.join("、"):"<span style='color:var(--danger)'>未选</span>"}<br>
+      星期：${days.length?days.map(d=>DAYNAMES[d]).join("、"):"<span style='color:var(--danger)'>未选</span>"}<br>
+      时段：${slotTxt}
+    </div>`;
+}
+function openCourseModal(course){editing.course=course?course.id:null;
+  SUBJ_OPTIONS_CACHE=subjectOptions();
+  $("courseModalTitle").textContent=course?"编辑排课":"新增排课";
+  fillStuSelect("cStu");
+  $("cStu").onchange=()=>{fillPeriods();renderPreview()};fillPeriods();
+  // 单科目下拉
+  const subjSel=$("cSubject");
+  const extra=[...new Set(db.courses.map(c=>c.subject))].filter(x=>x&&!SUBJECTS.includes(x));
+  subjSel.innerHTML='<option value="">请选择科目</option>'+SUBJECTS.map(x=>`<option value="${x}">${x}</option>`).join("")+(extra.length?`<optgroup label="已用过的其他科目">${extra.map(x=>`<option value="${x}">${x}</option>`).join("")}</optgroup>`:"");
+  document.querySelectorAll("#cDays input").forEach(cb=>{cb.checked=false;cb.onchange=renderPreview});
+  batchSlots=[];
+  $("cSubjectBox").dataset.sel="";
+  $("cTeacher").value="";$("cNote").value="";
+  if(!course){const td=new Date().getDay();const cb=document.querySelector(`#cDays input[value="${td}"]`);if(cb)cb.checked=true}
+  if(course){
+    $("cStu").value=course.stuId;$("cSubject").value=course.subject;$("cNote").value=course.note||"";$("cTeacher").value=course.teacher||"";
+    const days=course.days||[course.day];document.querySelectorAll("#cDays input").forEach(cb=>cb.checked=days.includes(+cb.value));
+    const free=course.timeMode==="free";
+    $("cTimeMode").value=free?"free":"fixed";toggleTimeMode();
+    if(free){$("cFreeSlot").value=course.freeSlot||"";$("cFreeNote").value=course.freeNote||""}
+    else{
+      $("cStart").value=course.start||"";$("cEnd").value=course.end||"";
+      const per=PERIODS[stuCat(course.stuId)].find(p=>p[1]===course.start&&p[2]===course.end&&!BREAKS.includes(p[0]));
+      $("cPeriod").value=per?per[0]:""}
+  }else{
+    $("cSubject").value="";$("cStart").value="";$("cEnd").value="";$("cNote").value="";$("cPeriod").value="";
+    $("cTimeMode").value="fixed";toggleTimeMode();$("cFreeSlot").value="";$("cFreeNote").value=""}
+  setCourseMode(course?"single":"single");
+  renderPreview();
+  $("courseMask").classList.add("show")}
+function toggleTimeMode(){const free=$("cTimeMode").value==="free";
+  $("cFixedBox").style.display=free?"none":"block";$("cFreeBox").style.display=free?"block":"none";renderPreview()}
+function stuCat(stuId){const s=stuById(stuId);const c=s&&s.category;return c&&PERIODS[c]?c:"long"}
+function fillPeriods(){const tpl=PERIODS[stuCat($("cStu").value)];
+  $("cPeriod").innerHTML='<option value="">手动填时间</option>'+tpl.filter(p=>!BREAKS.includes(p[0])).map(p=>`<option value="${p[0]}">${p[0]}（${p[1]}-${p[2]}）</option>`).join("")}
+function applyPeriod(){const name=$("cPeriod").value;if(!name)return;
+  const per=PERIODS[stuCat($("cStu").value)].find(p=>p[0]===name);
+  if(per){$("cStart").value=per[1];$("cEnd").value=per[2];renderPreview()}}
+/* 保存（单节 / 批量共用） */
+function saveCourse(){
+  const stuId=$("cStu").value;if(!stuId)return alert("请先在学生管理中添加学生");
+  const days=pickedDays();
+  if(!days.length){alert("请至少选择一个星期");return}
+  const mode=$("cTimeMode").value;
+  const subjList=pickedSubjects();
+  if(!subjList.length){alert(courseMode==="batch"?"请至少选择一个科目":"请选择科目");return}
+  const slots=allSlots();
+  if(!slots.length){alert("请填写开始和结束时间，或切换为「不固定时间」");return}
+
+  // 编辑：只处理单条
+  if(editing.course){
+    const t=db.courses.find(c=>c.id===editing.course);if(!t)return;
+    const sl=slots[0];
+    const d={stuId,subject:subjList[0],days,day:days[0],timeMode:mode,note:$("cNote").value.trim(),teacher:$("cTeacher").value.trim()};
+    Object.assign(d,courseWeekDates(days));
+    if(mode==="free"){d.start="";d.end="";d.freeSlot=$("cFreeSlot").value;d.freeNote=$("cFreeNote").value.trim();}
+    else{d.start=sl.start;d.end=sl.end;d.freeSlot="";d.freeNote="";}
+    Object.assign(t,d);save();closeModal("courseMask");renderAll();
+    ttFilterStu=stuId;renderAll();
+    toast("课程已更新");return;
+  }
+
+  // 冲突预检（同一学生）
+  const clashes=[];
+  const plan=[];
+  days.forEach(dy=>{
+    slots.forEach(sl=>{
+      subjList.forEach(sb=>{
+        plan.push({dy,sl,sb});
+      });
+    });
+  });
+  plan.forEach(p=>{
+    if(p.sl.free)return;
+    const wk=courseWeekDates([p.dy]);
+    const exist=db.courses.find(c=>!isFree(c)&&c.stuId===stuId&&c.day===p.dy&&
+      (c.onlyDates&&c.onlyDates.length?c.onlyDates.includes(wk.onlyDates[0]):true)&&
+      p.sl.start<c.end&&c.start<p.sl.end);
+    if(exist)clashes.push(`${DAYNAMES[p.dy]} ${p.sl.start}-${p.sl.end} 已有「${exist.subject}」`);
+  });
+  if(clashes.length){
+    if(!confirm(`检测到 ${clashes.length} 处时间冲突：\n\n${clashes.slice(0,8).join("\n")}${clashes.length>8?"\n…":""}\n\n冲突的课程将被跳过，其余照常保存。继续吗？`))return;
+  }
+  let added=0,skipped=0;
+  const newIds=[];
+  const batch=[];   // 先攒齐再统一写入，避免自己的新课被判为冲突
+  plan.forEach(p=>{
+    if(!p.sl.free){
+      // 与「已存在的其他学生课程」不冲突；只与「该学生本时段已有课」冲突
+      const exist=db.courses.find(c=>!isFree(c)&&c.stuId===stuId&&c.day===p.dy&&p.sl.start<c.end&&c.start<p.sl.end);
+      if(exist){skipped++;return}
+    }
+    const d={stuId,subject:p.sb,days:[p.dy],day:p.dy,timeMode:mode,note:$("cNote").value.trim(),teacher:$("cTeacher").value.trim()};
+    Object.assign(d,courseWeekDates([p.dy]));
+    if(p.sl.free){d.start="";d.end="";d.freeSlot=$("cFreeSlot").value;d.freeNote=$("cFreeNote").value.trim();}
+    else{d.start=p.sl.start;d.end=p.sl.end;d.freeSlot="";d.freeNote="";}
+    const id=uid();newIds.push(id);batch.push({id,...d});
+  });
+  batch.forEach(c=>{db.courses.push(c);added++});
+  save();closeModal("courseMask");
+  ttFilterStu=stuId;
+  renderAll();
+  if(newIds.length)highlightCourse(newIds[0]);
+  const stuName=(stuById(stuId)||{}).name||"";
+  if(courseMode==="batch")toast(`已批量添加 ${added} 节课程${skipped?`（${skipped} 节因冲突跳过）`:""}`);
+  else toast(`已添加：${stuName} · ${subjList[0]} · ${days.map(x=>DAYNAMES[x]).join("、")}${mode==="free"?"（时间待定）":" "+slots[0].start+"-"+slots[0].end}`);
+}
+function delCourse(id){if(!confirm("删除该课程？"))return;db.courses=db.courses.filter(c=>c.id!==id);save();renderAll()}
+/* 清空全部课程（替换导入用） */
+function clearAllCourses(silent){
+  const n=db.courses.length;
+  if(!n){if(!silent)toast("当前没有课程");return true}
+  if(!silent&&!confirm(`确定删除全部 ${n} 条课程吗？\n\n学生、成绩、备忘不受影响。此操作不可撤销！`))return false;
+  db.courses=[];save();renderAll();
+  if(!silent)toast(`已清空 ${n} 条课程`);
+  return true;
+}
+const SUBJECTS=["语文","数学","英语","物理","化学","生物","历史","政治","地理","日语","自习"];
+const SUBJ_PALETTE={
+  "数学":["#4f6ef7","#eef1fe"],"语文":["#e5484d","#fdeaea"],"英语":["#2f9e6e","#e6f6ef"],
+  "物理":["#9b59f6","#f4edfe"],"化学":["#e8a33d","#fdf3e3"],"生物":["#0ea5b7","#e6f7f9"],
+  "政治":["#c0392b","#fbebea"],"历史":["#8a6d3b","#f7f2e8"],"地理":["#16a085","#e7f6f1"],
+  "科学":["#3b8ad9","#eaf3fc"],"奥数":["#d4619a","#fceef5"],"作文":["#a55a3d","#fbf0ea"],
+  "阅读":["#5b8c5a","#eef5ee"],"编程":["#455a64","#eceff1"],"钢琴":["#7b6bd6","#f0edfc"],
+  "美术":["#e57373","#fdeeee"],"书法":["#5d4037","#f3eeec"],"口才":["#f2994a","#fef1e7"],
+  "日语":["#d94f8a","#fdecf3"],"自习":["#7b8494","#f1f3f7"]
+};
+const FALLBACK_COLORS=[["#4f6ef7","#eef1fe"],["#e5484d","#fdeaea"],["#2f9e6e","#e6f6ef"],["#9b59f6","#f4edfe"],["#e8a33d","#fdf3e3"],["#0ea5b7","#e6f7f9"],["#d4619a","#fceef5"],["#5b8c5a","#eef5ee"]];
+function subjColor(subject){const s=(subject||"").trim();
+  for(const k in SUBJ_PALETTE){if(s===k||s.includes(k))return {fg:SUBJ_PALETTE[k][0],bg:SUBJ_PALETTE[k][1]}}
+  let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))>>>0;const c=FALLBACK_COLORS[h%FALLBACK_COLORS.length];return {fg:c[0],bg:c[1]}}
+function toast(msg){const t=document.createElement("div");
+  t.textContent=msg;
+  t.style.cssText="position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#2b2f36;color:#fff;padding:11px 20px;border-radius:10px;font-size:13px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.22);opacity:0;transition:opacity .2s";
+  document.body.appendChild(t);requestAnimationFrame(()=>t.style.opacity=1);
+  setTimeout(()=>{t.style.opacity=0;setTimeout(()=>t.remove(),250)},2600)}
+function highlightCourse(id){setTimeout(()=>{
+  const el=[...document.querySelectorAll(".course-chip")].find(e=>e.getAttribute("onclick")&&e.getAttribute("onclick").includes(id));
+  if(el){el.scrollIntoView({block:"center",behavior:"smooth"});el.style.transition="box-shadow .3s";el.style.boxShadow="0 0 0 3px #ffd66b";setTimeout(()=>el.style.boxShadow="",2200)}},120)}
+let ttFilterStu="",ttWeekOffset=0;
+/* 点击课程弹出菜单：查看学生课表 / 编辑 / 删除 */
+function openChipMenu(ev,courseId,stuId){
+  if(ev)ev.stopPropagation();
+  closeChipMenu();
+  const c=db.courses.find(x=>x.id===courseId);if(!c)return;
+  const s=stuById(stuId)||{};
+  const m=document.createElement("div");m.id="chipMenu";
+  m.style.cssText="position:fixed;z-index:200;background:#fff;border:1px solid #e6e8ef;border-radius:12px;box-shadow:0 12px 34px rgba(0,0,0,.18);padding:6px;min-width:180px";
+  m.innerHTML=`<div style="padding:8px 10px 6px;font-size:12px;color:#8a919c;border-bottom:1px solid #f0f2f7;margin-bottom:4px">${esc(s.name||"未知")} · ${esc(c.subject)}</div>
+    <div class="mg-item" data-act="stu">📅 查看该学生课表</div>
+    <div class="mg-item" data-act="edit">✏️ 编辑这节课</div>
+    <div class="mg-item" data-act="del" style="color:#e5484d">🗑️ 删除这节课</div>`;
+  document.body.appendChild(m);
+  const r=ev&&ev.currentTarget?ev.currentTarget.getBoundingClientRect():{left:200,bottom:200};
+  m.style.left=Math.max(8,Math.min(r.left,window.innerWidth-196))+"px";
+  m.style.top=Math.max(8,Math.min(r.bottom+6,window.innerHeight-160))+"px";
+  m.querySelectorAll(".mg-item").forEach(it=>it.onclick=e=>{e.stopPropagation();
+    const act=it.dataset.act;closeChipMenu();
+    if(act==="stu")openStuTimetable(stuId);
+    else if(act==="edit")openCourseModal(c);
+    else delCourse(courseId)});
+}
+function closeChipMenu(){const m=document.getElementById("chipMenu");if(m)m.remove()}
+document.addEventListener("click",closeChipMenu);
+window.addEventListener("scroll",closeChipMenu,true);
+function isFree(c){return c.timeMode==="free"}
+function roomTag(s){return s&&s.room?` <span style="color:var(--muted);font-size:10px">🏫${esc(s.room)}</span>`:""}
+function chipHtml(c){const s=stuById(c.stuId)||{};const col=subjColor(c.subject);
+  const click=`onclick="openChipMenu(event,'${c.id}','${c.stuId}')"`;
+  const tick=c.subject==="自习"?"":`<input type="checkbox" class="done-tick" ${c.done?"checked":""} onclick="event.stopPropagation();toggleDone('${c.id}',this.checked)" title="勾选表示已上完">`;  // 自习不勾选
+  const doneCls=c.done?" done":"";
+  if(isFree(c)){
+    const slotTxt={"am":"上午","pm":"下午","eve":"晚上","":"待定"}[c.freeSlot||""];
+    return `<div class="course-chip pend-chip${doneCls}" style="cursor:pointer;border-left-color:${col.fg}" ${click} title="${esc(s.name)} · ${slotTxt}${s.room?" · "+esc(s.room):""}${c.freeNote?" · "+esc(c.freeNote):""}">${tick}<b class="subj-name" style="color:${col.fg}">${esc(c.subject)}</b>${esc(s.name||"")}${roomTag(s)}<br>⏰ ${slotTxt}${c.freeNote?" · "+esc(c.freeNote):""}</div>`}
+  return `<div class="course-chip${doneCls}" style="cursor:pointer;background:${col.bg};border-left-color:${col.fg}" ${click} title="${esc(s.name)} ${c.start}-${c.end}${s.room?" · 教室:"+esc(s.room):""}${c.teacher?" · 老师:"+esc(c.teacher):""}">${tick}<b class="subj-name" style="color:${col.fg}">${esc(c.subject)}</b>${esc(s.name||"")}${roomTag(s)}${c.teacher?` <span style="color:var(--muted);font-size:10px">·${esc(c.teacher)}</span>`:""}<br>${c.start}-${c.end} ${dur(c.start,c.end)}</div>`}
+/* ===== 自习：没上课的时段默认显示「自习」 ===== */
+/* 根据时间点找所属节次（用于全部学生视图） */
+function periodOf(t){
+  const all=[...PERIODS.one];
+  for(const p of all){
+    if(BREAKS.includes(p[0]))continue;
+    if(t>=p[1]&&t<p[2])return p;
+  }
+  return null;
+}
+/* 自动自习标签（未登记，仅展示；点击登记为自习） */
+function selfStudyChip(di,dateObj,periodName,start,end){
+  const ds=dateObj&&dateObj.getTime?dateKey(dateObj):"";
+  return `<div class="ss-chip" onclick="event.stopPropagation();markSelfStudy(${di},'${start}','${end}','${periodName}','${ds}')" title="空课时段 · 点击登记为自习（${periodName}）">自习</div>`;
+}
+/* 把空课时段登记为自习（生成一条科目=自习的记录） */
+function markSelfStudy(di,start,end,periodName,dateStr){
+  if(!ttFilterStu){
+    // 未选学生：跳到选择学生
+    alert("请先在上方选择学生，再登记该时段的自习");
+    return;
+  }
+  const s=stuById(ttFilterStu);
+  const when=`${DAYNAMES[di]} ${periodName} ${start}-${end}${dateStr?"（"+dateStr+"）":""}`;
+  if(!confirm(`将 ${s.name} 的「${when}」登记为自习？`))return;
+  const exist=db.courses.find(c=>c.stuId===s.id&&c.subject==="自习"&&c.start===start&&(!dateStr||(c.onlyDates||[]).includes(dateStr)||(!c.onlyDates&&c.day===di)));
+  if(exist){alert("该时段已有自习记录");return}
+  const rec={id:uid(),stuId:s.id,subject:"自习",day:di,days:[di],onlyDates:dateStr?[dateStr]:[],weekStart:dateStr,timeMode:"fixed",start,end,teacher:"",note:"自习"};
+  if(dateStr)rec.doneDates=[dateStr];   // 只有这一天算完成
+  db.courses.push(rec);
+  save();renderAll();
+  toast(`已登记自习：${s.name} ${when}`);
+}
+/* 一键登记「当天自习」：按班型作息给当天每个空节次建自习 */
+function markSelfDay(di,dateStr){
+  if(!ttFilterStu){alert("请先在上方选择学生，再登记自习");return}
+  const s=stuById(ttFilterStu);
+  const tpl=PERIODS[stuCat(s.id)].filter(p=>!BREAKS.includes(p[0]));
+  const mine=db.courses.filter(c=>c.stuId===s.id&&courseOnDate(c,new Date(dateStr+'T00:00:00')));
+  const freeSlots=tpl.filter(p=>!mine.some(c=>!isFree(c)&&c.start>=p[1]&&c.start<p[2]));
+  if(!freeSlots.length){alert(`${s.name} 在 ${DAYNAMES[di]} 已经排满课了，没有空节次可以登记自习`);return}
+  if(!confirm(`把 ${s.name} ${DAYNAMES[di]}（${dateStr}）的 ${freeSlots.length} 个空节次登记为自习？\n\n${freeSlots.map(p=>p[0]+" "+p[1]+"-"+p[2]).join("\n")}`))return;
+  freeSlots.forEach(p=>{
+    if(db.courses.some(c=>c.stuId===s.id&&c.subject==="自习"&&c.start===p[1]&&(c.onlyDates||[]).includes(dateStr)))return;
+    db.courses.push({id:uid(),stuId:s.id,subject:"自习",day:di,days:[di],onlyDates:[dateStr],weekStart:dateStr,timeMode:"fixed",start:p[1],end:p[2],teacher:"",note:"自习",doneDates:[dateStr]});
+  });
+  save();renderAll();
+  toast(`已登记 ${freeSlots.length} 节自习：${s.name} ${DAYNAMES[di]}`);
+}
+/* 全天无课的日子：整列给一个「登记自习」入口（班型视图与全部学生视图共用） */
+function selfDayRowHtml(list,dates){
+  const noDay=dates.map(d=>d.getDay()).filter(wd=>!list.some(c=>courseOnDate(c,dates.find(d=>d.getDay()===wd))));
+  if(!noDay.length)return "";
+  let html=`<div class="tt-cell period-name" style="background:#fafbfd"><b style="color:#9aa1ad">自习</b><span>全天无课</span></div>`;
+  dates.forEach(d=>{
+    if(!noDay.includes(d.getDay())){html+=`<div class="tt-cell" style="background:#fafbfd"></div>`;return}
+    const hasSelf=list.some(c=>c.subject==="自习"&&courseOnDate(c,d));
+    html+=`<div class="tt-cell" style="background:#fffdf7;min-height:44px">${hasSelf?"":`<div class="ss-chip" style="display:block" onclick="markSelfDay(${d.getDay()},'${dateKey(d)}')" title="点击把当天空节次批量登记为自习">登记自习</div>`}</div>`;
+  });
+  return html;
+}
+
+/* 已上完按「具体日期」记录，勾选只影响当天这节课 ===== */function dateKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function isDoneOn(c,dateStr){
+  // 新格式：doneDates 记录具体日期
+  if(Array.isArray(c.doneDates))return c.doneDates.includes(dateStr);
+  // 兼容旧数据：done=true 视为该课程所有日期都已上完
+  return !!c.done;
+}
+function toggleDoneOn(courseId,dateStr,val){
+  const c=db.courses.find(x=>x.id===courseId);if(!c)return;
+  if(!Array.isArray(c.doneDates))c.doneDates=[];
+  if(val){if(!c.doneDates.includes(dateStr))c.doneDates.push(dateStr)}
+  else c.doneDates=c.doneDates.filter(d=>d!==dateStr);
+  // 同步旧字段，保证统计与其它视图一致
+  const allDates=courseDates(c);
+  c.done=allDates.length>0&&allDates.every(d=>c.doneDates.includes(d));
+  delete c.doneAt;
+  save();renderTimetable();renderDashboard();
+}
+/* 当前排课周（偏移 ttWeekOffset 周）的周一日期 */
+function weekMonday(offset){
+  const now=new Date();now.setHours(0,0,0,0);
+  const day=(now.getDay()+6)%7;
+  return new Date(now.getFullYear(),now.getMonth(),now.getDate()-day+(offset||0)*7);
+}
+/* 由星期数组生成本周的对应日期 */
+function courseWeekDates(days){
+  const mon=weekMonday(ttWeekOffset);
+  const onlyDates=days.map(wd=>{
+    const d=new Date(mon);
+    d.setDate(mon.getDate()+((wd+6)%7));
+    return dateKey(d);
+  });
+  return {onlyDates,weekStart:dateKey(mon)};
+}
+/* 课程是否为「每周重复」（旧数据默认每周） */
+function isWeekly(c){return !(Array.isArray(c.onlyDates)&&c.onlyDates.length)}
+/* 一节课对应的所有日期 */
+function courseDates(c){
+  // 单周课程：只有自己的那一天
+  if(Array.isArray(c.onlyDates)&&c.onlyDates.length)return [...c.onlyDates].sort();
+  const out=[];const today=new Date();today.setHours(0,0,0,0);
+  const day=(today.getDay()+6)%7;
+  const mon=new Date(today.getFullYear(),today.getMonth(),today.getDate()-day);
+  const days=c.days||[c.day];
+  for(let w=-2;w<12;w++){
+    for(let i=0;i<7;i++){
+      const d=new Date(mon);d.setDate(mon.getDate()+w*7+i);
+      if(days.includes(d.getDay()))out.push(dateKey(d));
+    }
+  }
+  return [...new Set(out)];
+}
+/* 周视图课程卡片（按日期勾选，勾选只影响当天） */
+function weekChipHtml(c,dateObj){const s=stuById(c.stuId)||{};const col=subjColor(c.subject);
+  const cat=s.category||"long";
+  const ds=dateObj?dateKey(dateObj):"";
+  const done=ds?isDoneOn(c,ds):!!c.done;
+  const tick=`<input type="checkbox" class="wk-tick" ${done?"checked":""} onclick="event.stopPropagation();toggleDoneOn('${c.id}','${ds}',this.checked)" title="勾选表示这一天的课已上完">`;
+  // 自习：灰色独立配色，不提供「已上完」勾选
+  if(c.subject==="自习"){
+    return `<div class="wk-chip ss-rec" data-cid="${c.id}" style="border-color:#dfe4ee;background:#fafbfd" onclick="openChipMenu(event,'${c.id}','${c.stuId}')" title="${esc(s.name)} 自习 ${c.start}-${c.end}${ds?" · "+ds:""}（自习不需勾选已上完）">
+      <b style="color:#6b7280">📖 ${esc(s.name||"")}自习</b>
+      <span style="color:#b9bfcb;font-size:10px">${c.start}-${c.end}</span></div>`}
+
+  const doneCls=done?" done":"";
+  const timeTxt=isFree(c)?`<span style="color:var(--warn)">⏰ 待定 ${esc(c.freeNote||"")}</span>`:`${c.start}-${c.end}`;
+  return `<div class="wk-chip${doneCls}" data-cid="${c.id}" style="border-color:${col.fg}44;background:#fbfcff" onclick="openChipMenu(event,'${c.id}','${c.stuId}')" title="${esc(s.name)} ${timeTxt}${s.room?" · 教室:"+esc(s.room):""}${ds?" · "+ds:""}">${tick}
+    <b style="color:${col.fg}">${esc(s.name||"未知")}${esc(c.subject)}${s.category==="one"?"一对一":""}</b>
+    <span style="color:#9aa1ad">${esc(c.teacher||"")}</span><br>
+    <span class="tt-tag" style="background:${col.bg};color:${col.fg}">${CATNAMES[cat]}</span>
+    <span style="color:#aab0bc;font-size:10px">${timeTxt}</span></div>`}
+/* 周日期导航 */
+function weekDates(){const now=new Date();const day=(now.getDay()+6)%7;
+  const mon=new Date(now.getFullYear(),now.getMonth(),now.getDate()-day+ttWeekOffset*7);
+  return [...Array(7)].map((_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d})}
+/* 时间工具 */
+function addMin(t,m){const [H,M]=t.split(":").map(Number);let tot=H*60+M+m;return String(Math.floor(tot/60)%24).padStart(2,"0")+":"+String(tot%60).padStart(2,"0")}
+function durH(s,e){if(!s||!e)return 0;const [h1,m1]=s.split(":").map(Number),[h2,m2]=e.split(":").map(Number);return Math.max(0,(h2*60+m2-h1*60-m1)/60)}
+function dur(s,e){const m=Math.round(durH(s,e)*60);return m>=60?`${Math.floor(m/60)}小时${m%60?m%60+"分":""}`:m+"分钟"}
+/* 勾选已上完（排课表内） */
+function toggleDone(courseId,val){
+  const c=db.courses.find(x=>x.id===courseId);if(!c)return;
+  c.done=!!val;c.doneAt=val?new Date().toISOString().slice(0,10):"";
+  save();renderTimetable();renderDashboard();
+}
+/* 排课表：周视图（不按班型过滤，全部课程都显示） */
+function renderTimetable(){
+  const dates=weekDates();
+  $("wkLabel").textContent=`${dates[0].getMonth()+1}/${dates[0].getDate()} - ${dates[6].getMonth()+1}/${dates[6].getDate()}`;
+  $("wkBadge").style.display=ttWeekOffset===0?"":"none";
+  $("wkTodayBtn").style.display=ttWeekOffset===0?"none":"";
+  const list=db.courses.filter(c=>!ttFilterStu||c.stuId===ttFilterStu);
+  const todayStr=new Date().toDateString();
+  // 选定学生时：展示该生班型作息
+  const selStu=ttFilterStu?stuById(ttFilterStu):null;
+  renderTplCard(selStu,list);
+  let html=`<div class="tt-cell tt-head"></div>`+dates.map(d=>{
+    const isToday=d.toDateString()===todayStr;
+    return `<div class="tt-cell tt-head" style="${isToday?"color:var(--primary)":""}">${d.getMonth()+1}/${d.getDate()}<br>${DAYNAMES[d.getDay()]}${isToday?" ·今":""}</div>`}).join("");
+  if(selStu){
+    // ===== 按班型作息生成该学生的课表 =====
+    const tpl=PERIODS[stuCat(selStu.id)];
+    tpl.forEach(p=>{
+      const isBreak=BREAKS.includes(p[0]);
+      html+=`<div class="tt-cell period-name ${isBreak?"tt-break":""}"><b>${p[0]}</b><span>${p[1]}-${p[2]}</span></div>`;
+      dates.forEach(d=>{
+        const di=d.getDay();
+        if(isBreak){html+=`<div class="tt-cell tt-break" style="min-height:38px"></div>`;return}
+        const cell=list.filter(c=>!isFree(c)&&courseOnDate(c,d)&&c.start>=p[1]&&c.start<p[2]);
+        const celAttr=`data-day="${di}" data-start="${p[1]}" data-end="${p[2]}" data-ds="${dateKey(d)}" onclick="quickAddFromCell(${di},'${p[1]}','${p[2]}','${p[0]}','${dateKey(d)}',this)" title="点击为${esc(selStu.name)}加课"`;
+        if(cell.length)html+=`<div class="tt-cell tt-has" ${celAttr} style="min-height:38px">${cell.map(c=>weekChipHtml(c,d)).join("")}<span class="cell-add">＋</span></div>`;
+        else html+=`<div class="tt-cell tt-free" ${celAttr} style="min-height:38px">${selfStudyChip(di,d,p[0],p[1],p[2])}<span class="cell-add">＋</span></div>`;
+      });
+    });
+    // 时间待定
+    const freeList=list.filter(isFree);
+    html+=`<div class="tt-cell period-name" style="background:#fff8ec;border-color:#f5dfb8"><b style="color:var(--warn)">⏰ 待定</b><span>时间未定</span></div>`;
+    dates.forEach(d=>{
+      const cell=freeList.filter(c=>courseOnDate(c,d));
+      html+=`<div class="tt-cell" style="background:#fffdf7">${cell.map(c=>weekChipHtml(c,d)).join("")}</div>`;
+    });
+    html+=selfDayRowHtml(list,dates);
+  } else {
+    // ===== 全部学生：按时间轴 =====
+    const isMobile=window.innerWidth<=820;   // 手机端 1 小时粒度，行数减半
+    const step=isMobile?60:30;
+    const slots=[];for(let h=7;h<22;h++){for(let m=0;m<60;m+=step)slots.push(String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"))}
+    slots.forEach(t=>{
+      const tEnd=addMin(t,step);
+      html+=`<div class="tt-cell tt-time${isMobile?"":" half"}" style="min-height:${isMobile?40:44}px">${t.endsWith(":00")?t:""}</div>`;
+      dates.forEach(d=>{
+        const di=d.getDay();
+        const cell=list.filter(c=>!isFree(c)&&courseOnDate(c,d)&&c.start>=t&&c.start<tEnd);
+        const pf=periodOf(t);
+        const clickable=ttFilterStu&&pf;
+        const oc=clickable?` onclick="quickAddFromCell(${di},'${pf[1]}','${pf[2]}','${pf[0]}','${dateKey(d)}',this)" title="点击为${esc((stuById(ttFilterStu)||{}).name||"")}加课"`:"";
+        if(cell.length)html+=`<div class="tt-cell tt-has" style="min-height:${isMobile?40:44}px"${oc}>${cell.map(c=>weekChipHtml(c,d)).join("")}${clickable?'<span class="cell-add">＋</span>':""}</div>`;
+        else{
+          html+=`<div class="tt-cell${clickable?" tt-free":""}" style="min-height:${isMobile?40:44}px"${oc}>${pf?selfStudyChip(di,d,pf[0],pf[1],pf[2]):""}${clickable?'<span class="cell-add">＋</span>':""}</div>`;
+        }
+      });
+    });
+    html+=selfDayRowHtml(list,dates);
+    const freeList=list.filter(isFree);
+    html+=`<div class="tt-cell period-name" style="background:#fff8ec;border-color:#f5dfb8"><b style="color:var(--warn)">⏰</b></div>`;
+    dates.forEach(d=>{
+      const cell=freeList.filter(c=>courseOnDate(c,d));
+      html+=`<div class="tt-cell" style="background:#fffdf7">${cell.map(c=>weekChipHtml(c,d)).join("")}</div>`;
+    });
+  }
+  $("timetable").innerHTML=html;
+  renderQuickBar();
+  // 图例
+  const subs=[...new Set(list.map(c=>c.subject))];
+  $("ttLegend").innerHTML=subs.length?`<span style="font-weight:600;color:var(--text)">科目：</span>`+subs.map(sb=>{const col=subjColor(sb);
+    return `<span><span class="stu-dot" style="background:${col.fg}"></span>${esc(sb)}</span>`}).join(""):"";
+  // 冲突检测：同一学生同一时段不能有两节课（不同学生同时上课属正常）
+  const bad=db.courses.filter(a=>!isFree(a)&&db.courses.some(b=>b.id!==a.id&&!isFree(b)&&b.stuId===a.stuId&&b.day===a.day&&a.start<b.end&&b.start<a.end));
+  $("conflictTip").textContent=bad.length?`⚠️ 检测到 ${bad.length} 节课程时间冲突，请点击课程卡片调整。`:"";
+  renderOvStats(list);
+}
+/* 该生班型作息卡 */
+function renderTplCard(selStu,list){
+  const card=$("tplCard");
+  if(!selStu){card.style.display="none";return}
+  card.style.display="block";
+  const cat=stuCat(selStu.id);
+  $("tplTitle").textContent=`📘 ${selStu.name} 的课表作息`;
+  $("tplBadge").textContent=CATNAMES[cat];
+  const tpl=PERIODS[cat];
+  const used=cat;
+  $("tplPeriods").innerHTML=tpl.map(p=>{
+    const isBreak=BREAKS.includes(p[0]);
+    const cnt=list.filter(c=>!isFree(c)&&c.start>=p[1]&&c.start<p[2]).length;
+    return `<div class="period-pill ${isBreak?"break":""} ${cnt?"used":""}">
+      <b>${p[0]}</b><span class="t">${p[1]}-${p[2]}</span>${cnt?`<span class="tt-tag" style="background:#e6f6ef;color:#2f9e6e">${cnt}节</span>`:""}
+    </div>`}).join("");
+}
+/* ===== 点格排课：点课表格子 → 弹出科目菜单 → 选科目立即加课 ===== */
+function renderQuickBar(){
+  const s=ttFilterStu?stuById(ttFilterStu):null;
+  const stuEl=$("qbStu");
+  if(stuEl){
+    stuEl.textContent=s?`${s.name}${s.room?"（"+s.room+"）":""}`:"未选择学生";
+    stuEl.className="qb-stu"+(s?" on":"");
+  }
+  // 提示
+  const hint=$("qbHint");
+  if(hint){
+    if(!s)hint.innerHTML=`<span style="color:var(--warn)">请先在上方「选择学生」</span>`;
+    else hint.innerHTML=`点击课表格子 → 在弹出菜单里点科目即可加课`;
+  }
+  document.body.classList.toggle("qb-active",!!s);
+}
+/* 点击空格：在格子旁弹出科目菜单，点科目立即加课 */
+let spCtx=null;                 // 当前弹窗上下文 {day,start,end,periodName,dateStr,stuId,cellEl}
+function quickAddFromCell(day,start,end,periodName,dateStr,cellEl){
+  if(!ttFilterStu){toast("请先在上方「选择学生」，再点击课表格子加课");return}
+  const s=stuById(ttFilterStu);
+  spCtx={day,start,end,periodName,dateStr,stuId:ttFilterStu};
+  const pop=$("subjPop");
+  if(!pop)return;
+  const dObj=new Date((dateStr||dateKey(new Date()))+"T00:00:00");
+  // 该时段已有哪些课（仅提示，不阻止加课）
+  const taken=db.courses.filter(c=>!isFree(c)&&c.stuId===ttFilterStu&&courseOnDate(c,dObj)&&start<c.end&&c.start<end);
+  pop.innerHTML=`<div class="sp-head"><span>＋ 给 ${esc(s?s.name:"")} 加课</span><span class="sp-sub">${DAYNAMES[day]} ${start}-${end}</span><span class="sp-x" onclick="closeSubjPop()">✕</span></div>
+    <div class="sp-grid">${[...SUBJECTS].map(sb=>{
+      const col=subjColor(sb);
+      return `<button type="button" class="sp-item" style="color:${col.fg};border-color:${col.bg}" onclick="spChoose('${esc(sb)}')">${esc(sb)}</button>`;
+    }).join("")}</div>
+    <div class="sp-foot"><span>${taken.length?`该时段已有「${taken.map(t=>esc(t.subject)).join("、")}」`:"点科目立即加课"}</span><a onclick="spMore()">更多设置 ›</a></div>`;
+  // 定位到格子旁
+  const el=cellEl||(window.event&&window.event.currentTarget);
+  if(el&&el.scrollIntoViewIfNeeded)el.scrollIntoViewIfNeeded(false);
+  else if(el&&el.scrollIntoView)el.scrollIntoView({block:"nearest"});
+  pop.classList.add("show");
+  const r=(el&&el.getBoundingClientRect)?el.getBoundingClientRect():null;
+  const pw=pop.offsetWidth,ph=pop.offsetHeight;
+  let x,y;
+  if(r){
+    x=r.left+r.width/2-pw/2;
+    if(r.bottom+6+ph<=window.innerHeight-8){ y=r.bottom+6; }
+    else if(r.top-6-ph>=8){ y=r.top-6-ph; }               // 上方放得下 → 向上弹
+    else { y=Math.max(8,Math.min(r.bottom+6,window.innerHeight-ph-8)); } // 都放不下 → 贴边
+  }else{
+    x=(window.innerWidth-pw)/2;y=120;
+  }
+  x=Math.max(8,Math.min(x,window.innerWidth-pw-8));
+  y=Math.max(8,y);
+  pop.style.left=Math.round(x+window.scrollX)+"px";
+  pop.style.top=Math.round(y+window.scrollY)+"px";
+  document.querySelectorAll(".tt-cell.adding").forEach(n=>n.classList.remove("adding"));
+  if(el&&el.classList)el.classList.add("adding");
+  spCtx.cellEl=el;
+  spGuard=1;clearTimeout(spCloseTimer);
+  spCloseTimer=setTimeout(()=>{spGuard=0},250);   // 定位引发的 scroll 不触发关闭
+}
+let spCloseTimer=null,spGuard=0;
+function closeSubjPop(){
+  const pop=$("subjPop");if(pop)pop.classList.remove("show");
+  document.querySelectorAll(".tt-cell.adding").forEach(n=>n.classList.remove("adding"));
+  spCtx=null;spGuard=0;
+}
+function spChoose(subject){
+  if(!spCtx)return;
+  const ctx={...spCtx};
+  closeSubjPop();
+  addCourseByClick(ctx.day,ctx.start,ctx.end,ctx.periodName,ctx.dateStr,subject);
+}
+function spMore(){
+  if(!spCtx)return;
+  const ctx={...spCtx};
+  closeSubjPop();
+  openCourseForCell(ctx.day,ctx.start,ctx.end,ctx.periodName,ctx.dateStr);
+}
+// 点已占用格子的空白区域 / 长按：不开菜单（避免误加）
+document.addEventListener("click",e=>{
+  const pop=$("subjPop");
+  if(pop&&pop.classList.contains("show")&&!pop.contains(e.target)&&!e.target.closest(".tt-free"))closeSubjPop();
+},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSubjPop()});
+window.addEventListener("resize",()=>{if(spCtx)closeSubjPop()});
+window.addEventListener("scroll",()=>{if(spCtx&&!spGuard)closeSubjPop()},true);
+/* 打开完整排课弹窗并预填该格 */
+function openCourseForCell(day,start,end,periodName,dateStr){
+  const s=stuById(ttFilterStu);
+  const subj=(s&&s.subjects)?s.subjects.split(/[、,，\s]+/)[0]:"";
+  const c={id:"",stuId:ttFilterStu,subject:SUBJECTS.includes(subj)?subj:"数学",days:[day],day,timeMode:"fixed",start,end,teacher:"",note:""};
+  editing.course=null;
+  setCourseMode("single");
+  const titleTxt=`新增排课 · ${DAYNAMES[day]} ${periodName}（${start}-${end}）`;
+  fillStuSelect("cStu");
+  $("cStu").onchange=()=>{fillPeriods();renderPreview()};fillPeriods();
+  fillSubjectSelect("cSubject",c.subject);
+  document.querySelectorAll("#cDays input").forEach(cb=>cb.checked=+cb.value===day);
+  $("cTimeMode").value="fixed";toggleTimeMode();
+  $("cSubject").value=c.subject;$("cStart").value=start;$("cEnd").value=end;
+  $("cNote").value="";$("cTeacher").value="";
+  $("cStu").value=ttFilterStu;
+  batchSlots=[];
+  $("courseModalTitle").textContent=titleTxt;
+  $("courseMask").classList.add("show");
+}
+/* 直接加课（无弹窗，立即生效） */
+function addCourseByClick(day,start,end,periodName,dateStr,subject){
+  const s=stuById(ttFilterStu);
+  let dk=dateStr;
+  if(!dk){const mon=weekMonday(ttWeekOffset);const dt=new Date(mon);dt.setDate(mon.getDate()+((day+6)%7));dk=dateKey(dt)}
+  // 冲突检查
+  const dobj=new Date(dk+"T00:00:00");
+  const exist=db.courses.find(c=>!isFree(c)&&c.stuId===ttFilterStu&&courseOnDate(c,dobj)&&start<c.end&&c.start<end);
+  if(exist){
+    if(!confirm(`${s.name} 在 ${DAYNAMES[day]} ${start}-${end} 已有「${exist.subject}」，还要再加一节「${subject}」吗？`))return;
+  }
+  const rec={id:uid(),stuId:ttFilterStu,subject,day,days:[day],onlyDates:[dk],weekStart:dateKey(weekMonday(ttWeekOffset)),timeMode:"fixed",start,end,teacher:(s&&s.teachers)||"",note:"点格排课"};
+  db.courses.push(rec);
+  save();renderAll();
+  toast(`已加课：${s.name} · ${subject} · ${DAYNAMES[day]} ${start}-${end}`);
+  flashCell(rec.id);
+}
+/* 加课后闪一下，给出反馈 */
+function flashCell(id){
+  setTimeout(()=>{
+    const el=document.querySelector(`.wk-chip[data-cid="${id}"]`);
+    if(el){el.style.transition="box-shadow .3s,transform .3s";el.style.boxShadow="0 0 0 3px #4f6ef7";el.style.transform="scale(1.03)";
+      setTimeout(()=>{el.style.boxShadow="";el.style.transform=""},700)}
+  },60);
+}
+/* 统计：按「具体某天的一节课」计数 */
+function occStats(list){
+  let total=0,done=0,selfN=0,selfDone=0;const bySubj={};
+  list.forEach(c=>{
+    const n=isFree(c)?1:courseDates(c).length||(c.days||[c.day]).length;   // 待定课按1节计
+    const doneN=isFree(c)?(c.done?1:0):(c.doneDates||[]).filter(d=>courseDates(c).includes(d)).length
+      || (c.done&&!(c.doneDates||[]).length?n:0);
+    if(c.subject==="自习"){selfN+=n;return}   // 自习单列，不参与「已上完/未上」统计
+    total+=n;done+=Math.min(doneN,n);
+    const k=c.subject||"未分类";bySubj[k]=bySubj[k]||{total:0,done:0};bySubj[k].total+=n;bySubj[k].done+=Math.min(doneN,n);
+  });
+  return {total,done,bySubj,selfN,selfDone};
+}
+/* 排课概览 + 各科统计 */
+function renderOvStats(list){
+  const st=occStats(list);
+  $("ovStats").innerHTML=`
+    <div class="stat"><div class="num">${db.students.length}</div><div class="label">班级总数（学生）</div></div>
+    <div class="stat"><div class="num">${st.total}</div><div class="label">每周课时（不含自习）</div></div>
+    <div class="stat"><div class="num">${st.done}</div><div class="label">已上完</div></div>
+    <div class="stat"><div class="num">${st.total-st.done}</div><div class="label">未上</div></div>`;
+  renderSubjectCounter(list);
+}
+/* 当周各科上课数统计 */
+function renderSubjectCounter(list){
+  const st=occStats(list);const map=st.bySubj;
+  const keys=Object.keys(map).sort((a,b)=>map[b].total-map[a].total);
+  if(!keys.length){$("ttCounterBar").innerHTML=`<span style="color:var(--muted);font-size:12px">暂无课程，添加后自动统计各科上课数</span>`;return}
+  $("ttCounterBar").innerHTML=`<span style="font-weight:700;font-size:13px">📚 各科上课数（按周）</span>`+
+    keys.map(k=>{const col=subjColor(k);
+      return `<div class="counter-card" style="border-color:${col.fg}33"><span class="stu-dot" style="background:${col.fg}"></span><span class="subj" style="color:${col.fg}">${esc(k)}</span><b>${map[k].total}</b><span class="cnt">节 · 已上 ${map[k].done}</span></div>`}).join("")+
+    `<div class="counter-card" style="background:var(--primary-light);border-color:#c9d3f9"><b>合计</b> ${st.total} 节<span class="cnt">已上 ${st.done} / 未上 ${st.total-st.done}</span></div>`;
+}
+/* 学生课表查看 */
+function delCourseFromStu(courseId,stuId){
+  const c=db.courses.find(x=>x.id===courseId);if(!c)return;
+  const when=isFree(c)?`${DAYNAMES[c.day]} 时间待定`:`${DAYNAMES[c.day]} ${c.start}-${c.end}`;
+  if(!confirm(`确定删除「${c.subject}  ${when}」这节课吗？删除后将同步从排课表中移除。`))return;
+  db.courses=db.courses.filter(x=>x.id!==courseId);
+  save();renderAll();
+  openStuTimetable(stuId); // 刷新弹窗
+}
+/* 页面切换 */
+function jumpPage(page){switchPage(page)}
+let curStuTTId=null;
+function openStuTimetable(id){const s=stuById(id);if(!s)return;curStuTTId=id;
+  $("stuTTTitle").textContent=`📅 ${s.name}${s.room?"（🏫 "+s.room+"）":""} 的课表`;
+  $("stuTTBody").innerHTML=stuMineHtml(id);
+  $("stuTTMask").classList.add("show")}
+// 该学生的课程（与排课表同源，勾选/删除实时同步）
+function stuMineHtml(id){
+  const s=stuById(id);
+  const cs=db.courses.filter(c=>c.stuId===id);
+  const g=db.grades.filter(x=>x.stuId===id).sort((a,b)=>a.date<b.date?1:-1)[0];
+  const freeCnt=cs.filter(isFree).length,doneCnt=cs.filter(c=>c.done).length;
+  const tpl=PERIODS[stuCat(id)];
+  const todayD=new Date().getDay();
+  // 周视图网格：行=节次，列=周一~周日（仅该学生课程）
+  let html=`<div style="overflow-x:auto"><div class="tt-grid" style="grid-template-columns:64px repeat(7,minmax(88px,1fr));min-width:700px">`;
+  html+=`<div class="tt-cell tt-head">节次</div>`+DAYNAMES.slice(1).concat(["周日"]).map(n=>`<div class="tt-cell tt-head">${n}</div>`).join("");
+  const dayOrder=[1,2,3,4,5,6,0];
+  tpl.forEach(p=>{
+    const isBreak=BREAKS.includes(p[0]);
+    if(isBreak){
+      html+=`<div class="tt-cell period-name tt-break"><b>${p[0]}</b><span>${p[1]}-${p[2]}</span></div>`;
+      dayOrder.forEach(()=>html+=`<div class="tt-cell tt-break" style="min-height:26px"></div>`);
+      return;
+    }
+    html+=`<div class="tt-cell period-name"><b>${p[0]}</b><span>${p[1]}-${p[2]}</span></div>`;
+    dayOrder.forEach(d=>{
+      const cell=cs.filter(c=>!isFree(c)&&courseOnDate(c,weekDates()[dayOrder.indexOf(d)])&&c.start>=p[1]&&c.start<p[2]);
+      if(cell.length)html+=`<div class="tt-cell" style="${d===todayD?"background:#f6f8ff":""}">${cell.map(chipHtml).join("")}</div>`;
+      else html+=`<div class="tt-cell"></div>`;
+    });
+  });
+  // 时间待定行
+  const freeList=cs.filter(isFree);
+  html+=`<div class="tt-cell period-name" style="background:#fff8ec;border-color:#f5dfb8"><b style="color:var(--warn)">⏰ 待定</b><span>时间未定</span></div>`;
+  dayOrder.forEach(d=>{
+    const cell=freeList.filter(c=>courseOnDate(c,weekDates()[dayOrder.indexOf(d)]));
+    html+=`<div class="tt-cell">${cell.map(chipHtml).join("")}</div>`;
+  });
+  html+=`</div></div>`;
+  // 汇总（按具体某天的课统计）
+  const st=occStats(cs);
+  const perSubj=st.bySubj;
+  const summary=Object.keys(perSubj).map(k=>{const col=subjColor(k);
+    return `<span style="display:inline-flex;align-items:center;gap:5px;margin-right:14px"><span class="stu-dot" style="background:${col.fg}"></span>${esc(k)} <b>${perSubj[k].total}</b> 节</span>`}).join("");
+  html+=`<div style="margin-top:12px;color:var(--muted);font-size:12px;line-height:2">每周共 <b style="color:var(--text)">${st.total}</b> 节 · 已上 ${st.done} / 未上 ${st.total-st.done}${freeCnt?`（含 ${freeCnt} 节待定）`:""}${g?` · 最近成绩：${g.subject} ${g.score}/${g.full}（${rate(g)}%）`:""}<br>${summary||""}</div>`;
+  if(!cs.length)html=`<div class="empty">该学生暂无排课，去排课表页添加吧</div>`;
+  return html}
+function toggleDoneFromStu(courseId,stuId,val){const c=db.courses.find(x=>x.id===courseId);if(!c)return;
+  c.done=!!val;c.doneAt=val?new Date().toISOString().slice(0,10):"";save();
+  renderAll();openStuTimetable(stuId)}
+function addHour(t,h){const [H,M]=t.split(":").map(Number);const n=(H+h)%24;return String(n).padStart(2,"0")+":"+String(M).padStart(2,"0")}
+
+/* ---------- 成绩 ---------- */
+function addGrade(){const stuId=$("gStu").value;if(!stuId)return alert("请先添加学生");
+  if(!$("gSubject").value)return alert("请选择科目");
+  const score=parseFloat($("gScore").value),full=parseFloat($("gFull").value)||100;
+  if(isNaN(score))return alert("请填写分数");
+  db.grades.push({id:uid(),stuId,subject:$("gSubject").value,exam:$("gExam").value,score,full,date:$("gDate").value||today()});
+  save();$("gScore").value="";renderAll()}
+function delGrade(id){if(!confirm("删除该条成绩？"))return;db.grades=db.grades.filter(g=>g.id!==id);save();renderAll()}
+function renderGrades(){const f=$("gFilterStu").value;
+  const rows=db.grades.filter(g=>!f||g.stuId===f).sort((a,b)=>a.date<b.date?1:-1);
+  $("gradeTable").querySelector("tbody").innerHTML=rows.map(g=>{const s=stuById(g.stuId)||{};const rate=Math.round(g.score/g.full*100);
+    const cls=rate>=80?"ok":rate>=60?"warn":"risk";
+    return `<tr><td>${esc(s.name)}</td><td>${esc(g.subject)}</td><td>${esc(g.exam)}</td><td><b>${g.score}</b>/${g.full}</td><td><span class="tag ${cls}">${rate}%</span></td><td>${g.date}</td><td><button class="btn sm danger" onclick="delGrade('${g.id}')">删</button></td></tr>`}).join("")||`<tr><td colspan="7" class="empty">暂无成绩记录</td></tr>`}
+
+/* ---------- 学情分析 ---------- */
+function rate(g){return Math.round(g.score/g.full*100)}
+function renderAnalysis(){const stuId=$("aStu").value;if(!stuId){$("chartTrend")&&($("chartTrend").innerHTML='<div class="empty">暂无学生</div>');return}
+  const gs=db.grades.filter(g=>g.stuId===stuId).sort((a,b)=>a.date<b.date?-1:1);
+  if(typeof echarts==="undefined"){$("aiSummary").innerHTML="图表库未加载（无网络），趋势数据仍可在成绩页查看。";return}
+  // 趋势
+  const tc=echarts.init($("chartTrend"));tc.setOption({tooltip:{trigger:"axis"},grid:{left:40,right:20,top:30,bottom:30},
+    xAxis:{type:"category",data:gs.map(g=>g.date+"\n"+g.exam)},
+    yAxis:{type:"value",max:100,name:"得分率%"},
+    series:[{type:"line",data:gs.map(rate),smooth:true,lineStyle:{color:"#4f6ef7",width:3},itemStyle:{color:"#4f6ef7"},areaStyle:{color:"rgba(79,110,247,.12)"},label:{show:true}}]});
+  // 各科
+  const subs={};gs.forEach(g=>{(subs[g.subject]=subs[g.subject]||[]).push(rate(g))});
+  const sc=echarts.init($("chartSubject"));
+  sc.setOption({tooltip:{},grid:{left:40,right:20,top:30,bottom:30},
+    xAxis:{type:"category",data:Object.keys(subs)},yAxis:{type:"value",max:100},
+    series:[{type:"bar",data:Object.values(subs).map(a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length)),itemStyle:{color:"#4f6ef7",borderRadius:[6,6,0,0]},label:{show:true}}]});
+  // AI 小结
+  let html="";
+  if(gs.length<2){html="📌 该学生成绩记录不足 2 条，录入更多成绩后可生成趋势分析。"}
+  else{
+    const first=gs[0],last=gs[gs.length-1];const diff=rate(last)-rate(first);
+    const recent=gs.slice(-3);const avgR=Math.round(recent.reduce((a,g)=>a+rate(g),0)/recent.length);
+    const best=[...gs].sort((a,b)=>rate(b)-rate(a))[0];const worst=[...gs].sort((a,b)=>rate(a)-rate(b))[0];
+    html+=`<p>📈 最近趋势：从 <b>${rate(first)}%</b>（${first.date}）到 <b>${rate(last)}%</b>（${last.date}），${diff>=0?`<span style="color:var(--success)">提升 ${diff} 个百分点</span>`:`<span style="color:var(--danger)">下降 ${-diff} 个百分点</span>`}。</p>`;
+    html+=`<p>🎯 近三次平均得分率 <b>${avgR}%</b>；最强表现：${esc(best.subject)} ${best.exam}（${rate(best)}%）；需加强：${esc(worst.subject)}（${rate(worst)}%）。</p>`;
+    html+=diff>=5?`<p>💡 建议：进步明显，可与家长沟通阶段性成果，并适当提高练习难度。</p>`:
+          diff<=-5?`<p>💡 建议：成绩有所下滑，建议尽快约家长面谈，排查近期学习状态与作业完成情况。</p>`:
+          `<p>💡 建议：成绩整体平稳，可针对薄弱科目制定专项练习计划。</p>`;
+  }
+  $("aiSummary").innerHTML=html}
+
+/* ---------- 家长沟通 ---------- */
+function addComm(){const stuId=$("pStu").value;if(!stuId)return alert("请先添加学生");
+  const c=$("pContent").value.trim();if(!c)return alert("请填写沟通内容");
+  db.comms.unshift({id:uid(),stuId,type:$("pType").value,date:$("pDate").value||today(),content:c,at:Date.now()});
+  save();$("pContent").value="";renderAll()}
+function delComm(id){if(!confirm("删除该记录？"))return;db.comms=db.comms.filter(c=>c.id!==id);save();renderAll()}
+function renderComms(){$("commList").innerHTML=db.comms.map(c=>{const s=stuById(c.stuId)||{};
+  return `<div class="chat-item"><div class="meta">${s.name||""} · ${c.type} · ${c.date} <a href="javascript:void(0)" style="float:right;color:var(--danger)" onclick="delComm('${c.id}')">删除</a></div>${esc(c.content)}</div>`}).join("")||`<div class="empty">暂无沟通记录</div>`}
+function genCommDraft(){const stuId=$("pStu").value;if(!stuId)return alert("请先选择学生");
+  const s=stuById(sstu=stuId);const gs=db.grades.filter(g=>g.stuId===stuId).sort((a,b)=>a.date<b.date?-1:1);
+  let txt=`${s.parent||"家长"}您好！我是孩子的学管老师。`;
+  if(gs.length){const last=gs[gs.length-1],first=gs[0];
+    txt+=`向您反馈一下孩子近期的学习情况：最近一次${last.subject}（${last.exam}）取得 ${last.score}/${last.full} 的成绩`;
+    if(gs.length>1){const d=rate(last)-rate(first);txt+= d>=0?`，相比之前${d>0?`提升了 ${d} 个百分点`:"保持稳定"}`:`，相比之前下滑了 ${-d} 个百分点，我们会在课上重点关注`;}
+    txt+=`。`;
+  }else txt+=`孩子已开始上课，我们会持续关注学习状态。`;
+  txt+=`接下来的安排是：我们会针对薄弱环节做专项巩固，也麻烦您在家督促孩子按时完成作业。如有任何问题随时联系我，谢谢您的配合！`;
+  const box=$("commDraft");box.style.display="block";box.innerHTML="<b>✨ 沟通话术（可复制后微调）：</b><br>"+esc(txt);
+  if(navigator.clipboard)navigator.clipboard.writeText(txt).catch(()=>{})}
+
+/* ---------- 工作台：备忘录 ---------- */
+let memoDate=today();      // 当前查看的日期
+let memoHistOpen=false;
+const MEMO_TAGS={家长:{bg:"#eef1ff",fg:"#4f6ef7"},学生:{bg:"#e6f6ef",fg:"#2f9e6e"},教务:{bg:"#fff4e6",fg:"#e08a1e"},成绩:{bg:"#fdeaea",fg:"#d9534f"},其他:{bg:"#f2f3f7",fg:"#8a919c"}};
+function memosOf(d){return (db.memos||[]).filter(m=>m.date===d).sort((a,b)=>(a.done?1:0)-(b.done?1:0)||(a.createdAt||0)-(b.createdAt||0))}
+function addMemo(){
+  const inp=$("memoInput");const txt=(inp.value||"").trim();
+  if(!txt)return;
+  const tag=$("memoTag").value;
+  db.memos.push({id:uid(),date:memoDate,text:txt,tag,done:false,createdAt:Date.now()});
+  inp.value="";save();renderMemo();
+  toast("已添加备忘");
+}
+function toggleMemo(id){
+  const m=db.memos.find(x=>x.id===id);if(!m)return;
+  m.done=!m.done;m.doneAt=m.done?new Date().toISOString():"";save();renderMemo();
+}
+function delMemo(id){
+  const m=db.memos.find(x=>x.id===id);if(!m)return;
+  if(!confirm(`删除这条备忘？\n\n「${m.text}」`))return;
+  db.memos=db.memos.filter(x=>x.id!==id);save();renderMemo();
+}
+function editMemo(id){
+  const m=db.memos.find(x=>x.id===id);if(!m)return;
+  const v=prompt("修改备忘内容：",m.text);
+  if(v===null)return;
+  const t=v.trim();if(!t)return;
+  m.text=t;save();renderMemo();
+}
+function memoGoDay(diff){
+  const d=new Date(memoDate+"T00:00:00");d.setDate(d.getDate()+diff);
+  memoDate=dateKey(d);renderMemo();
+}
+function memoToday(){memoDate=today();renderMemo()}
+function memoPick(d){memoDate=d;memoHistOpen=false;renderMemo()}
+function toggleMemoHistory(){memoHistOpen=!memoHistOpen;renderMemo()}
+/* 之前日期「未完成」的备忘清单：只在查看今天时显示 */
+let memoPendOpen=true;
+function renderMemoPending(show){
+  const box=$("memoPending");if(!box)return;
+  if(show===false){box.innerHTML="";box.style.display="none";return}
+  box.style.display="";
+  const t=today();
+  const pend=db.memos.filter(m=>!m.done&&m.date<t).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+  if(!pend.length){box.innerHTML="";return}
+  // 按日期分组
+  const byDate={};pend.forEach(m=>{(byDate[m.date]=byDate[m.date]||[]).push(m)});
+  const keys=Object.keys(byDate).sort();
+  const body=keys.map(k=>{
+    const dt=new Date(k+"T00:00:00");
+    const daysAgo=Math.round((new Date(t+"T00:00:00")-dt)/86400000);
+    return `<div class="mp-day">
+      <div class="mp-date" onclick="memoPick('${k}')">${dt.getMonth()+1}/${dt.getDate()} 周${"日一二三四五六"[dt.getDay()]} · <span style="color:${daysAgo>3?"var(--danger)":"var(--warn)"}">${daysAgo} 天前</span></div>
+      ${byDate[k].map(m=>{const tg=MEMO_TAGS[m.tag];
+        return `<div class="mp-item">
+          <input type="checkbox" class="memo-check" onclick="toggleMemo('${m.id}')" title="勾选表示已完成">
+          <span class="mp-txt" onclick="toggleMemo('${m.id}')" title="点击标记完成">${esc(m.text)}</span>
+          ${tg?`<span class="memo-tag" style="background:${tg.bg};color:${tg.fg}">${esc(m.tag)}</span>`:""}
+          <span class="mp-go" onclick="memoPick('${k}')" title="查看当天">↗</span>
+        </div>`}).join("")}
+    </div>`}).join("");
+  box.innerHTML=`
+    <div class="mp-head" onclick="memoPendOpen=!memoPendOpen;renderMemo()">
+      <b>⏰ 之前未完成 <span class="mp-num">${pend.length}</span></b>
+      <span style="color:var(--muted);font-size:11px">${keys.length} 天 · 点击${memoPendOpen?"收起":"展开"}</span>
+      <span class="mp-arrow">${memoPendOpen?"▾":"▸"}</span>
+    </div>
+    ${memoPendOpen?`<div class="mp-body">${body}</div>`:""}`;
+}
+function renderMemo(){
+  const isToday=memoDate===today();
+  const isFuture=memoDate>today();
+  const d=new Date(memoDate+"T00:00:00");
+  const wd="周"+"日一二三四五六"[d.getDay()];
+  $("memoDateLabel").textContent=`${d.getMonth()+1}月${d.getDate()}日 ${wd}`+(isToday?" · 今天":"");
+  $("memoDateLabel").style.color=isToday?"var(--primary)":"var(--muted)";
+  $("memoNextBtn").disabled=isFuture;
+  $("memoNextBtn").style.opacity=isFuture?.35:1;
+  $("memoHistBtn").textContent=memoHistOpen?"📅 收起":"📅 历史";
+  // 历史面板：所有有备忘的日期
+  const days=[...new Set(db.memos.map(m=>m.date))].sort().reverse();
+  const hp=$("memoHistory");
+  hp.style.display=memoHistOpen?"block":"none";
+  if(memoHistOpen){
+    if(!days.length)hp.innerHTML=`<div class="empty" style="padding:14px 0">还没有历史记录</div>`;
+    else hp.innerHTML=`<div style="font-size:11px;color:var(--muted);margin-bottom:6px">点击日期查看当天备忘（共 ${days.length} 天）</div>`+
+      days.map(k=>{
+        const arr=db.memos.filter(m=>m.date===k);
+        const undone=arr.filter(m=>!m.done).length;
+        const dt=new Date(k+"T00:00:00");
+        const label=`${dt.getMonth()+1}/${dt.getDate()} 周${"日一二三四五六"[dt.getDay()]}${k===today()?" (今天)":""}`;
+        return `<div class="memo-day ${k===memoDate?"on":""}" onclick="memoPick('${k}')">
+          <span>${label}</span>
+          <span class="n">${arr.length} 条${undone?` · <b style="color:var(--warn)">${undone} 未完成</b>`:" · 全部完成"}</span>
+        </div>`}).join("");
+  }
+  // 列表
+  const list=memosOf(memoDate);
+  const doneN=list.filter(m=>m.done).length;
+  $("memoSummary").innerHTML=list.length
+    ? `共 <b style="color:var(--text)">${list.length}</b> 条 · 已完成 <b style="color:#2f9e6e">${doneN}</b> · 待办 <b style="color:var(--warn)">${list.length-doneN}</b>`
+    : "";
+  renderMemoPending(isToday);
+  if(!list.length){
+    $("memoList").innerHTML=`<div class="empty">${isToday?"今天还没有备忘，在上方输入框记一条吧 ✍️":"这一天没有备忘记录"}</div>`;
+    return;
+  }
+  let html=isToday?"":`<div class="memo-past-tip">📖 正在查看 ${memoDate} 的备忘，点击右上「今天」可返回今天</div>`;
+  const undone=list.filter(m=>!m.done),done=list.filter(m=>m.done);
+  const item=m=>{
+    const tg=MEMO_TAGS[m.tag];
+    return `<div class="memo-item ${m.done?"done":""}">
+      <input type="checkbox" class="memo-check" ${m.done?"checked":""} onclick="toggleMemo('${m.id}')" title="${m.done?"点击取消完成":"点击标记为已完成"}">
+      <div class="memo-txt" onclick="editMemo('${m.id}')" title="点击修改内容">${esc(m.text)}</div>
+      ${tg?`<span class="memo-tag" style="background:${tg.bg};color:${tg.fg}">${esc(m.tag)}</span>`:""}
+      <span class="memo-del" onclick="delMemo('${m.id}')" title="删除">✕</span>
+    </div>`};
+  if(undone.length)html+=`<div class="memo-group"><h4>待办 ${undone.length}<span class="ln"></span></h4>${undone.map(item).join("")}</div>`;
+  if(done.length)html+=`<div class="memo-group"><h4>已完成 ${done.length}<span class="ln"></span></h4>${done.map(item).join("")}</div>`;
+  $("memoList").innerHTML=html;
+}
+/* 风险学生：标记是否已联系家长 */
+function riskContact(stuId,val){
+  const st=stuById(stuId);if(!st)return;
+  if(val){
+    st.contactedAt=today();
+    save();renderDashboard();
+    // 询问是否顺手记一条沟通记录
+    if(confirm(`已把「${st.name}」标记为已联系。\n\n要把本次沟通也记到「家长沟通」里吗？`)){
+      db.comms.push({id:uid(),stuId,type:"电话",date:today(),content:`关注学生成绩预警，已电话联系家长沟通最近一次得分率偏低的情况。`});
+      save();renderAll();
+      toast("已同时写入家长沟通记录");
+    }
+  }else{
+    delete st.contactedAt;save();renderDashboard();
+  }
+}
+/* ---------- 工作台 ---------- */
+function renderDashboard(){
+  const now=new Date();
+  const todayD=now.getDay();
+  const todayStr=dateKey(now);
+  renderMemo();
+  // 风险学生：最近一次得分率<60
+  const risks=db.students.map(s=>{const g=lastScore(s.id);return g?{s,rate:rate(g)}:null}).filter(x=>x&&x.rate<60);
+  const sorted=[...risks].sort((a,b)=>(a.s.contactedAt?1:0)-(b.s.contactedAt?1:0)||a.rate-b.rate);
+  const pendN=risks.filter(x=>!x.s.contactedAt).length;
+  $("riskTitle").innerHTML=`⚠️ 需要关注的学生${risks.length?` <span style="font-size:12px;font-weight:400;color:var(--muted);margin-left:6px">共 ${risks.length} 人 · 待联系 <b style="color:var(--danger)">${pendN}</b></span>`:""}`;
+  $("riskList").innerHTML=sorted.map(x=>{
+    const c=x.s.contactedAt;
+    return `<div class="chat-item${c?" contacted":""}" style="border-color:${c?"#b9e3cc":"var(--danger)"};background:${c?"#f2fbf6":"#fdeaea"}">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div class="meta" style="margin:0">${esc(x.s.name)} · 最近得分率 ${x.rate}%${c?` · <b style="color:#2f9e6e">✓ ${c.slice(5).replace("-","/")} 已联系</b>`:""}</div>
+        <label class="contact-label" style="margin-left:auto;margin:0"><input type="checkbox" ${c?"checked":""} onclick="riskContact('${x.s.id}',this.checked)"> 已联系</label>
+      </div>
+      <div style="font-size:12px;margin-top:3px;color:${c?"#7a8291":"#b23b3b"}">${c?"已完成家长沟通":"建议尽快与家长沟通"}</div>
+    </div>`}).join("")||`<div class="empty">目前没有需要预警的学生 ✅</div>`;
+  // 统计：只显示本月在读学生数
+  const monthStart=dateKey(new Date(now.getFullYear(),now.getMonth(),1));
+  const activeStu=db.students.filter(s=>{
+    if(s.status==="停课"||s.status==="结课"||s.status==="退费")return false;
+    if(s.leaveDate&&s.leaveDate<monthStart)return false;   // 本月前已离班
+    if(s.joinDate&&s.joinDate>todayStr)return false;        // 还没入班
+    return true;
+  }).length;
+  $("stats").innerHTML=`
+    <div class="stat"><div class="num">${activeStu}</div><div class="label">本月在读学生</div></div>`;
+}
+
+/* 工作台：时间点查课 */
+const QUICK_SLOTS=[["早自习","07:30"],["第一节","08:30"],["第二节","10:30"],["第三节","13:50"],["第四节","16:00"],["晚自习","18:40"]];
+function initWhoWhen(){
+  const d=$("wsDate");if(!d)return;
+  if(!d.value){d.value=today();d.dataset.init="1"}
+  $("wsQuick").innerHTML=QUICK_SLOTS.map(([n,t])=>`<button data-t="${t}" onclick="pickSlot('${t}')">${n} ${t}</button>`).join("");
+  renderWhoWhen()}
+function pickSlot(t){$("wsTime").value=t;renderWhoWhen()}
+/* 某日期是否落在课程的生效范围内（课程只属于创建时的那一周） */
+function courseOnDate(c,dateObj){
+  const dk=dateKey(dateObj);
+  if(Array.isArray(c.onlyDates)&&c.onlyDates.length)return c.onlyDates.includes(dk);
+  if(c.weekStart){   // 老数据兜底：按创建那一周判断
+    const [y,m,dd]=c.weekStart.split("-").map(Number);
+    const mon=new Date(y,m-1,dd);
+    const end=new Date(mon);end.setDate(mon.getDate()+6);
+    if(dk<dateKey(mon)||dk>dateKey(end))return false;
+  }
+  return (c.days||[c.day]).includes(dateObj.getDay());
+}
+function renderWhoWhen(){
+  const dateStr=$("wsDate").value||today();
+  const time=$("wsTime").value||"10:30";
+  const [Y,M,D]=dateStr.split("-").map(Number);
+  const dobj=new Date(Y,M-1,D);
+  const wd=dobj.getDay();
+  const list=db.courses.filter(c=>!isFree(c)&&courseOnDate(c,dobj)&&c.start<=time&&c.end>time)
+    .sort((a,b)=>a.start<b.start?-1:1);
+  document.querySelectorAll("#wsQuick button").forEach(b=>b.classList.toggle("on",b.dataset.t===time));
+  const isToday=dateStr===today();
+  const head=`<div style="color:var(--muted);font-size:12px;margin-bottom:10px">
+    <b style="color:${isToday?"var(--primary)":"var(--text)"}">${M}月${D}日 ${DAYNAMES[wd]}</b>${isToday?" · 今天":""}
+    <span style="margin-left:6px">${time} 正在上课：<b style="color:var(--text)">${list.length}</b> 人</span></div>`;
+  $("wsResult").innerHTML=head+(list.length?list.map(c=>{
+    const s=stuById(c.stuId)||{};const col=subjColor(c.subject);
+    const initial=(s.name||"?").slice(-2);
+    const done=isDoneOn(c,dateStr);
+    const tick=c.subject==="自习"?"":`<label class="ws-done${done?" on":""}" title="勾选后同步到排课表的「已上完」"><input type="checkbox" ${done?"checked":""} onclick="wsToggleDone('${c.id}','${dateStr}',this.checked)"> 已上课</label>`;
+    return `<div class="who-row">
+      <div class="who-avatar" style="background:${col.fg}">${esc(initial)}</div>
+      <div style="flex:1">
+        <b>${esc(s.name||"未知")}</b>
+        <span class="tag ${s.category==="one"?"ok":s.category==="short"?"warn":"risk"}" style="margin-left:6px">${CATNAMES[s.category||"long"]}</span>
+        ${s.grade?`<span style="color:var(--muted);font-size:11px;margin-left:6px">${esc(s.grade)}</span>`:""}
+        <div style="color:var(--muted);font-size:12px;margin-top:2px">
+          <span style="color:${col.fg};font-weight:600">${esc(c.subject)}</span>
+          · 🏫 ${s.room?esc(s.room):"<span style=\"color:var(--danger)\">未设教室</span>"}
+          ${c.teacher?` · 老师 ${esc(c.teacher)}`:""}
+        </div>
+      </div>
+      <div style="text-align:right;color:var(--muted);font-size:12px">${c.start}-${c.end}<br>${dur(c.start,c.end)}</div>
+      ${tick}
+    </div>`}).join(""):`<div class="empty">该时间点没有课程安排</div>`)}
+/* 时间点查课：勾选/取消「已上课」，与排课表的「已上完」同一份数据 */
+function wsToggleDone(courseId,dateStr,val){
+  toggleDoneOn(courseId,dateStr,val);
+  renderWhoWhen();
+  toast(val?"已标记该节为「已上课」，排课表已同步":"已取消「已上课」标记");
+}
+
+/* ---------- 月度上课数据 ---------- */
+function mThisMonth(){const d=new Date();$("mMonth").value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;renderMonthly()}
+function mShift(n){
+  const v=$("mMonth").value||`${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,"0")}`;
+  const [y,m]=v.split("-").map(Number);const d=new Date(y,m-1+n,1);
+  $("mMonth").value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;renderMonthly();
+}
+/* 某月所有课的「某天的实例」 */
+function monthInstances(ym){
+  const [y,m]=ym.split("-").map(Number);
+  const days=new Date(y,m,0).getDate();
+  const out=[];
+  for(let i=1;i<=days;i++){
+    const ds=`${ym}-${String(i).padStart(2,"0")}`;
+    const dobj=new Date(ds+"T00:00:00");
+    db.courses.forEach(c=>{
+      if(isFree(c))return;
+      if(!courseOnDate(c,dobj))return;
+      out.push({date:ds,course:c,stuId:c.stuId,subject:c.subject||"未分类",
+        hours:durH(c.start,c.end),done:isDoneOn(c,ds)});
+    });
+  }
+  return out;
+}
+function renderMonthly(){
+  const mm=$("mMonth");if(!mm||!mm.value){if(mm)mm.value=`${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,"0")}`;if(!mm)return}
+  const ym=mm.value;
+  const sf=$("mStuFilter");const keep=sf.value;
+  sf.innerHTML='<option value="">全部学生</option>'+db.students.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+  sf.value=keep||"";
+  const onlyDone=$("mOnlyDone").checked;
+  let inst=monthInstances(ym).filter(x=>x.subject!=="自习");   // 统计不含自习
+  if(sf.value)inst=inst.filter(x=>x.stuId===sf.value);
+  const use=onlyDone?inst.filter(x=>x.done):inst;
+  const totalH=use.reduce((a,b)=>a+b.hours,0);
+  const doneH=use.filter(x=>x.done).reduce((a,b)=>a+b.hours,0);
+  const stuN=new Set(use.map(x=>x.stuId)).size;
+  $("mStats").innerHTML=`
+    <div class="stat"><div class="num">${use.length}</div><div class="label">上课节数（不含自习）</div></div>
+    <div class="stat"><div class="num">${totalH.toFixed(1).replace(/\.0$/,"")}</div><div class="label">总课时（小时）</div></div>
+    <div class="stat"><div class="num" style="color:#2f9e6e">${use.filter(x=>x.done).length}</div><div class="label">已上完（${doneH.toFixed(1).replace(/\.0$/,"")} 小时）</div></div>
+    <div class="stat"><div class="num">${stuN}</div><div class="label">上课学生数</div></div>`;
+  // 科目分布
+  const bySubj={};
+  inst.forEach(x=>{bySubj[x.subject]=bySubj[x.subject]||{n:0,h:0,doneN:0};bySubj[x.subject].n++;bySubj[x.subject].h+=x.hours;if(x.done)bySubj[x.subject].doneN++});
+  const sk=Object.keys(bySubj).sort((a,b)=>bySubj[b].h-bySubj[a].h);
+  $("mDetailTitle").textContent=`📚 科目分布 · ${ym}${sf.value?" · "+((stuById(sf.value)||{}).name||""):""}`;
+  $("mBySubj").innerHTML=sk.length?`<div style="display:flex;flex-wrap:wrap;gap:10px">`+sk.map(k=>{const col=subjColor(k),v=bySubj[k];
+    return `<div class="counter-card" style="border-color:${col.fg}33;min-width:130px"><span class="stu-dot" style="background:${col.fg}"></span><span class="subj" style="color:${col.fg}">${esc(k)}</span><b>${v.n}</b><span class="cnt">节 · ${v.h.toFixed(1).replace(/\.0$/,"")}h · 已上 ${v.doneN}</span></div>`}).join("")+`</div>`:`<div class="empty">暂无数据</div>`;
+  // 每日明细
+  const byDay={};
+  inst.forEach(x=>{byDay[x.date]=byDay[x.date]||[];byDay[x.date].push(x)});
+  const dk=Object.keys(byDay).sort();
+  $("mDaily").innerHTML=dk.length?`<h3 style="margin-bottom:10px">📅 每日上课明细</h3><div style="max-height:320px;overflow:auto"><table style="min-width:560px"><thead><tr><th>日期</th><th>星期</th><th>节数</th><th>课时</th><th>课程</th></tr></thead><tbody>`+
+    dk.map(d=>{const arr=byDay[d];const h=arr.reduce((a,b)=>a+b.hours,0);
+      const wd=new Date(d+"T00:00:00").getDay();
+      return `<tr><td>${d}</td><td>${DAYNAMES[wd]}</td><td>${arr.length}</td><td>${h.toFixed(1).replace(/\.0$/,"")}h</td>
+        <td style="font-size:11px">${arr.map(x=>{const c=subjColor(x.subject);const nm=(stuById(x.stuId)||{}).name||"";
+          return `<span class="tag" style="background:${c.bg};color:${c.fg};margin:1px 3px 1px 0">${x.course.start}-${x.course.end} ${esc(nm)}·${esc(x.subject)}</span>`}).join("")}</td></tr>`}).join("")+
+    `</tbody></table></div>`:"";
+}
+
+/* ---------- 工具 ---------- */
+function fillStuSelect(id,allOption){const sel=$(id);sel.innerHTML=(allOption?'<option value="">全部学生</option>':"")+db.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("")}
+function renderAll(){
+  renderDashboard();renderTimetable();renderGrades();renderAnalysis();renderComms();renderMonthly();
+  initWhoWhen();
+  fillStuSelect("gStu");fillStuSelect("gFilterStu",true);fillStuSelect("aStu");fillStuSelect("pStu");
+  fillSubjectSelect("gSubject");
+  // 排课表学生筛选
+  const tf=$("ttStuFilter");tf.innerHTML='<option value="">全部学生</option>'+db.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");tf.value=ttFilterStu||"";
+  // 保持筛选值
+  const gf=$("gFilterStu");gf.value=gf.dataset.v||gf.value;gf.onchange=()=>{gf.dataset.v=gf.value;renderGrades()};
+  if(!$("gDate").value)$("gDate").value=today();if(!$("pDate").value)$("pDate").value=today();
+  // 年级筛选
+  const grades=[...new Set(db.students.map(s=>s.grade).filter(Boolean))];
+  $("stuGradeFilter").innerHTML='<option value="">全部年级</option>'+grades.map(g=>`<option>${esc(g)}</option>`).join("");
+  renderStudentTable();
+}
+/* 快速成绩录入 */
+let qStuId=null;
+function fillSubjectSelect(selId,val){
+  const sel=$(selId);if(!sel)return;
+  const extra=[...new Set(db.grades.map(g=>g.subject).concat(db.courses.map(c=>c.subject)))].filter(s=>s&&!SUBJECTS.includes(s)&&s!=="未分类");
+  sel.innerHTML='<option value="">请选择科目</option>'+SUBJECTS.map(s=>`<option value="${s}">${s}</option>`).join("")
+    +(extra.length?`<optgroup label="历史科目">${extra.map(s=>`<option value="${s}">${s}</option>`).join("")}</optgroup>`:"");
+  if(val)sel.value=val;
+}
+function openGradeModal(stuId){const s=stuById(stuId);if(!s)return;qStuId=stuId;
+  $("gradeModalTitle").textContent=`📝 录入成绩 · ${s.name}（${CATNAMES[s.category]||"长期班课"}）`;
+  const first=(s.subjects||"").split(/[、,，\s]/)[0]||"";
+  fillSubjectSelect("qSubject",SUBJECTS.includes(first)?first:"");
+  $("qScore").value="";$("qFull").value=100;$("qDate").value=today();
+  $("gradeMask").classList.add("show")}
+function saveQuickGrade(){
+  if(!qStuId){alert("请先选择学生");return}
+  if(!$("qSubject").value){alert("请选择科目");return}
+  const score=parseFloat($("qScore").value);
+  if(isNaN(score)){alert("请填写分数");return}
+  db.grades.push({id:uid(),stuId:qStuId,subject:$("qSubject").value,exam:$("qExam").value,score,full:parseFloat($("qFull").value)||100,date:$("qDate").value||today()});
+  save();closeModal("gradeMask");renderAll()}
+function renderStudentTable(){const kw=$("stuSearch").value.trim(),gf=$("stuGradeFilter").value,cf=$("stuCatFilter")?$("stuCatFilter").value:"";
+  const rows=db.students.filter(s=>(!kw||s.name.includes(kw))&&(!gf||s.grade===gf)&&(!cf||(s.category||"long")===cf));
+  $("stuTable").querySelector("tbody").innerHTML=rows.map(s=>{const g=lastScore(s.id);
+    const rateTxt=g?`<span class="tag ${rate(g)>=80?"ok":rate(g)>=60?"warn":"risk"}">${g.score}/${g.full}（${rate(g)}%）</span>`:'<span class="tag warn">暂无</span>';
+    const cat=s.category||"long";
+    const catCls=cat==="one"?"ok":cat==="long"?"warn":"risk";
+    return `<tr><td><b>${esc(s.name)}</b>${s.note?`<div style="color:var(--muted);font-size:11px">${esc(s.note)}</div>`:""}</td>
+    <td><span class="tag ${catCls}">${CATNAMES[cat]}</span></td>
+    <td>${esc(s.grade)}</td><td>${esc(s.subjects)}</td>
+    <td>${s.room?`<span class="tag ok">🏫 ${esc(s.room)}</span>`:`<span style="color:var(--muted);font-size:11px">未设置</span>`}</td>
+    <td>${esc(s.parent)}<br><span style="color:var(--muted)">${esc(s.contact)}</span></td>
+    <td>${rateTxt}</td><td><span class="tag ${g&&rate(g)<60?"risk":"ok"}">${g&&rate(g)<60?"需关注":"正常"}</span></td>
+    <td><button class="btn sm" onclick="openGradeModal('${s.id}')">成绩</button> <button class="btn sm ghost" onclick="openStuTimetable('${s.id}')">课表</button> <button class="btn sm ghost" onclick="openArch('${s.id}')">档案${(s.photos&&s.photos.length)?` 📷${s.photos.length}`:""}</button> <button class="btn sm ghost" onclick="openStuModal(stuById('${s.id}'))">编辑</button> <button class="btn sm danger" onclick="delStu('${s.id}')">删</button></td></tr>`}).join("")||`<tr><td colspan="9" class="empty">还没有学生，点击右上角"新增学生"开始</td></tr>`}
+$("stuSearch").oninput=renderStudentTable;$("stuGradeFilter").onchange=renderStudentTable;
+
+renderAll();
+</script>
+<script data-page-node-id="DN1TZDm887Oinxowa8yKW4" data-pnid-children="ASXX4MiIqId8RHRadjYHFa">
+/* 加载 Supabase 库：主 CDN 失败自动切换备用源 */
+(function(){
+  const SRC=[
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js",
+    "https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"
+  ];
+  let i=0;
+  function tryNext(){
+    if(i>=SRC.length){window.__sbLoadFail=true;if(typeof cloudInit==="function")cloudInit();return}
+    const el=document.createElement("script");
+    el.src=SRC[i++];
+    el.onload=()=>{if(window.supabase){if(typeof cloudInit==="function")cloudInit()}else tryNext()};
+    el.onerror=tryNext;
+    document.head.appendChild(el);
+  }
+  tryNext();
+})();
+</script>
+<script data-page-node-id="XiFsYkmCiKm0EO35GCCVjd" data-pnid-children="JKZahsgBHkNJA15W4A4nYV">
+/* ================= 云端同步（Supabase） ================= */
+const SB_URL="https://hqblbbcbcpbyljxwxgmn.supabase.co";
+const SB_KEY="sb_publishable_znyO0KP8hSEV9CTFfCkung_WATavY7r";
+let sb=null,sbUser=null,syncTimer=null,syncing=false,cloudReady=false;
+/* 注入登录遮罩 + 状态条 */
+(function(){
+  const st=document.createElement("div");
+  st.innerHTML=`
+  <div id="cloudLoginMask" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(245,247,252,.96);backdrop-filter:blur(4px);align-items:center;justify-content:center">
+    <div style="width:360px;background:#fff;border:1px solid #e6e9f2;border-radius:16px;padding:28px;box-shadow:0 20px 60px rgba(60,80,160,.15)">
+      <div style="text-align:center;font-size:34px">☁️</div>
+      <div style="text-align:center;font-size:17px;font-weight:700;margin:6px 0 2px">登录云端账号</div>
+      <div style="text-align:center;color:#8a919c;font-size:12px;margin-bottom:18px">同一账号，任何设备打开都是同一份数据</div>
+      <input id="clEmail" type="email" placeholder="邮箱" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #dde2ee;border-radius:9px;margin-bottom:10px;font-size:14px">
+      <input id="clPass" type="password" placeholder="密码（至少 6 位）" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #dde2ee;border-radius:9px;margin-bottom:12px;font-size:14px">
+      <button id="clBtn" class="btn" style="width:100%;justify-content:center;padding:11px">登 录</button>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:12px">
+        <a href="javascript:void(0)" id="clToggle" style="color:#4f6ef7;text-decoration:none">还没有账号？去注册</a>
+        <a href="javascript:void(0)" id="clSkip" style="color:#a3aab8;text-decoration:none">暂不登录，离线使用</a>
+      </div>
+      <div id="clMsg" style="color:#d9534f;font-size:12px;margin-top:10px;min-height:16px;text-align:center"></div>
+    </div>
+  </div>
+  <div id="cloudStatus" title="云端同步状态" style="display:none;position:fixed;left:14px;bottom:14px;z-index:900;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #e6e9f2;border-radius:20px;padding:5px 12px;font-size:11px;color:#5a6172;box-shadow:0 4px 14px rgba(60,80,160,.1);cursor:default">
+    <span id="cloudDot" style="width:8px;height:8px;border-radius:50%;background:#2f9e6e;display:inline-block"></span><span id="cloudTxt">云端</span>
+    <a href="javascript:void(0)" id="cloudOut" style="color:#a3aab8;text-decoration:none;margin-left:4px" title="退出登录">⎋</a>
+  </div>`;
+  document.body.appendChild(st);
+  $("clBtn").onclick=cloudSubmit;
+  $("clPass").onkeydown=e=>{if(e.key==="Enter")cloudSubmit()};
+  $("clToggle").onclick=()=>{clMode=clMode==="in"?"up":"in";clUi()};
+  $("clSkip").onclick=()=>{$("cloudLoginMask").style.display="none";setStatus("offline")};
+  $("cloudOut").onclick=cloudSignOut;
+})();
+let clMode="in";
+function clUi(){
+  $("clBtn").textContent=clMode==="in"?"登 录":"注 册";
+  $("clToggle").textContent=clMode==="in"?"还没有账号？去注册":"已有账号？去登录";
+  $("clMsg").textContent="";
+}
+function cloudSubmit(){
+  const email=$("clEmail").value.trim(),pass=$("clPass").value;
+  const msg=$("clMsg");
+  if(!email||!pass){msg.textContent="请填写邮箱和密码";return}
+  if(pass.length<6){msg.textContent="密码至少 6 位";return}
+  $("clBtn").disabled=true;$("clBtn").textContent=clMode==="in"?"登录中…":"注册中…";
+  const p=clMode==="in"?sb.auth.signInWithPassword({email,password:pass}):sb.auth.signUp({email,password:pass});
+  p.then(({data,error})=>{
+    $("clBtn").disabled=false;clUi();
+    if(error){msg.textContent=error.message;return}
+    if(clMode==="up"&&!data.session){
+      msg.style.color="#e08a1e";msg.textContent="注册成功！请到邮箱点击验证链接后再登录（或在 Supabase 后台关闭邮箱验证）";return;
+    }
+    msg.style.color="#2f9e6e";msg.textContent="登录成功";
+    onSignedIn(data.session.user);
+  }).catch(e=>{
+    $("clBtn").disabled=false;clUi();
+    msg.textContent=/fetch/i.test(e.message||"")
+      ?"连不上云端服务器，请检查网络后重试（可尝试切换 WiFi/流量，或换个网络环境）"
+      :"网络错误："+e.message;
+  });
+}
+function cloudSignOut(){
+  if(!confirm("退出云端登录？\n\n本地数据会保留，重新登录后可再同步。"))return;
+  sb.auth.signOut().then(()=>{sbUser=null;$("cloudStatus").style.display="none";clMode="in";clUi();$("cloudLoginMask").style.display="flex";setStatus(null)});
+}
+function setStatus(s){
+  const box=$("cloudStatus");if(!s){box.style.display="none";return}
+  box.style.display="flex";
+  const map={ok:["#2f9e6e","已同步"],sync:["#e0a51e","同步中…"],pend:["#8a919c","待同步"],err:["#d9534f","同步失败"],offline:["#a3aab8","离线模式"]};
+  const [c,t]=map[s]||map.offline;
+  $("cloudDot").style.background=c;$("cloudTxt").textContent=t+(sbUser?` · ${sbUser.email.split("@")[0]}`:"");
+}
+function onSignedIn(user){
+  sbUser=user;
+  $("cloudLoginMask").style.display="none";
+  setStatus("sync");
+  cloudPull(true);
+  // 每 60 秒自动检查一次云端是否有新数据（多设备切换时能及时拿到）
+  if(window.__cloudPoller)clearInterval(window.__cloudPoller);
+  window.__cloudPoller=setInterval(()=>{if(sbUser&&document.visibilityState==="visible"&&!syncing)cloudPull(true,true)},60000);
+}
+/* 启动 */
+function cloudInit(){
+  if(window.__cloudInited)return;window.__cloudInited=true;
+  if(!window.supabase){
+    const box=$("cloudStatus");box.style.display="flex";
+    $("cloudDot").style.background="#d9534f";
+    $("cloudTxt").textContent="云端组件加载失败 · 离线模式";
+    return}   // CDN 全部未加载成功：纯离线
+  try{sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true}})}catch(e){return}
+  cloudReady=true;
+  sb.auth.getSession().then(({data})=>{
+    if(data&&data.session)onSignedIn(data.session.user);
+    else{$("cloudLoginMask").style.display="flex"}
+  }).catch(()=>{$("cloudLoginMask").style.display="flex"});
+  sb.auth.onAuthStateChange((ev,sess)=>{
+    if(ev==="SIGNED_IN"&&sess&&!sbUser)onSignedIn(sess.user);
+  });
+}
+if(document.readyState==="complete")setTimeout(cloudInit,300);
+else window.addEventListener("load",()=>setTimeout(cloudInit,300));
+/* save 时自动排队上云（防抖：连点也只发一次） */
+const _origSave=function(){localStorage.setItem("xg_db",JSON.stringify(db));localStorage.setItem("xg_db_ts",String(Date.now()))};
+/* 数据保存后排队上云（防抖 800ms；同步中则等 1.5s 后再补一次） */
+window.__onDataSave=function(){
+  if(!sbUser)return;
+  setStatus("pend");
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(cloudPush,syncing?1500:800);
+};
+function dbg(m,o){if(window.__cloudDebug)console.log("[cloud]",m,o||"")}
+function dataCount(o){return ["students","courses","grades","comms","memos"].reduce((s,k)=>s+((o&&Array.isArray(o[k]))?o[k].length:0),0)}
+function applyCloud(cloud,silent){
+  ["students","courses","grades","comms","memos"].forEach(k=>{if(Array.isArray(cloud[k]))db[k]=cloud[k]});
+  _origSave();renderAll();setStatus("ok");
+  if(!silent)toast("已从云端载入最新数据");
+}
+async function cloudPush(){
+  if(!sbUser){dbg("push 跳过：未登录");return}
+  if(syncing){dbg("push 跳过：正在同步");clearTimeout(syncTimer);syncTimer=setTimeout(cloudPush,1500);return}
+  syncing=true;setStatus("sync");
+  try{
+    const {data:rows,error:e1}=await sb.from("app_data").select("id").eq("user_id",sbUser.id).limit(1);
+    if(e1)throw e1;
+    const payload={user_id:sbUser.id,data:db,updated_at:new Date().toISOString()};
+    let err;
+    if(rows&&rows.length)({error:err}=await sb.from("app_data").update(payload).eq("id",rows[0].id));
+    else({error:err}=await sb.from("app_data").insert(payload));
+    if(err)throw err;
+    setStatus("ok");dbg("push 成功",dataCount(db)+" 条");
+  }catch(e){console.warn("云同步失败",e);setStatus("err");$("cloudTxt").textContent="同步失败（点此重试）";dbg("push 失败",e.message||e)}
+  syncing=false;
+}
+async function cloudPull(auto,silent){
+  if(!sbUser)return;
+  setStatus("sync");
+  try{
+    const {data:rows,error}=await sb.from("app_data").select("*").eq("user_id",sbUser.id).limit(1);
+    if(error)throw error;
+    if(rows&&rows.length&&rows[0].data&&dataCount(rows[0].data)>0){
+      const cloud=rows[0].data,cn=dataCount(cloud),ln=dataCount(db);
+      // 比较「最后修改时间」判断哪边更新
+      const cloudT=new Date(rows[0].updated_at||0).getTime();
+      const localT=+(localStorage.getItem("xg_db_ts")||0);
+      dbg("拉取：云端"+cn+"条@"+new Date(cloudT).toLocaleString()+" / 本地"+ln+"条@"+new Date(localT).toLocaleString());
+      if(ln===0){applyCloud(cloud,silent);return}
+      if(JSON.stringify(cloud)===JSON.stringify(db)){setStatus("ok");return}
+      if(lambdaNewer(cloudT,localT)){
+        applyCloud(cloud,silent);
+      }else{
+        // 本地更新（或无法判断）：上传本地，避免覆盖新数据
+        cloudPush();
+        if(!silent)toast("本地数据较新，已上传到云端");
+      }
+    }else{
+      // 云端为空：本地有数据则自动迁移
+      if(dataCount(db)>0){cloudPush();if(!silent)toast("已把本地数据迁移到云端")}
+      else setStatus("ok");
+    }
+  }catch(e){console.warn("云端拉取失败",e);setStatus("err");dbg("pull 失败",e.message||e)}
+}
+function lambdaNewer(cloudT,localT){return cloudT>localT+3000}   // 云端比本地新 3 秒以上才覆盖本地
+/* 手动同步按钮：点状态条刷新 */
+$("cloudStatus").onclick=e=>{if(e.target.id!=="cloudOut"&&sbUser)cloudPull(false)};
+</script>
+<!--pnid:LfOmd0vW1glXUMMukNtiPB--><!-- ===== PWA 安装引导 ===== -->
+<div data-page-node-id="lrEv0EtIthcBY2QpSPVFix" id="pwaBar" style="display:none; position:fixed; left:12px; right:12px; bottom:12px; z-index:950; background:#fff; border:1px solid #dde4f6; border-radius:14px; box-shadow:0 12px 34px rgba(40,60,120,.18); padding:12px 14px; align-items:center; gap:10px">
+  <div data-page-node-id="VfFMci9Jage6hBtnYr8a2D" style="font-size:24px"><!--pnid:esHIET52WE0I6fpc7kvrmW-->📲</div>
+  <div data-page-node-id="wrUQ6xPvWoYpDu2Y0iTwca" style="flex:1; font-size:12px; line-height:1.6; color:#5a6172">
+    <b data-page-node-id="f3yK9bYtnp1juJxzA1HP03" style="color:#1f2733; font-size:13px"><!--pnid:PrfawTrbyfDJKhy4pULDRH-->把「学管助手」放到桌面</b><br data-page-node-id="CMUQh8HdemcknoLGSS0mIW">
+    <span data-page-node-id="tUyrcJFUgDOVCrK7YXRNQM" id="pwaHow"><!--pnid:Mr4J5fzbH6fQqlr4hPTB7V-->点右上角「⋯」→「添加到主屏幕」</span>
+  </div>
+  <button data-page-node-id="3MYNHNkd4FUJivMael8tDd" class="btn sm" id="pwaInstall" style="margin:0"><!--pnid:E3zxCeNUczFIMzrFqVKEUK-->立即添加</button>
+  <span data-page-node-id="PBOwM0Cfe9bZHb7b9B1n2G" id="pwaClose" style="cursor:pointer; color:#b9c0cc; font-size:15px; padding:0 4px"><!--pnid:pCXJu1zThJPgIiTLigAcOj-->✕</span>
+</div>
+<script data-page-node-id="i3R717rCaElM8vyuQIq2wc" data-pnid-children="5YvyOpnLE8fjj822NFIeRo">
+/* ---------- PWA 安装与离线缓存 ---------- */
+(function(){
+  // 注册 Service Worker（file:// 打开时自动跳过，不影响本地使用）
+  if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostname==="localhost"||location.hostname==="127.0.0.1")){
+    navigator.serviceWorker.register("sw.js").catch(()=>{});
+  }
+  const bar=document.getElementById("pwaBar");
+  const close=document.getElementById("pwaClose");
+  const btn=document.getElementById("pwaInstall");
+  const how=document.getElementById("pwaHow");
+  let deferred=null;
+  const standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone;
+  if(close)close.onclick=()=>{bar.style.display="none";try{localStorage.setItem("pwa_bar_hide",String(Date.now()))}catch(e){}};
+  // 已被用户关掉过 7 天内不再提示
+  let hidden=false;try{const t=+localStorage.getItem("pwa_bar_hide");hidden=t&&(Date.now()-t<7*864e5)}catch(e){}
+  window.addEventListener("beforeinstallprompt",e=>{
+    e.preventDefault();deferred=e;
+    if(standalone||hidden)return;
+    btn.style.display="";how.textContent="一键添加到主屏幕，像 App 一样打开";
+    bar.style.display="flex";
+  });
+  if(btn)btn.onclick=async()=>{
+    if(deferred){deferred.prompt();const r=await deferred.userChoice;deferred=null;if(r.outcome==="accepted")bar.style.display="none";return}
+    alert("当前浏览器不支持一键添加，请手动添加：\n\n· iPhone/iPad：Safari 底部「分享」→「添加到主屏幕」\n· 安卓微信：右上角「⋯」→「在浏览器打开」→ 再添加到主屏幕");
+  };
+  window.addEventListener("appinstalled",()=>{bar.style.display="none";toast&&toast("已添加到桌面 🎉")});
+  // iOS/微信等不支持自动安装的环境：手动给出提示
+  if(!standalone&&!hidden){
+    const ua=navigator.userAgent;
+    const isIOS=/iPhone|iPad|iPod/i.test(ua);
+    const isWechat=/MicroMessenger/i.test(ua);
+    if(isIOS||isWechat){
+      setTimeout(()=>{
+        if(deferred||bar.style.display==="flex")return;
+        how.innerHTML=isWechat
+          ? "点右上角「⋯」→<b>「在浏览器打开」</b>→ 再点「添加到主屏幕」"
+          : "点底部分享 <b>分享按钮</b> →「<b>添加到主屏幕</b>」";
+        btn.style.display="none";
+        bar.style.display="flex";
+      },2500);
+    }
+  }
+})();
+</script>
+</body>
+</html>

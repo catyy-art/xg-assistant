@@ -2,7 +2,7 @@
   "name": "学管助手 · 排课与学情管理",
   "short_name": "学管助手",
   "description": "教培学管老师的排课、学情、家长沟通一体化工具",
-  "start_url": "./学管助手-教培管理系统.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

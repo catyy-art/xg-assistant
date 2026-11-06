@@ -1,5 +1,5 @@
 /* 学管助手 Service Worker：缓存页面资源，离线也能打开 */
-const CACHE = "xg-assistant-v1";
+const CACHE = "xg-assistant-v2";
 const ASSETS = [
   "./",
   "./manifest.json",
